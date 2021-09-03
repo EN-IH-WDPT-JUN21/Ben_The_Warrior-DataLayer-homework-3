@@ -40,7 +40,7 @@ public class Lead {
     @Column(name = "company_name")
     private String companyName;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "sales_reps")
     private SalesRep salesRep;
 
@@ -73,7 +73,7 @@ public class Lead {
     @Override
     public String toString() {
         return "Id: " + id + ", Name: " + name + ", Email: " + email + ", Phone: " + phoneNumber + ", Company: " +
-                companyName + "Sales Representative: " + salesRep.getName();
+                companyName + ", Sales Representative: " + salesRep.getName();
     }
 
 //    @Override

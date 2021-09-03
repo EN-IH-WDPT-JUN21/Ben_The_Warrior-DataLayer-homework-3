@@ -47,6 +47,8 @@ class SalesRepRepositoryTest {
         leadRepository.deleteAll();
         opportunityRepository.deleteAll();
         salesRepRepository.deleteAll();
+        contactRepository.deleteAll();
+        accountRepository.deleteAll();
     }
 
 
@@ -88,11 +90,10 @@ class SalesRepRepositoryTest {
     @Order(4)
     void testReadSalesRep_findById_returnsObjectsWithId() {
         var sr1 = new SalesRep("New Sales Girl");
-        sr1.setId(100);
         salesRepRepository.save(sr1);
         var storedSr = salesRepRepository.findById(3);
         if (storedSr.isPresent()) {
-            assertEquals((int) salesRepRepository.count(), storedSr.get().getId());
+            assertEquals(3, storedSr.get().getId());
         } else throw new TestInstantiationException("Id not found");
     }
 
@@ -108,7 +109,9 @@ class SalesRepRepositoryTest {
             salesRepRepository.save(storedSr.get());
         } else throw new TestInstantiationException("Id not found");
         var updatedStoredSr = salesRepRepository.findById(3);
-        updatedStoredSr.ifPresent(salesRep -> assertEquals("Old Sales Girl", salesRep.getName()));
+        if (updatedStoredSr.isPresent()) {
+            assertEquals("Old Sales Girl", updatedStoredSr.get().getName());
+        } else throw new TestInstantiationException("Id not found");
     }
 
     // ==================== Delete ====================
@@ -123,7 +126,8 @@ class SalesRepRepositoryTest {
     }
 
 
-    // ==============================  Testing ==============================
+    // ============================== Relations Testing ==============================
+    // ==================== with Leads ====================
     @Test
     @Order(7)
     void testCheckForLeads() {
@@ -139,6 +143,7 @@ class SalesRepRepositoryTest {
         } else throw new TestInstantiationException("Id not found");
     }
 
+    // ==================== with Opportunities ====================
     @Test
     @Order(7)
     void testCheckForOpportunities() {
