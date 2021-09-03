@@ -19,7 +19,7 @@ public class Homework3Application implements CommandLineRunner {
 	public void run(String... args) {
 
 //        version with the use of spring components, the better one!
-		mainMenuAutowired.printMenu();
+//		mainMenuAutowired.printMenu();
 	}
 }
 

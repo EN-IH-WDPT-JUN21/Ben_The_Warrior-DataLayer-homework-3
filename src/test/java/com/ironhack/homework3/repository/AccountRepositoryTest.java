@@ -3,6 +3,7 @@ package com.ironhack.homework3.repository;
 import com.ironhack.homework3.dao.classes.Account;
 import com.ironhack.homework3.dao.classes.Contact;
 import com.ironhack.homework3.dao.classes.Opportunity;
+import com.ironhack.homework3.dao.classes.SalesRep;
 import com.ironhack.homework3.enums.Industry;
 import com.ironhack.homework3.enums.Product;
 import com.ironhack.homework3.enums.Status;
@@ -26,42 +27,57 @@ class AccountRepositoryTest {
     @Autowired
     ContactRepository contactRepository;
 
-    Account a;
+    @Autowired
+    SalesRepRepository salesRepRepository;
 
     @BeforeEach
     void setUp() {
+        var a = new Account(Industry.PRODUCE, 99, "Madrid", "Spain");
+        accountRepository.save(a);
     }
 
     @AfterEach
     void tearDown() {
-        opportunityRepository.deleteAll();
-        contactRepository.deleteAll();
         accountRepository.deleteAll();
-
-
-
     }
-    /*sth not working....*/
-/*
+
+    // ============================== POJO Testing ==============================
+    @Test
+    void testToString_noOpportunitiesAndNoContacts() {
+        var a = new Account(Industry.ECOMMERCE, 17, "Lisbon", "Portugal");
+        accountRepository.save(a);
+        assertEquals("Id: 2, Industry: ECOMMERCE, Number of Employees: 17, City: Lisbon, Country: Portugal, Number of Contacts: 0, Number of Opportunities: 0", a.toString());
+    }
+
     @Test
     void testToString() {
-        Contact c = new Contact("John Smith", "2460247246", "johnthewarrior@fighters.com", "The smiths");
-        c.setId(102);
-        contactRepository.save(c);
-        Opportunity o = new Opportunity(Product.HYBRID, 30000, c, Status.OPEN);
-        opportunityRepository.save(o);
-        a = new Account(Industry.ECOMMERCE, 100, "Madrid", "Spain");
+        var a = new Account(Industry.ECOMMERCE, 17, "Lisbon", "Portugal");
         accountRepository.save(a);
+
+        var sr = new SalesRep("Sales Guy");
+        salesRepRepository.save(sr);
+
+        var c = new Contact("Contact Guy", "2460247246", "johnthewarrior@fighters.com", "The smiths");
         c.setAccount(a);
-        o.setAccountOpp(a);
         contactRepository.save(c);
+
+        var o = new Opportunity(Product.HYBRID, 30000, c, Status.OPEN, sr);
+        o.setDecisionMaker(c);
+        o.setAccountOpp(a);
+        o.setSalesRep(sr);
         opportunityRepository.save(o);
-        assertEquals("Id: 102, Industry: ECOMMERCE, Number of Employees: 100, City: Madrid, Country: Spain, Number of Contacts: 1, Number of Opportunities: 1", a.toString());
-    }*/
+
+        accountRepository.save(a);
+
+        assertEquals("Id: 2, Industry: ECOMMERCE, Number of Employees: 17, City: Lisbon, Country: Portugal, Number of Contacts: 1, Number of Opportunities: 1", a.toString());
+    }
+
+    // ============================== CRUD Testing ==============================
 
     @Test
-    void saveANewAccount(){
+    void saveANewAccount() {
         var AccountCountBeforeSave = accountRepository.count();
+
         var contact = new Contact("Ben", "123643543", "Ben@BenIndustries.com", "Ben Industries");
         contact.setId(101);
         contactRepository.save(contact);
