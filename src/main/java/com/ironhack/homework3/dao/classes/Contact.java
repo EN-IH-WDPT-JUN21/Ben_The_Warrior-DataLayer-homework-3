@@ -36,7 +36,7 @@ public class Contact {
     @Column(name = "company_name")
     private String companyName;
 
-    @OneToOne(mappedBy = "decisionMaker", fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "decisionMaker",fetch = FetchType.LAZY)
     @JoinColumn(name = "opportunity_id")
     private Opportunity opportunity;
 

@@ -43,7 +43,7 @@ public class Opportunity {
     @JoinColumn(name = "account_id")
     private Account accountOpp;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "sales_reps")
     private SalesRep salesRep;
 
