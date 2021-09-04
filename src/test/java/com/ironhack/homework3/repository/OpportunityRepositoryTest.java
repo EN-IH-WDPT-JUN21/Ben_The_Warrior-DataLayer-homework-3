@@ -74,7 +74,8 @@ class OpportunityRepositoryTest {
         contactRepository.save(c);
         var sr = new SalesRep("Sales Girl");
         salesRepRepository.save(sr);
-        Opportunity o1 = new Opportunity(Product.HYBRID, 30000, c, Status.OPEN, sr);
+        Opportunity o1 = new Opportunity(Product.HYBRID, 30000, c, Status.OPEN);
+        o1.setSalesRep(sr);
         opportunityRepository.save(o1);
         assertEquals("Id: 3, Product: HYBRID, Quantity: 30000, Decision Maker: John Smith, Sales Representative: Sales Girl, Status: OPEN", o1.toString());
     }

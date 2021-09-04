@@ -29,7 +29,7 @@ public class Opportunity {
     @Column(name = "quantity")
     private int quantity;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "decision_maker_id")
     private Contact decisionMaker;
 
@@ -62,14 +62,6 @@ public class Opportunity {
         this.quantity = quantity;
         this.decisionMaker = decisionMaker;
         this.status = status;
-    }
-
-    public Opportunity(Product product, int quantity, Contact decisionMaker, Status status, SalesRep salesRep) {
-        this.product = product;
-        this.quantity = quantity;
-        this.decisionMaker = decisionMaker;
-        this.status = status;
-        this.salesRep = salesRep;
     }
 
     public Opportunity(Product product, int quantity, Status status) {

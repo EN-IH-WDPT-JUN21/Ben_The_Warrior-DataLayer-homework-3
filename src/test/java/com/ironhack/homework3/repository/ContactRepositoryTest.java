@@ -184,7 +184,8 @@ class ContactRepositoryTest {
         contactRepository.save(c1);
         var sr = new SalesRep("Sales Person");
         salesRepRepository.save(sr);
-        var o = new Opportunity(Product.HYBRID, 9, c1, Status.OPEN, sr);
+        var o = new Opportunity(Product.HYBRID, 9, c1, Status.OPEN);
+        o.setSalesRep(sr);
         opportunityRepository.save(o);
 
         var storedContact = contactRepository.findByIdJoinedOpportunitySalesRep(3);

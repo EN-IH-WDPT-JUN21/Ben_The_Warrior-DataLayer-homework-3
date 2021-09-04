@@ -73,7 +73,7 @@ class AccountRepositoryTest {
         c.setAccount(a);
         contactRepository.save(c);
 
-        var o = new Opportunity(Product.HYBRID, 30000, c, Status.OPEN, sr);
+        var o = new Opportunity(Product.HYBRID, 30000, Status.OPEN);
         o.setDecisionMaker(c);
         o.setAccountOpp(a);
         o.setSalesRep(sr);
