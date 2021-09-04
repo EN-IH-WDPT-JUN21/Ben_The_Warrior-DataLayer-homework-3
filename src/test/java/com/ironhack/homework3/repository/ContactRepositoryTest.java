@@ -193,4 +193,8 @@ class ContactRepositoryTest {
         } else throw new TestInstantiationException("Id not found");
     }
 
+
+    // ============================== Custom Queries Testing ==============================
+
+
 }

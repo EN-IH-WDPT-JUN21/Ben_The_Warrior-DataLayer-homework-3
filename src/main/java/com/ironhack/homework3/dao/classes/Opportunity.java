@@ -6,7 +6,6 @@ import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.Objects;
 
 @Entity
 @Table(name = "opportunity")
@@ -39,7 +38,7 @@ public class Opportunity {
     @Column(name = "status")
     private Status status;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "account_id")
     private Account accountOpp;
 
@@ -58,6 +57,13 @@ public class Opportunity {
         this.salesRep = salesRep;
     }
 
+    public Opportunity(Product product, int quantity, Contact decisionMaker, Status status) {
+        this.product = product;
+        this.quantity = quantity;
+        this.decisionMaker = decisionMaker;
+        this.status = status;
+    }
+
     public Opportunity(Product product, int quantity, Contact decisionMaker, Status status, SalesRep salesRep) {
         this.product = product;
         this.quantity = quantity;
@@ -66,10 +72,9 @@ public class Opportunity {
         this.salesRep = salesRep;
     }
 
-    public Opportunity(Product product, int quantity, Contact decisionMaker, Status status) {
+    public Opportunity(Product product, int quantity, Status status) {
         this.product = product;
         this.quantity = quantity;
-        this.decisionMaker = decisionMaker;
         this.status = status;
     }
 
@@ -84,7 +89,7 @@ public class Opportunity {
     @Override
     public String toString() {
         return "Id: " + id + ", Product: " + product + ", Quantity: " + quantity + ", Decision Maker: " +
-                decisionMaker.getName() + "Sales Representative: " + salesRep.getName() + ", Status: " + status;
+                decisionMaker.getName() + ", Sales Representative: " + salesRep.getName() + ", Status: " + status;
     }
 
 //    @Override
