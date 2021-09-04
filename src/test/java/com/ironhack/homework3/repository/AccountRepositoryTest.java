@@ -8,10 +8,13 @@ import com.ironhack.homework3.enums.Industry;
 import com.ironhack.homework3.enums.Product;
 import com.ironhack.homework3.enums.Status;
 import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.extension.TestInstantiationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.TestPropertySource;
+
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -39,71 +42,174 @@ class AccountRepositoryTest {
     @Autowired
     ContactRepository contactRepository;
 
-    @Autowired
-    SalesRepRepository salesRepRepository;
-
     @BeforeEach
     void setUp() {
-        var a = new Account(Industry.PRODUCE, 99, "Madrid", "Spain");
-        accountRepository.save(a);
+        var a1 = new Account(Industry.PRODUCE, 1000, "London", "UK");
+        accountRepository.save(a1);
+        var o = new Opportunity(Product.BOX, 200, Status.CLOSED_WON);
+        o.setAccountOpp(a1);
+        opportunityRepository.save(o);
+        var c1 = new Contact("Joe", "999999999", "joe@mail.com", "New Company", a1);
+        contactRepository.save(c1);
+        var a2 = new Account(Industry.PRODUCE, 99, "Madrid", "Spain");
+        accountRepository.save(a2);
     }
 
     @AfterEach
     void tearDown() {
+        opportunityRepository.deleteAll();
+        contactRepository.deleteAll();
         accountRepository.deleteAll();
     }
 
+
     // ============================== POJO Testing ==============================
     @Test
+    @Order(1)
     void testToString_noOpportunitiesAndNoContacts() {
         var a = new Account(Industry.ECOMMERCE, 17, "Lisbon", "Portugal");
         accountRepository.save(a);
-        assertEquals("Id: 2, Industry: ECOMMERCE, Number of Employees: 17, City: Lisbon, Country: Portugal, Number of Contacts: 0, Number of Opportunities: 0", a.toString());
+        assertEquals("Id: 3, Industry: ECOMMERCE, Number of Employees: 17, City: Lisbon, Country: Portugal, Number of Contacts: 0, Number of Opportunities: 0", a.toString());
     }
 
     @Test
+    @Order(1)
     void testToString() {
-        var a = new Account(Industry.ECOMMERCE, 17, "Lisbon", "Portugal");
-        accountRepository.save(a);
-
-        var sr = new SalesRep("Sales Guy");
-        salesRepRepository.save(sr);
-
-        var c = new Contact("Contact Guy", "2460247246", "johnthewarrior@fighters.com", "The smiths");
-        c.setAccount(a);
+        var a1 = new Account(Industry.ECOMMERCE, 17, "Lisbon", "Portugal");
+        accountRepository.save(a1);
+        var c = new Contact("Contact Guy", "2460247246", "johnthewarrior@fighters.com", "The smiths", a1);
         contactRepository.save(c);
-
+        a1.setContactList(List.of(c));
         var o = new Opportunity(Product.HYBRID, 30000, Status.OPEN);
         o.setDecisionMaker(c);
-        o.setAccountOpp(a);
-        o.setSalesRep(sr);
+        o.setAccountOpp(a1);
         opportunityRepository.save(o);
-
-        accountRepository.save(a);
-
-        assertEquals("Id: 2, Industry: ECOMMERCE, Number of Employees: 17, City: Lisbon, Country: Portugal, Number of Contacts: 1, Number of Opportunities: 1", a.toString());
+        a1.setOpportunityList(List.of(o));
+        assertEquals("Id: 3, Industry: ECOMMERCE, Number of Employees: 17, City: Lisbon, Country: Portugal, Number of Contacts: 1, Number of Opportunities: 1", a1.toString());
     }
+
 
     // ============================== CRUD Testing ==============================
+    @Test
+    @Order(2)
+    void count() {
+        assertEquals(2, accountRepository.count());
+    }
+
+    // ==================== Create ====================
+//    @Test
+//    void saveANewAccount() {
+//        var AccountCountBeforeSave = accountRepository.count();
+//
+//        var contact = new Contact("Ben", "123643543", "Ben@BenIndustries.com", "Ben Industries");
+//        contact.setId(101);
+//        contactRepository.save(contact);
+//        var opportunity = new Opportunity(Product.HYBRID, 30000, contact, Status.OPEN);
+//        opportunityRepository.save(opportunity);
+//        var account = new Account(Industry.ECOMMERCE, 100, "Madrid", "Spain");
+//        accountRepository.save(account);
+//        var AccountCountAfterSave = accountRepository.count();
+//        contact.setAccount(account);
+//        contactRepository.save(contact);
+//        opportunity.setAccountOpp(account);
+//        opportunityRepository.save(opportunity);
+//        assertEquals(1, AccountCountAfterSave - AccountCountBeforeSave);
+//        assertEquals(account.getId(), contact.getAccount().getId());
+//        assertEquals(account.getId(), opportunity.getAccountOpp().getId());
+//    }
 
     @Test
-    void saveANewAccount() {
-        var AccountCountBeforeSave = accountRepository.count();
-
-        var contact = new Contact("Ben", "123643543", "Ben@BenIndustries.com", "Ben Industries");
-        contact.setId(101);
-        contactRepository.save(contact);
-        var opportunity = new Opportunity(Product.HYBRID, 30000, contact, Status.OPEN);
-        opportunityRepository.save(opportunity);
-        var account = new Account(Industry.ECOMMERCE, 100, "Madrid", "Spain");
-        accountRepository.save(account);
-        var AccountCountAfterSave = accountRepository.count();
-        contact.setAccount(account);
-        contactRepository.save(contact);
-        opportunity.setAccountOpp(account);
-        opportunityRepository.save(opportunity);
-        assertEquals(1, AccountCountAfterSave - AccountCountBeforeSave);
-        assertEquals(account.getId(), contact.getAccount().getId());
-        assertEquals(account.getId(), opportunity.getAccountOpp().getId());
+    @Order(3)
+    void testCreateAccount_addNewAccount_savedInRepository() {
+        var initialSize = accountRepository.count();
+        accountRepository.save(new Account(Industry.MEDICAL, 2000, "Coimbra", "Portugal"));
+        assertEquals(initialSize + 1, accountRepository.count());
     }
+
+    // ==================== Read ====================
+    @Test
+    @Order(4)
+    void testReadAccount_findAll_returnsListOfObjectsNotEmpty() {
+        var allElements = accountRepository.findAll();
+        assertFalse(allElements.isEmpty());
+    }
+
+    @Test
+    @Order(4)
+    void testReadAccount_findById_returnsObjectsWithId() {
+        var a1 = new Account(Industry.ECOMMERCE, 10, "Berlin", "Germany");
+        accountRepository.save(a1);
+        var storedAccount = accountRepository.findById(3);
+        if (storedAccount.isPresent()) {
+            assertEquals(3, storedAccount.get().getId());
+        } else throw new TestInstantiationException("Id not found");
+    }
+
+    // ==================== Update ====================
+    @Test
+    @Order(5)
+    void testUpdateAccount_changeEmployeeCount_newEmployeeCountEqualsDefinedEmployeeCount() {
+        var a1 = new Account(Industry.MANUFACTURING, 135, "New York", "USA");
+        accountRepository.save(a1);
+        var storedAccount = accountRepository.findById(3);
+        if (storedAccount.isPresent()) {
+            storedAccount.get().setEmployeeCount(136);
+            accountRepository.save(storedAccount.get());
+        } else throw new TestInstantiationException("Id not found");
+        var updatedStoredAccount = accountRepository.findById(3);
+        if (updatedStoredAccount.isPresent()) {
+            assertEquals(136, updatedStoredAccount.get().getEmployeeCount());
+        } else throw new TestInstantiationException("Id not found");
+    }
+
+    // ==================== Delete ====================
+    @Test
+    @Order(6)
+    void testDeleteAccount_deleteAccount_deletedFromRepository() {
+        var a1 = new Account(Industry.OTHER, 5, "Sydney", "Australia");
+        accountRepository.save(a1);
+        var initialSize = accountRepository.count();
+        accountRepository.deleteById(3);
+        assertEquals(initialSize - 1, accountRepository.count());
+    }
+
+
+    // ============================== Relations Testing ==============================
+    // ==================== with Contacts ====================
+    @Test
+    @Order(7)
+    void testCheckForContacts() {
+        var a1 = new Account(Industry.MEDICAL, 350, "Rio de Janeiro", "Brazil");
+        accountRepository.save(a1);
+        var c1 = new Contact("New Contact", "999999999", "newemail@mail.com", "CN", a1);
+        contactRepository.save(c1);
+        var o1 = new Opportunity(Product.HYBRID, 6, c1, Status.OPEN);
+        o1.setAccountOpp(a1);
+        opportunityRepository.save(o1);
+
+        var storedAccount = accountRepository.findByIdJoinedContact(3);
+        if (storedAccount.isPresent()) {
+            assertEquals("CN", storedAccount.get().getContactList().get(0).getCompanyName());
+        } else throw new TestInstantiationException("Id not found");
+    }
+
+    // ==================== with Opportunities ====================
+    @Test
+    @Order(7)
+    void testCheckForOpportunities() {
+        var a1 = new Account(Industry.MEDICAL, 350, "Rio de Janeiro", "Brazil");
+        accountRepository.save(a1);
+        var c1 = new Contact("New Contact", "999999999", "newemail@mail.com", "CN", a1);
+        contactRepository.save(c1);
+        var o1 = new Opportunity(Product.HYBRID, 6, c1, Status.OPEN);
+        o1.setAccountOpp(a1);
+        opportunityRepository.save(o1);
+
+        var storedAccount = accountRepository.findByIdJoinedOpportunity(3);
+        if (storedAccount.isPresent()) {
+            assertEquals(Status.OPEN, storedAccount.get().getOpportunityList().get(0).getStatus());
+        } else throw new TestInstantiationException("Id not found");
+    }
+
+
 }

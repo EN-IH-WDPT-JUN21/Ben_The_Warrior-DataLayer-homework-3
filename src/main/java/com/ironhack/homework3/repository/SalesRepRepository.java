@@ -11,9 +11,9 @@ import java.util.Optional;
 public interface SalesRepRepository extends JpaRepository<SalesRep, Integer> {
 
     @Query("SELECT sr FROM SalesRep sr LEFT JOIN FETCH sr.leadList l WHERE sr.id = :id")
-    Optional<SalesRep> findByIdJoinedLeads(int id);
+    Optional<SalesRep> findByIdJoinedLead(int id);
 
     @Query("SELECT sr FROM SalesRep sr LEFT JOIN FETCH sr.opportunityList o WHERE sr.id = :id")
-    Optional<SalesRep> findByIdJoinedOpportunities(int id);
+    Optional<SalesRep> findByIdJoinedOpportunity(int id);
 
 }

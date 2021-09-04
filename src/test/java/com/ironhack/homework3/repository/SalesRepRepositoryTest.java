@@ -148,7 +148,7 @@ class SalesRepRepositoryTest {
         l1.setSalesRep(sr1);
         leadRepository.save(l1);
 
-        var storedSr = salesRepRepository.findByIdJoinedLeads(3);
+        var storedSr = salesRepRepository.findByIdJoinedLead(3);
         if (storedSr.isPresent()) {
             assertEquals("New Lead", storedSr.get().getLeadList().get(0).getName());
         } else throw new TestInstantiationException("Id not found");
@@ -167,9 +167,9 @@ class SalesRepRepositoryTest {
         var o1 = new Opportunity(Product.HYBRID, 6, c1, Status.OPEN, a1, sr1);
         opportunityRepository.save(o1);
 
-        var storedSr = salesRepRepository.findByIdJoinedOpportunities(3);
+        var storedSr = salesRepRepository.findByIdJoinedOpportunity(3);
         if (storedSr.isPresent()) {
-            assertEquals("New Contact", storedSr.get().getOpportunityList().get(0).getDecisionMaker().getName());
+            assertEquals(6, storedSr.get().getOpportunityList().get(0).getQuantity());
         } else throw new TestInstantiationException("Id not found");
     }
 
