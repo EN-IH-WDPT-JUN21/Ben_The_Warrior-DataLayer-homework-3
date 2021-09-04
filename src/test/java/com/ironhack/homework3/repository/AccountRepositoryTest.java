@@ -3,7 +3,6 @@ package com.ironhack.homework3.repository;
 import com.ironhack.homework3.dao.classes.Account;
 import com.ironhack.homework3.dao.classes.Contact;
 import com.ironhack.homework3.dao.classes.Opportunity;
-import com.ironhack.homework3.dao.classes.SalesRep;
 import com.ironhack.homework3.enums.Industry;
 import com.ironhack.homework3.enums.Product;
 import com.ironhack.homework3.enums.Status;
@@ -51,7 +50,7 @@ class AccountRepositoryTest {
         opportunityRepository.save(o);
         var c1 = new Contact("Joe", "999999999", "joe@mail.com", "New Company", a1);
         contactRepository.save(c1);
-        var a2 = new Account(Industry.PRODUCE, 99, "Madrid", "Spain");
+        var a2 = new Account(Industry.PRODUCE, 100, "Madrid", "Spain");
         accountRepository.save(a2);
     }
 
@@ -212,4 +211,51 @@ class AccountRepositoryTest {
     }
 
 
+    // ============================== Custom Queries Testing ==============================
+    // ==================== MEAN EmployeeCount ====================
+    @Test
+    @Order(8)
+    void testMeanEmployeeCount() {
+        var a3 = new Account(Industry.MEDICAL, 6000, "Rio de Janeiro", "Brazil");
+        accountRepository.save(a3);
+        // mean is from the values of setup and this new account
+        assertEquals((6000 + 1000 + 100) / 3.0, accountRepository.meanEmployeeCount());
+    }
+
+    @Test
+    @Order(8)
+    void testMedianEmployeeCount_oddNrOfValues() {
+        var a3 = new Account(Industry.MEDICAL, 537, "Rio de Janeiro", "Brazil");
+        accountRepository.save(a3);
+        // mean is from the values of setup and this new account
+        assertEquals(537 * 1.0, accountRepository.medianEmployeeCount());
+    }
+
+    @Test
+    @Order(8)
+    void testMedianEmployeeCount_evenNrOfValues() {
+        var a3 = new Account(Industry.MEDICAL, 6000, "Rio de Janeiro", "Brazil");
+        var a4 = new Account(Industry.MEDICAL, 835, "Rio de Janeiro", "Brazil");
+        accountRepository.saveAll(List.of(a3, a4));
+        // mean is from the values of setup and this new account
+        assertEquals((1000 + 835) / 2.0, accountRepository.medianEmployeeCount());
+    }
+
+    @Test
+    @Order(8)
+    void testMinEmployeeCount() {
+        var a3 = new Account(Industry.MEDICAL, 6000, "Rio de Janeiro", "Brazil");
+        accountRepository.save(a3);
+        // min is from the values of setup and this new account
+        assertEquals(100, accountRepository.minEmployeeCount());
+    }
+
+    @Test
+    @Order(8)
+    void testMaxEmployeeCount() {
+        var a3 = new Account(Industry.MEDICAL, 6000, "Rio de Janeiro", "Brazil");
+        accountRepository.save(a3);
+        // max is from the values of setup and this new account
+        assertEquals(6000, accountRepository.maxEmployeeCount());
+    }
 }
