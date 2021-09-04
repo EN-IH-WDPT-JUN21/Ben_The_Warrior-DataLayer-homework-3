@@ -14,6 +14,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.TestPropertySource;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
@@ -207,6 +209,51 @@ class OpportunityRepositoryTest {
 
 
     // ============================== Custom Queries Testing ==============================
+    // ==================== MEAN EmployeeCount ====================
+    @Test
+    @Order(8)
+    void testMeanQuantity() {
+        var o3 = new Opportunity(Product.HYBRID, 73, Status.OPEN);
+        opportunityRepository.save(o3);
+        // mean is from the values of setup and this new account
+        assertEquals((200 + 32 + 73) / 3.0, opportunityRepository.meanQuantity());
+    }
 
+    @Test
+    @Order(8)
+    void testMedianQuantity_oddNrOfValues() {
+        var o3 = new Opportunity(Product.HYBRID, 73, Status.OPEN);
+        opportunityRepository.save(o3);
+        // mean is from the values of setup and this new account
+        assertEquals(73 * 1.0, opportunityRepository.medianQuantity());
+    }
+
+    @Test
+    @Order(8)
+    void testMedianQuantity_evenNrOfValues() {
+        var o3 = new Opportunity(Product.HYBRID, 73, Status.OPEN);
+        var o4 = new Opportunity(Product.HYBRID, 1, Status.OPEN);
+        opportunityRepository.saveAll(List.of(o3, o4));
+        // mean is from the values of setup and this new account
+        assertEquals((73 + 32) / 2.0, opportunityRepository.medianQuantity());
+    }
+
+    @Test
+    @Order(8)
+    void testMinQuantity() {
+        var o3 = new Opportunity(Product.HYBRID, 73, Status.OPEN);
+        opportunityRepository.save(o3);
+        // min is from the values of setup and this new account
+        assertEquals(32, opportunityRepository.minQuantity());
+    }
+
+    @Test
+    @Order(8)
+    void testMaxQuantity() {
+        var o3 = new Opportunity(Product.HYBRID, 73, Status.OPEN);
+        opportunityRepository.save(o3);
+        // max is from the values of setup and this new account
+        assertEquals(200, opportunityRepository.maxQuantity());
+    }
 
 }
