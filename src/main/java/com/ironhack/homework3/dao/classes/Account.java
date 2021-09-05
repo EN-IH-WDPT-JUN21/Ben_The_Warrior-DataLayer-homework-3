@@ -24,7 +24,7 @@ public class Account {
 
     @NotNull
     @Enumerated(EnumType.STRING)
-    @Column(name = "status")
+    @Column(name = "industry")
     private Industry industry;
 
     @NotNull

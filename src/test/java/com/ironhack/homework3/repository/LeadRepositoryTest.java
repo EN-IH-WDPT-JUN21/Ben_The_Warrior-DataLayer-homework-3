@@ -14,14 +14,11 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD) //Resets DB and ids, but is slower
-@TestPropertySource(properties = {
-        "spring.datasource.url=jdbc:h2:mem:test",
-        "spring.datasource.driverClassName=org.h2.Driver",
-        "spring.h2.console.enabled=true",
-        "spring.datasource.username=sa",
-        "spring.datasource.password=sa",
-        "spring.jpa.database-platform=org.hibernate.dialect.H2Dialect",
-        "spring.jpa.show-sql=true",
+@TestPropertySource(properties = {      // For testing it uses a "datalayer_test" database
+        "spring.datasource.url=jdbc:mysql://localhost:3306/datalayer_test",
+        "spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver",
+        "spring.datasource.username=test",
+        "spring.datasource.password=Test-123",
         "spring.jpa.hibernate.ddl-auto=create"
 })
 class LeadRepositoryTest {

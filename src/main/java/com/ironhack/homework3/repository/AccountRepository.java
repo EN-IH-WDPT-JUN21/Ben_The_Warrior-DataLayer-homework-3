@@ -2,9 +2,11 @@ package com.ironhack.homework3.repository;
 
 import com.ironhack.homework3.dao.classes.Account;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import javax.persistence.NamedQueries;
 import java.util.Optional;
 
 @Repository
@@ -21,19 +23,17 @@ public interface AccountRepository extends JpaRepository<Account, Integer> {
     @Query("SELECT AVG(a.employeeCount) FROM Account a")
     double meanEmployeeCount();
 
-    // Complex median sql query source: https://sqlperformance.com/2012/08/t-sql-queries/median
-    @Query(value = "SELECT AVG(1.0 * employee_count) " +
-            "FROM (" +
-                    "SELECT TOP( " +
-                            "(((SELECT COUNT(account_id) FROM account) - 1) / 2) + (1 + (1 - (SELECT COUNT(account_id) FROM account) % 2)) ) employee_count, " +
-                            "ROW_NUMBER() OVER (ORDER BY employee_count) AS r " +
-                    "FROM account a " +
-                    "ORDER BY employee_count" +
-            ") p " +
-            "WHERE r BETWEEN (((SELECT COUNT(account_id) FROM account a)- 1) / 2) + 1 " +
-            "AND ((((SELECT COUNT(account_id) FROM account)- 1) / 2) + (1 + (1 - (SELECT COUNT(account_id) FROM account) % 2)))",
-            nativeQuery = true)
-    double medianEmployeeCount();
+//    @Query(value = "SET @rowindex = -1; " +
+//            "SELECT AVG(c.count) as Median " +
+//            "FROM(" +
+//                    "SELECT @rowindex = @rowindex + 1 AS rowindex, " +
+//                            "account.employee_count AS count " +
+//                    "FROM account " +
+//                    "ORDER BY account.employee_count) AS c " +
+//            "WHERE c.rowindex IN (FLOOR(@rowindex / 2), CEIL(@rowindex / 2));",
+//            nativeQuery = true)
+//    @NamedQueries({})
+//    double medianEmployeeCount();
 
     @Query("SELECT MIN(a.employeeCount) FROM Account a")
     int minEmployeeCount();
