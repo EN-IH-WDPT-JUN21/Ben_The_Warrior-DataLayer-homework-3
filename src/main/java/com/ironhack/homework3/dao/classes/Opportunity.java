@@ -1,5 +1,6 @@
 package com.ironhack.homework3.dao.classes;
 
+import com.ironhack.homework3.enums.Industry;
 import com.ironhack.homework3.enums.Product;
 import com.ironhack.homework3.enums.Status;
 import lombok.AllArgsConstructor;
@@ -24,6 +25,9 @@ public class Opportunity {
     @Enumerated(EnumType.STRING)
     private Product product;
 
+    @Enumerated(EnumType.STRING)
+    private Industry industry;
+
     private int quantity;
 
     @OneToOne
@@ -32,6 +36,9 @@ public class Opportunity {
 
     @Enumerated(EnumType.STRING)
     private Status status;
+
+    private String country;
+    private String city;
 
     @ManyToOne
     @JoinColumn(name="account_id", referencedColumnName = "account_id")
@@ -44,6 +51,35 @@ public class Opportunity {
         setQuantity(quantity);
         setDecisionMaker(decisionMaker);
         setStatus(status);
+    }
+
+    public Opportunity(Product product, int quantity, Contact decisionMaker, Status status, String country, String city) {
+        setProduct(product);
+        setQuantity(quantity);
+        setDecisionMaker(decisionMaker);
+        setStatus(status);
+        this.country = country;
+        this.city = city;
+    }
+
+    public Opportunity(Integer id, Product product, int quantity, Contact decisionMaker, Status status, String country, String city) {
+        this.id = id;
+        this.product = product;
+        this.quantity = quantity;
+        this.decisionMaker = decisionMaker;
+        this.status = status;
+        this.country = country;
+        this.city = city;
+    }
+
+    public Opportunity(Product product, Industry industry, int quantity, Contact decisionMaker, Status status, String country, String city) {
+        this.product = product;
+        this.industry = industry;
+        this.quantity = quantity;
+        this.decisionMaker = decisionMaker;
+        this.status = status;
+        this.country = country;
+        this.city = city;
     }
 
     // ============================== METHODS ==============================

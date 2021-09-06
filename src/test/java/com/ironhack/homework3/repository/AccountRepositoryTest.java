@@ -12,6 +12,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
@@ -42,22 +44,22 @@ class AccountRepositoryTest {
 
     }
     /*sth not working....*/
-/*
+
     @Test
     void testToString() {
         Contact c = new Contact("John Smith", "2460247246", "johnthewarrior@fighters.com", "The smiths");
         c.setId(102);
         contactRepository.save(c);
-        Opportunity o = new Opportunity(Product.HYBRID, 30000, c, Status.OPEN);
+        Opportunity o = new Opportunity(Product.HYBRID, 30000, c, Status.OPEN, "UK", "London");
         opportunityRepository.save(o);
-        a = new Account(Industry.ECOMMERCE, 100, "Madrid", "Spain");
+        a = new Account(Industry.ECOMMERCE, 100, "Madrid", "Spain", List.of(c), List.of(o));
         accountRepository.save(a);
         c.setAccount(a);
         o.setAccountOpp(a);
         contactRepository.save(c);
         opportunityRepository.save(o);
-        assertEquals("Id: 102, Industry: ECOMMERCE, Number of Employees: 100, City: Madrid, Country: Spain, Number of Contacts: 1, Number of Opportunities: 1", a.toString());
-    }*/
+        assertEquals("Id: 1, Industry: ECOMMERCE, Number of Employees: 100, City: Madrid, Country: Spain, Number of Contacts: 1, Number of Opportunities: 1", a.toString());
+    }
 
     @Test
     void saveANewAccount(){
@@ -65,7 +67,7 @@ class AccountRepositoryTest {
         var contact = new Contact("Ben", "123643543", "Ben@BenIndustries.com", "Ben Industries");
         contact.setId(101);
         contactRepository.save(contact);
-        var opportunity = new Opportunity(Product.HYBRID, 30000, contact, Status.OPEN);
+        var opportunity = new Opportunity(Product.HYBRID, 30000, contact, Status.OPEN, "UK", "London");
         opportunityRepository.save(opportunity);
         var account = new Account(Industry.ECOMMERCE, 100, "Madrid", "Spain");
         accountRepository.save(account);
