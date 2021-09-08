@@ -19,7 +19,7 @@ import java.util.Objects;
 public class Opportunity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="opportunity_id")
+    @Column(name = "opportunity_id")
     private Integer id;
 
     @Enumerated(EnumType.STRING)
@@ -31,7 +31,7 @@ public class Opportunity {
     private int quantity;
 
     @OneToOne
-    @JoinColumn(name="decision_maker_id")
+    @JoinColumn(name = "decision_maker_id")
     private Contact decisionMaker;
 
     @Enumerated(EnumType.STRING)
@@ -41,10 +41,23 @@ public class Opportunity {
     private String city;
 
     @ManyToOne
-    @JoinColumn(name="account_id", referencedColumnName = "account_id")
+    @JoinColumn(name = "account_id", referencedColumnName = "account_id")
     private Account accountOpp;
 
     // ============================== CONSTRUCTOR ==============================
+    public Opportunity(Product product, int quantity, Status status) {
+        this.product = product;
+        this.quantity = quantity;
+        this.status = status;
+    }
+
+    public Opportunity(Product product, int quantity, Contact decisionMaker, Status status, Account accountOpp) {
+        this.product = product;
+        this.quantity = quantity;
+        this.decisionMaker = decisionMaker;
+        this.status = status;
+        this.accountOpp = accountOpp;
+    }
 
     public Opportunity(Product product, int quantity, Contact decisionMaker, Status status) {
         setProduct(product);
@@ -82,6 +95,7 @@ public class Opportunity {
         this.city = city;
     }
 
+
     // ============================== METHODS ==============================
     @Override
     public String toString() {
@@ -103,7 +117,7 @@ public class Opportunity {
         return Objects.hash(product, quantity, decisionMaker, status);
     }
 
-    public boolean hasNullValues(){
+    public boolean hasNullValues() {
         return getProduct() == null || getStatus() == null || getDecisionMaker().hasNullValues();
     }
 }

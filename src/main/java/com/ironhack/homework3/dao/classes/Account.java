@@ -31,10 +31,10 @@ public class Account {
     private String country;
 
     @OneToMany(mappedBy = "account", fetch = FetchType.EAGER)
-    private List<Contact> contactList;
+    private List<Contact> contactList = new ArrayList<>();
 
     @OneToMany(mappedBy = "accountOpp")
-    private List<Opportunity> opportunityList;
+    private List<Opportunity> opportunityList = new ArrayList<>();
 
 //    private ArrayList<Contact> contactList;
 //    private ArrayList<Opportunity> opportunityList;

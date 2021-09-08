@@ -13,10 +13,12 @@ import java.util.Objects;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name="leads")
+@Table(name = "leads")
 public class Lead {
+
     @Id
-    @Column(name="lead_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "lead_id")
     private Integer id;
     private String name;
     private String phoneNumber;
@@ -51,7 +53,7 @@ public class Lead {
         return Objects.hash(name, phoneNumber, email, companyName);
     }
 
-    public boolean hasNullValues(){
+    public boolean hasNullValues() {
         return getName() == null || getPhoneNumber() == null || getEmail() == null || getCompanyName() == null;
     }
 }
