@@ -3,6 +3,10 @@ package com.ironhack.homework3.utils;
 import com.ironhack.homework3.enums.Industry;
 import com.ironhack.homework3.enums.Product;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.util.regex.Pattern;
 
 public class Utils {
@@ -15,6 +19,7 @@ public class Utils {
             return false;
         }
     }
+
     // Method to validate a Product inputted by the user
     public static boolean validProduct(String product) {
         try {
@@ -24,6 +29,7 @@ public class Utils {
             return false;
         }
     }
+
     // Method to validate a Industry inputted by the user
     public static boolean validIndustry(String industry) {
         try {
@@ -33,25 +39,29 @@ public class Utils {
             return false;
         }
     }
+
     // Method to validate a name inputted by the user
-    public static boolean validName(String name){
+    public static boolean validName(String name) {
         return Pattern.compile("^[A-Za-zÀ-ÖØ-öø-ÿ\\s]+$").matcher(name).find();
     }
+
     // Method to validate an email inputted by the user
-    public static boolean validEmail(String email){
+    public static boolean validEmail(String email) {
         Pattern emailPattern = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
         return emailPattern.matcher(email).find();
     }
+
     // Method to validate a phone number inputted by the user
-    public static boolean validPhone(String phone){
+    public static boolean validPhone(String phone) {
         String patterns = "^\\s?((\\+[1-9]{1,4}[ \\-]*)" +
                 "|(\\([0-9]{2,3}\\)[ \\-]*)" +
                 "|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?\\s?";
         Pattern phoneNumRegexes = Pattern.compile(patterns);
         return phoneNumRegexes.matcher(phone).find();
     }
+
     // Method to validate a generic string inputted by the user
-    public static boolean validLocation(String str){
+    public static boolean validLocation(String str) {
         if (str.length() < 1) return false;
         return Pattern.compile("^[A-ZÀ-Ü]+([a-zA-Z\\u0080-\\u024F]+(?:. |-| |'))*[a-zA-Z\\u0080-\\u024F]+$").matcher(str).find();
     }
@@ -102,5 +112,15 @@ public class Utils {
                     return false;
             }
         }
+    }
+
+    public static double getMedianValue(List<Integer> list) {
+        ArrayList<Integer> arrayList = new ArrayList<>(list);
+        System.out.println(arrayList);
+        Collections.sort(arrayList);
+        System.out.println(arrayList);
+        var length = arrayList.size();
+        if (length % 2 == 0) return (double) (arrayList.get(length / 2) + arrayList.get(length / 2 - 1)) / 2.0;
+        return (double) arrayList.get(length / 2);
     }
 }
