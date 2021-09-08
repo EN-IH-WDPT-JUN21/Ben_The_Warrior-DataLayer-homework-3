@@ -14,61 +14,73 @@ public interface OpportunityRepository extends JpaRepository<Opportunity, Intege
 
 
 
-    @Query("SELECT o.country AS countryOrCityComment, COUNT(o.country) AS countryOrCityCount FROM Opportunity o " +
-            "GROUP BY o.country ORDER BY COUNT(o.country) DESC")
+    @Query("SELECT a.country AS countryOrCityComment, COUNT(a.country) AS countryOrCityCount FROM Opportunity o, Account a " +
+            "LEFT JOIN o.accountOpp a " +
+            "GROUP BY a.country ORDER BY COUNT(a.country) DESC")
     List<IOpportunityCountryOrCityCount> countByCountry();
 
-    @Query("SELECT o.country AS countryOrCityComment, COUNT(o.country) AS countryOrCityCount FROM Opportunity o " +
+    @Query("SELECT a.country AS countryOrCityComment, COUNT(a.country) AS countryOrCityCount FROM Opportunity o, Account a " +
+            "LEFT JOIN o.accountOpp a " +
             "WHERE o.status ='CLOSED_WON'" +
-            "GROUP BY o.country ORDER BY COUNT(o.country) DESC")
+            "GROUP BY a.country ORDER BY COUNT(a.country) DESC")
     List<IOpportunityCountryOrCityCount> countClosedWonByCountry();
 
-    @Query("SELECT o.country AS countryOrCityComment, COUNT(o.country) AS countryOrCityCount FROM Opportunity o " +
+    @Query("SELECT a.country AS countryOrCityComment, COUNT(a.country) AS countryOrCityCount FROM Opportunity o, Account a " +
+            "LEFT JOIN o.accountOpp a " +
             "WHERE o.status ='CLOSED_LOST'" +
-            "GROUP BY o.country ORDER BY COUNT(o.country) DESC")
+            "GROUP BY a.country ORDER BY COUNT(a.country) DESC")
     List<IOpportunityCountryOrCityCount> countClosedLostByCountry();
 
-    @Query("SELECT o.country AS countryOrCityComment, COUNT(o.country) AS countryOrCityCount FROM Opportunity o " +
+    @Query("SELECT a.country AS countryOrCityComment, COUNT(a.country) AS countryOrCityCount FROM Opportunity o, Account a " +
+            "LEFT JOIN o.accountOpp a " +
             "WHERE o.status ='OPEN'" +
-            "GROUP BY o.country ORDER BY COUNT(o.country) DESC")
+            "GROUP BY a.country ORDER BY COUNT(a.country) DESC")
     List<IOpportunityCountryOrCityCount> countOpenByCountry();
 
-    @Query("SELECT o.city AS countryOrCityComment, COUNT(o.city) AS countryOrCityCount FROM Opportunity o " +
-            "GROUP BY o.city ORDER BY COUNT(o.city) DESC")
+    @Query("SELECT a.city AS countryOrCityComment, COUNT(a.city) AS countryOrCityCount FROM Opportunity o, Account a " +
+            "LEFT JOIN o.accountOpp a " +
+            "GROUP BY a.city ORDER BY COUNT(a.city) DESC")
     List<IOpportunityCountryOrCityCount> countByCity();
 
-    @Query("SELECT o.city AS countryOrCityComment, COUNT(o.city) AS countryOrCityCount FROM Opportunity o " +
+    @Query("SELECT a.city AS countryOrCityComment, COUNT(a.city) AS countryOrCityCount FROM Opportunity o, Account a " +
+            "LEFT JOIN o.accountOpp a " +
             "WHERE o.status ='CLOSED_WON'" +
-            "GROUP BY o.city ORDER BY COUNT(o.city) DESC")
+            "GROUP BY a.city ORDER BY COUNT(a.city) DESC")
     List<IOpportunityCountryOrCityCount> countClosedWonByCity();
 
-    @Query("SELECT o.city AS countryOrCityComment, COUNT(o.city) AS countryOrCityCount FROM Opportunity o " +
+    @Query("SELECT a.city AS countryOrCityComment, COUNT(a.city) AS countryOrCityCount FROM Opportunity o, Account a " +
+            "LEFT JOIN o.accountOpp a " +
             "WHERE o.status ='CLOSED_LOST'" +
-            "GROUP BY o.city ORDER BY COUNT(o.city) DESC")
+            "GROUP BY a.city ORDER BY COUNT(a.city) DESC")
     List<IOpportunityCountryOrCityCount> countClosedLostByCity();
 
-    @Query("SELECT o.city AS countryOrCityComment, COUNT(o.city) AS countryOrCityCount FROM Opportunity o " +
+    @Query("SELECT a.city AS countryOrCityComment, COUNT(a.city) AS countryOrCityCount FROM Opportunity o, Account a " +
+            "LEFT JOIN o.accountOpp a " +
             "WHERE o.status ='OPEN'" +
-            "GROUP BY o.city ORDER BY COUNT(o.city) DESC")
+            "GROUP BY a.city ORDER BY COUNT(a.city) DESC")
     List<IOpportunityCountryOrCityCount> countOpenByCity();
 
-    @Query("SELECT o.industry AS industryComment, COUNT(o.industry) AS industryCount FROM Opportunity o " +
-            "GROUP BY o.industry ORDER BY COUNT(o.industry) DESC")
+    @Query("SELECT a.industry AS industryComment, COUNT(a.industry) AS industryCount FROM Opportunity o, Account a " +
+            "LEFT JOIN o.accountOpp a " +
+            "GROUP BY a.industry ORDER BY COUNT(a.industry) DESC")
     List<IOpportunityIndustryCount> countByIndustry();
 
-    @Query("SELECT o.industry AS industryComment, COUNT(o.industry) AS industryCount FROM Opportunity o " +
+    @Query("SELECT a.industry AS industryComment, COUNT(a.industry) AS industryCount FROM Opportunity o, Account a " +
+            "LEFT JOIN o.accountOpp a " +
             "WHERE o.status ='CLOSED_WON'" +
-            "GROUP BY o.industry ORDER BY COUNT(o.industry) DESC")
+            "GROUP BY a.industry ORDER BY COUNT(a.industry) DESC")
     List<IOpportunityIndustryCount> countClosedWonByIndustry();
 
-    @Query("SELECT o.industry AS industryComment, COUNT(o.industry) AS industryCount FROM Opportunity o " +
+    @Query("SELECT a.industry AS industryComment, COUNT(a.industry) AS industryCount FROM Opportunity o, Account a " +
+            "LEFT JOIN o.accountOpp a " +
             "WHERE o.status ='CLOSED_LOST'" +
-            "GROUP BY o.industry ORDER BY COUNT(o.industry) DESC")
+            "GROUP BY a.industry ORDER BY COUNT(a.industry) DESC")
     List<IOpportunityIndustryCount> countClosedLostByIndustry();
 
-    @Query("SELECT o.industry AS industryComment, COUNT(o.industry) AS industryCount FROM Opportunity o " +
+    @Query("SELECT a.industry AS industryComment, COUNT(a.industry) AS industryCount FROM Opportunity o, Account a " +
+            "LEFT JOIN o.accountOpp a " +
             "WHERE o.status ='OPEN'" +
-            "GROUP BY o.industry ORDER BY COUNT(o.industry) DESC")
+            "GROUP BY a.industry ORDER BY COUNT(a.industry) DESC")
     List<IOpportunityIndustryCount> countOpenByIndustry();
 
 
