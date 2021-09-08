@@ -13,63 +13,96 @@ import java.util.List;
 public interface OpportunityRepository extends JpaRepository<Opportunity, Integer> {
 
 
-
+    // ============================== QUERIES 3 - Reporting Functionality By Country ==============================
+    // 1. Report Opportunity by Country
     @Query("SELECT o.country AS countryOrCityComment, COUNT(o.country) AS countryOrCityCount FROM Opportunity o " +
             "GROUP BY o.country ORDER BY COUNT(o.country) DESC")
     List<IOpportunityCountryOrCityCount> countByCountry();
 
+    // 2. Report CLOSED-WON by Country
     @Query("SELECT o.country AS countryOrCityComment, COUNT(o.country) AS countryOrCityCount FROM Opportunity o " +
             "WHERE o.status ='CLOSED_WON'" +
             "GROUP BY o.country ORDER BY COUNT(o.country) DESC")
     List<IOpportunityCountryOrCityCount> countClosedWonByCountry();
 
+    // 3. Report CLOSED-LOST by Country
     @Query("SELECT o.country AS countryOrCityComment, COUNT(o.country) AS countryOrCityCount FROM Opportunity o " +
             "WHERE o.status ='CLOSED_LOST'" +
             "GROUP BY o.country ORDER BY COUNT(o.country) DESC")
     List<IOpportunityCountryOrCityCount> countClosedLostByCountry();
 
+    // 4. Report OPEN by Country
     @Query("SELECT o.country AS countryOrCityComment, COUNT(o.country) AS countryOrCityCount FROM Opportunity o " +
             "WHERE o.status ='OPEN'" +
             "GROUP BY o.country ORDER BY COUNT(o.country) DESC")
     List<IOpportunityCountryOrCityCount> countOpenByCountry();
 
+    // ============================== QUERIES 4 - Reporting Functionality By City ==============================
+    // 1. Report Opportunity by City
     @Query("SELECT o.city AS countryOrCityComment, COUNT(o.city) AS countryOrCityCount FROM Opportunity o " +
             "GROUP BY o.city ORDER BY COUNT(o.city) DESC")
     List<IOpportunityCountryOrCityCount> countByCity();
 
+    // 2. Report CLOSED-WON by City
     @Query("SELECT o.city AS countryOrCityComment, COUNT(o.city) AS countryOrCityCount FROM Opportunity o " +
             "WHERE o.status ='CLOSED_WON'" +
             "GROUP BY o.city ORDER BY COUNT(o.city) DESC")
     List<IOpportunityCountryOrCityCount> countClosedWonByCity();
 
+    // 3. Report CLOSED-LOST by City
     @Query("SELECT o.city AS countryOrCityComment, COUNT(o.city) AS countryOrCityCount FROM Opportunity o " +
             "WHERE o.status ='CLOSED_LOST'" +
             "GROUP BY o.city ORDER BY COUNT(o.city) DESC")
     List<IOpportunityCountryOrCityCount> countClosedLostByCity();
 
+    // 4. Report OPEN by City
     @Query("SELECT o.city AS countryOrCityComment, COUNT(o.city) AS countryOrCityCount FROM Opportunity o " +
             "WHERE o.status ='OPEN'" +
             "GROUP BY o.city ORDER BY COUNT(o.city) DESC")
     List<IOpportunityCountryOrCityCount> countOpenByCity();
 
+    // ============================== QUERIES 5 - Reporting Functionality By Industry ==============================
+    // 1. Report Opportunity by Industry
     @Query("SELECT o.industry AS industryComment, COUNT(o.industry) AS industryCount FROM Opportunity o " +
             "GROUP BY o.industry ORDER BY COUNT(o.industry) DESC")
     List<IOpportunityIndustryCount> countByIndustry();
 
+    // 2. Report CLOSED-WON by Industry
     @Query("SELECT o.industry AS industryComment, COUNT(o.industry) AS industryCount FROM Opportunity o " +
             "WHERE o.status ='CLOSED_WON'" +
             "GROUP BY o.industry ORDER BY COUNT(o.industry) DESC")
     List<IOpportunityIndustryCount> countClosedWonByIndustry();
 
+    // 3. Report CLOSED-LOST by Industry
     @Query("SELECT o.industry AS industryComment, COUNT(o.industry) AS industryCount FROM Opportunity o " +
             "WHERE o.status ='CLOSED_LOST'" +
             "GROUP BY o.industry ORDER BY COUNT(o.industry) DESC")
     List<IOpportunityIndustryCount> countClosedLostByIndustry();
 
+    // 4. Report OPEN by Industry
     @Query("SELECT o.industry AS industryComment, COUNT(o.industry) AS industryCount FROM Opportunity o " +
             "WHERE o.status ='OPEN'" +
             "GROUP BY o.industry ORDER BY COUNT(o.industry) DESC")
     List<IOpportunityIndustryCount> countOpenByIndustry();
+
+
+    // ============================== QUERIES 7 - Reporting Functionality Quantity States ==============================
+    // 1. Mean Quantity
+    @Query("SELECT AVG(o.quantity) FROM Opportunity o")
+    double meanQuantity();
+
+    // 2. Median Quantity - returns all the quantities ordered and uses an util method to calculate Median
+    @Query("SELECT o.quantity AS q FROM Opportunity o " +
+            "ORDER by q")
+    List<Integer> orderedListOfQuantities();
+
+    // 3. Max Quantity
+    @Query("SELECT MIN(o.quantity) FROM Opportunity o")
+    int minQuantity();
+
+    // 4. Min Quantity
+    @Query("SELECT MAX(o.quantity) FROM Opportunity o")
+    int maxQuantity();
 
 
 }
