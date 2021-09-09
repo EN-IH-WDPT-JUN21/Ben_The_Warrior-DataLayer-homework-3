@@ -74,13 +74,19 @@ public class Utils {
         if (commandWords.length > 1) {
             switch (commandWords[0]) {
                 case "new":
-                    return commandWords[1].equals("lead") && commandWords.length == 2;
+                    switch (commandWords[1]){
+                        case "lead":
+                        case "salesrep":
+                            return commandWords.length == 2;
+                    }
+                    return false;
                 case "show":
                     switch (commandWords[1]) {
                         case "leads":
                         case "opportunities":
                         case "accounts":
                         case "contacts":
+                        case "salesrep":
                             return commandWords.length == 2;
                     }
                     return false;
@@ -91,6 +97,7 @@ public class Utils {
                             case "opportunity":
                             case "account":
                             case "contact":
+                            case "salesrep":
                                 return isValidPositiveNumber(commandWords[2]);
                         }
                     }
@@ -106,7 +113,7 @@ public class Utils {
             switch (commandWords[0]) {
                 case "help":
                 case "exit":
-                case "save":
+                //case "save":
                     return true;
                 default:
                     return false;

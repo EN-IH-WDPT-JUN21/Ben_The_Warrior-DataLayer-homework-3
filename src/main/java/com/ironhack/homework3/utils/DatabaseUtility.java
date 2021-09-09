@@ -2,17 +2,13 @@ package com.ironhack.homework3.utils;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.ironhack.homework3.dao.classes.Account;
-import com.ironhack.homework3.dao.classes.Contact;
-import com.ironhack.homework3.dao.classes.Lead;
-import com.ironhack.homework3.dao.classes.Opportunity;
+import com.ironhack.homework3.dao.classes.*;
 import com.ironhack.homework3.enums.Industry;
 import com.ironhack.homework3.enums.Product;
 import com.ironhack.homework3.enums.Status;
-import com.ironhack.homework3.repository.AccountRepository;
-import com.ironhack.homework3.repository.ContactRepository;
-import com.ironhack.homework3.repository.LeadRepository;
-import com.ironhack.homework3.repository.OpportunityRepository;
+import com.ironhack.homework3.repository.*;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -23,50 +19,22 @@ import java.io.IOException;
 import java.util.*;
 
 @Component
-public class JsonDatabaseUtility {
-    private Integer leadId = 0;
-    private Integer contactId = 0;
-    private Integer opportunityId = 0;
-    private Integer accountId = 0;
-    private final Map<Integer, Lead> leadHash;
-    private final Map<Integer, Contact> contactHash;
-    private final Map<Integer, Opportunity> opportunityHash;
-    private final Map<Integer, Account> accountHash;
-    private transient final String DATABASE_DIRECTORY;
-    final LeadRepository leadRepository;
-    final ContactRepository contactRepository;
-    final AccountRepository accountRepository;
-    final OpportunityRepository opportunityRepository;
+@Getter
+@Setter
+public class DatabaseUtility {
     @Autowired
-    public JsonDatabaseUtility(LeadRepository leadRepository, ContactRepository contactRepository, AccountRepository accountRepository, OpportunityRepository opportunityRepository) {
-        this.leadRepository = leadRepository;
-        this.contactRepository = contactRepository;
-        this.accountRepository = accountRepository;
-        this.opportunityRepository = opportunityRepository;
-        DATABASE_DIRECTORY = "src/main/java/com/ironhack/homework3/database/database.json";
-        leadHash = new HashMap<>();
-        contactHash = new HashMap<>();
-        opportunityHash = new HashMap<>();
-        accountHash = new HashMap<>();
+    private LeadRepository leadRepository;
+    @Autowired
+    private ContactRepository contactRepository;
+    @Autowired
+    private AccountRepository accountRepository;
+    @Autowired
+    private OpportunityRepository opportunityRepository;
+    @Autowired
+    private SalesRepRepository salesRepRepository;
+    @Autowired
+    public DatabaseUtility() {
     }
-
-
-    public JsonDatabaseUtility(LeadRepository leadRepository, ContactRepository contactRepository, AccountRepository accountRepository, OpportunityRepository opportunityRepository, String database) {
-        this.leadRepository = leadRepository;
-        this.contactRepository = contactRepository;
-        this.accountRepository = accountRepository;
-        this.opportunityRepository = opportunityRepository;
-        DATABASE_DIRECTORY = "src/main/java/com/ironhack/homework3/database/" + database + ".json";
-        leadHash = new HashMap<>();
-        contactHash = new HashMap<>();
-        opportunityHash = new HashMap<>();
-        accountHash = new HashMap<>();
-        setLeadId(0);
-        setContactId(0);
-        setOpportunityId(0);
-        setAccountId(0);
-    }
-
 
     // ========== CONSTRUCTORS ==========
  /*   public JsonDatabaseUtility() {
@@ -90,7 +58,7 @@ public class JsonDatabaseUtility {
     }*/
 
     // ========== GETTERS AND SETTERS ==========
-    public Map<Integer, Lead> getLeadHash() {
+    /*public Map<Integer, Lead> getLeadHash() {
         return leadHash;
     }
 
@@ -189,11 +157,11 @@ public class JsonDatabaseUtility {
         if (accountId > getAccountId()){
             this.accountId = accountId;
         }
-    }
+    } TODO - delete getters and setters if not needed*/
 
     // ==================== Save Methods for Leads, Contacts, Opportunities and Accounts class into a Json files ====================
     // save database in a json file
-    public void save() throws IOException {
+    /*public void save() throws IOException {
         GsonBuilder builder = new GsonBuilder();
         builder.setPrettyPrinting();
         Gson gson = builder.create();
@@ -202,19 +170,19 @@ public class JsonDatabaseUtility {
         String jsonData = gson.toJson(this);
         writer.write(jsonData);
         writer.close();
-    }
+    } TODO if the saving function is to keep there are some changes required*/
 
     //load method that gives maps from Database in json file to actual JsonDatabaseUtility class
-    public void load() throws IOException {
+    /*public void load() throws IOException {
         Gson gson = new Gson();
         File file = new File(getDATABASE_DIRECTORY());
-        JsonDatabaseUtility jsonDatabaseUtility;
+        DatabaseUtility databaseUtility;
         try{
             FileReader reader = new FileReader(file);
             char[] chars = new char[(int) file.length()];
             reader.read(chars);
             String jsonData = new String(chars);
-            jsonDatabaseUtility = gson.fromJson(jsonData, JsonDatabaseUtility.class);
+            databaseUtility = gson.fromJson(jsonData, DatabaseUtility.class);
             reader.close();
         }catch (IOException e){
             throw new IOException("Database could not be loaded! New database created!");
@@ -223,123 +191,112 @@ public class JsonDatabaseUtility {
         }
 
         try{
-            setLeadHash(jsonDatabaseUtility.getLeadHash());
-            setContactHash(jsonDatabaseUtility.getContactHash());
-            setOpportunityHash(jsonDatabaseUtility.getOpportunityHash());
-            setAccountHash(jsonDatabaseUtility.getAccountHash());
-            setLeadId(jsonDatabaseUtility.getLeadId());
-            setContactId(jsonDatabaseUtility.getContactId());
-            setOpportunityId(jsonDatabaseUtility.getOpportunityId());
-            setAccountId(jsonDatabaseUtility.getAccountId());
+            setLeadHash(databaseUtility.getLeadHash());
+            setContactHash(databaseUtility.getContactHash());
+            setOpportunityHash(databaseUtility.getOpportunityHash());
+            setAccountHash(databaseUtility.getAccountHash());
+            setLeadId(databaseUtility.getLeadId());
+            setContactId(databaseUtility.getContactId());
+            setOpportunityId(databaseUtility.getOpportunityId());
+            setAccountId(databaseUtility.getAccountId());
         } catch (NullPointerException e){
             throw new NullPointerException("Database file is empty. New database created!");
         }
-    }
+    } TODO if the loading function is to keep there are some changes required */
 
     // ==================== Adds new Lead to HashMap for Leads====================
     //Increments Lead's id counter and returns the new id
-    public Integer setIdForNewLead() {
+    /*public Integer setIdForNewLead() {
         setLeadId(getLeadId() + 1);
         return getLeadId();
-    }
+    } TODO ID's are handled by the repo. Method may not be necessary*/
 
     //creating new lead
     public void addLead(String name, String phoneNumber, String email, String companyName) {
-//        Lead newLead = new Lead(name, phoneNumber, email, companyName);
-//        if (!leadHash.containsValue(newLead)) {
-//            Integer id = setIdForNewLead();
-//            newLead.setId(id);
-//            leadHash.putIfAbsent(id, newLead);
-//
-//        }
-        Integer id = setIdForNewLead();
-        Lead newLead = new Lead(id, name, phoneNumber, email, companyName);
+        Lead newLead = new Lead(name, phoneNumber, email, companyName);
         var allLeads = leadRepository.findAll();
-        boolean isPresent= false;
         for(var lead : allLeads){
             if(lead.equals(newLead)){
-                isPresent = true;
+                return;
             }
         }
-        if(!isPresent){
         leadRepository.save(newLead);
-        leadHash.putIfAbsent(id, newLead);
-        }
     }
 
     // ==================== Removes Lead from HashMap for Leads====================
     public void removeLead(Integer id) {
-        leadHash.remove(id);
         leadRepository.deleteById(id);
     }
 
     // Search a lead from id. If it doesn't exist throw exception
     public Lead lookupLeadId(Integer id) {
-        if (!hasLead(id)) {
+        Optional<Lead> lead = leadRepository.findById(id);
+        if (lead.isEmpty()) {
             throw new IllegalArgumentException("There is no Lead with id " + id);
         } else {
-//            return leadHash.get(id);
-            return leadRepository.getById(id);
+            return lead.get();
         }
     }
     // Search a opportunity from id. If it doesn't exist throw exception
     public Opportunity lookupOpportunityId(int id) {
-        if (!hasOpportunity(id)) {
+        Optional<Opportunity> opportunity = opportunityRepository.findById(id);
+        if (opportunity.isEmpty()) {
             throw new IllegalArgumentException("There is no Opportunity with id " + id);
         } else {
-//            return opportunityHash.get(id);
-            return opportunityRepository.getById(id);
+            return opportunity.get();
         }
     }
     // Search a contact from id. If it doesn't exist throw exception
     public Contact lookupContactId(int id) {
-        if (!hasContact(id)) {
+        Optional<Contact> contact = contactRepository.findById(id);
+        if (contact.isEmpty()) {
             throw new IllegalArgumentException("There is no Contact with id " + id);
         } else {
-//            return contactHash.get(id);
-            return contactRepository.getById(id);
+            return contact.get();
         }
     }
     // Search a account from id. If it doesn't exist throw exception
     public Account lookupAccountId(int id) {
-        if (!hasAccount(id)) {
+        Optional<Account> account = accountRepository.findById(id);
+        if (account.isEmpty()) {
             throw new IllegalArgumentException("There is no Account with id " + id);
         } else {
-//            return accountHash.get(id);
-            return accountRepository.getById(id);
+            return account.get();
+        }
+    }
+    // Search a salesrep from id. If it doesn't exist throw exception
+    public SalesRep lookupSalesRepId(int id) {
+        Optional<SalesRep> salesRep = salesRepRepository.findById(id);
+        if (salesRep.isEmpty()) {
+            throw new IllegalArgumentException("There is no SalesRep with id " + id);
+        } else {
+            return salesRep.get();
         }
     }
 
     // ==================== Adds new Contact to HashMap for Contacts====================
     //Increments Contact's id counter and returns the new id
-    public Integer setIdForNewContact() {
+    /*public Integer setIdForNewContact() {
         setContactId(getContactId() + 1);
         return getContactId();
-    }
+    } TODO ID's are handled by the repo. Method may not be necessary */
 
     //creating new contact (from lead)
-    public int addContact(Integer id) {
-//        Lead leadToConvert = leadHash.get(id);
+    public int addContact(Integer id,Account account) {
         Optional<Lead> leadToConvert = leadRepository.findById(id);
+        if (leadToConvert.isEmpty()){
+            throw new IllegalArgumentException("There is no lead with id " + id + "! Unable to convert");
+        }
         Contact newContact = new Contact(leadToConvert.get().getName(),
                 leadToConvert.get().getPhoneNumber(),
                 leadToConvert.get().getEmail(),
-                leadToConvert.get().getCompanyName());
+                leadToConvert.get().getCompanyName(), account);
+        contactRepository.save(newContact);
         removeLead(id);
-        if (contactHash.containsValue(newContact)){
-            return getContactKey(newContact);
-        } else {
-            id = setIdForNewContact();
-            newContact.setId(id);
-            contactRepository.save(newContact);
-            contactHash.putIfAbsent(id, newContact);
-            return id;
-        }
-
-
+        return newContact.getId();
     }
 
-    // Get key from contactHash containing a specific Contact
+    /*// Get key from contactHash containing a specific Contact
     private int getContactKey(Contact newContact) {
         TreeMap<Integer, Contact> contactTreeMap = new TreeMap<>(contactHash);
         for (Map.Entry<Integer, Contact> entry: contactTreeMap.entrySet()){
@@ -348,103 +305,131 @@ public class JsonDatabaseUtility {
             }
         }
         return -1;
-    }
+    } TODO method may be unnecessary*/
 
-    // ==================== Adds new Opportunity to HashMap for Opportunities====================
+    /*// ==================== Adds new Opportunity to HashMap for Opportunities====================
     //count of elements in HashMap for Opportunities (plus checks if this number is not used)
     public Integer setIdForNewOpportunity() {
         setOpportunityId(getOpportunityId() + 1);
         return getOpportunityId();
-    }
+    } TODO ID's are handled by the repo. Method may not be necessary */
 
     //creating new opportunity
-    public Opportunity addOpportunity(Product product, int quantity, Contact decisionMaker) {
-        Opportunity newOpportunity = new Opportunity(product, quantity, decisionMaker, Status.OPEN);
+    public Opportunity addOpportunity(Product product, int quantity, Contact decisionMaker, Account account) {
+        Opportunity newOpportunity = new Opportunity(product, quantity, decisionMaker, Status.OPEN, account);
         opportunityRepository.save(newOpportunity);
-        Integer id = newOpportunity.getId();
-//        Integer id = setIdForNewOpportunity();
-//        newOpportunity.setId(id);
-        opportunityHash.putIfAbsent(id, newOpportunity);
         return newOpportunity;
     }
 
-    // ==================== Adds new Account to HashMap for Accounts====================
+    /*// ==================== Adds new Account to HashMap for Accounts====================
     //count of elements in HashMap for Accounts (plus checks if this number is not used)
     public Integer setIdForNewAccount() {
         setAccountId(getAccountId() + 1);
         return getAccountId();
-    }
+    } TODO ID's are handled by the repo. Method may not be necessary */
 
     //second version with creating new account
-    public void addAccount(Industry industry, int employeeCount, String city, String country, Contact contact, Opportunity opportunity) {
-        Account newAccount = new Account(industry, employeeCount, city, country/*, contact, opportunity*/);
+    public Account addAccount(Industry industry, int employeeCount, String city, String country) {
+        Account newAccount = new Account(industry, employeeCount, city, country);
         accountRepository.save(newAccount);
-        Integer id = newAccount.getId();
-//        Integer id = setIdForNewAccount();
-//        newAccount.setId(id);
-        accountHash.putIfAbsent(id, newAccount);
-        contact.setAccount(newAccount);
-        contactRepository.save(contact);
-        opportunity.setAccountOpp(newAccount);
-        opportunityRepository.save(opportunity);
+        return newAccount;
     }
     // ==================== Converts Lead -> calls: addOpportunity, addAccount, addContact, removeLead====================
     public void convertLead(Integer id, Product product, int quantity, Industry industry, int employeeCount, String city, String country) {
-        id = addContact(id);
+        Account account = addAccount(industry, employeeCount, city, country);
+        try {
+            id = addContact(id, account);
+            Optional<Contact> decisionMaker = contactRepository.findById(id);
+            if (decisionMaker.isPresent()){
+                Opportunity newOpportunity = addOpportunity(product, quantity, decisionMaker.get(), account);
+            }else {
+                PrinterMenu.setWarning("Something went wrong, Lead converted but Contacted unable to be fetched!");
+            }
+        }catch (IllegalArgumentException e){
+            PrinterMenu.setWarning(e.getMessage());
+        }
+    }
+    // Convert lead with existing account
+    public void convertLead(Integer id, Product product, int quantity, int accountId) {
+        Optional<Account> account = accountRepository.findById(accountId);
+        if (account.isPresent()){
+            try {
+                id = addContact(id, account.get());
+                Optional<Contact> decisionMaker = contactRepository.findById(id);
+                if (decisionMaker.isPresent()){
+                    Opportunity newOpportunity = addOpportunity(product, quantity, decisionMaker.get(), account.get());
+
+                }else {
+                    PrinterMenu.setWarning("Something went wrong, Lead converted but Contacted unable to be fetched!");
+                }
+            }catch (IllegalArgumentException e){
+                PrinterMenu.setWarning(e.getMessage());
+            }
+        }else {
+            PrinterMenu.setWarning("Account with id " + accountId + " was not found!");
+        }
 //        Contact decisionMaker = contactRepository.getById(id);
-        Contact decisionMaker = contactHash.get(id);
-        Opportunity newOpportunity = addOpportunity(product, quantity, decisionMaker);
-        addAccount(industry, employeeCount, city, country, decisionMaker, newOpportunity);
+    }
+
+    public void addSalesRep(String name){
+        SalesRep salesRep = new SalesRep(name);
+        salesRepRepository.save(salesRep);
     }
 
     // Method to check if a lead exists with a specific id
     public boolean hasLead(int id) {
-       /* if (leadHash.get(id) == null) {
-            return false;
-        } else {
-            return true;
-        }*/
-        if (leadRepository.findById(id).isPresent()) {
-            return true;
-        }else{
-            return false;
-        }
+        return leadRepository.findById(id).isPresent();
     }
     // Method to check if a contact exists with a specific id
     public boolean hasContact(int id) {
-        if (contactHash.get(id) == null) {
-            return false;
-        } else {
-            return true;
-        }
+        return contactRepository.findById(id).isPresent();
     }
     // Method to check if a account exists with a specific id
     public boolean hasAccount(int id) {
-        if (accountHash.get(id) == null) {
-            return false;
-        } else {
-            return true;
-        }
+        return accountRepository.findById(id).isPresent();
     }
     // Method to check if a opportunity exists with a specific id
     public boolean hasOpportunity(int id) {
-        if (opportunityHash.get(id) == null) {
-            return false;
-        } else {
-            return true;
-        }
+        return opportunityRepository.findById(id).isPresent();
+    }
+    //Method to check if a salesRep exists with a specific id
+    public boolean hasSalesRep(int id){ return salesRepRepository.findById(id).isPresent(); }
+
+    public Account getAccountById(int id) {
+        return accountRepository.findById(id).orElse(null);
     }
 
-    @Override
+    public List<Lead> getAllLeads(){
+        return leadRepository.findAll();
+    }
+    public List<Contact> getAllContacts(){
+        return contactRepository.findAll();
+    }
+    public List<Opportunity> getAllOpportunities(){
+        return opportunityRepository.findAll();
+    }
+    public List<Account> getAllAccounts(){
+        return accountRepository.findAll();
+    }
+    public List<SalesRep> getAllSalesRep(){
+        return salesRepRepository.findAll();
+    }
+
+    /*@Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        JsonDatabaseUtility that = (JsonDatabaseUtility) o;
+        DatabaseUtility that = (DatabaseUtility) o;
         return Objects.equals(opportunityId, that.opportunityId) && Objects.equals(accountId, that.accountId) && Objects.equals(leadHash, that.leadHash) && Objects.equals(contactHash, that.contactHash) && Objects.equals(opportunityHash, that.opportunityHash) && Objects.equals(accountHash, that.accountHash);
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(opportunityId, accountId, leadHash, contactHash, opportunityHash, accountHash);
-    }
+    } TODO probably these methods aren't needed anymore*/
 }
+
+
+
+
+

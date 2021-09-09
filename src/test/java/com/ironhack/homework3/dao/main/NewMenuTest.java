@@ -1,4 +1,4 @@
-package com.ironhack.homework3.dao.main;
+/*package com.ironhack.homework3.dao.main;
 
 import com.ironhack.homework3.dao.classes.Contact;
 import com.ironhack.homework3.enums.Product;
@@ -7,7 +7,7 @@ import com.ironhack.homework3.repository.AccountRepository;
 import com.ironhack.homework3.repository.ContactRepository;
 import com.ironhack.homework3.repository.LeadRepository;
 import com.ironhack.homework3.repository.OpportunityRepository;
-import com.ironhack.homework3.utils.JsonDatabaseUtility;
+import com.ironhack.homework3.utils.DatabaseUtility;
 import com.ironhack.homework3.utils.PrinterMenu;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -23,7 +23,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 class NewMenuTest {
 
-    JsonDatabaseUtility initialDatabase;
+    DatabaseUtility initialDatabase;
     ByteArrayInputStream input;
 
     @Autowired
@@ -44,7 +44,7 @@ class NewMenuTest {
 
     @BeforeEach
     void setUp() throws IOException {
-        initialDatabase = new JsonDatabaseUtility(leadRepository, contactRepository, accountRepository, opportunityRepository, "dummy");
+        initialDatabase = new DatabaseUtility(leadRepository, contactRepository, accountRepository, opportunityRepository, "dummy");
         initialDatabase.load();
 
         input = new ByteArrayInputStream("new lead\nBen\n123456789\nben@ironhack.com\nIronhack\n \nexit\n ".getBytes());
@@ -69,7 +69,7 @@ class NewMenuTest {
         assertTrue(fileDeleted);
         menu = new Menu(leadRepository, contactRepository, accountRepository, opportunityRepository);
 
-        JsonDatabaseUtility menuDatabase = menu.getDatabase();
+        DatabaseUtility menuDatabase = menu.getDatabase();
         assertEquals(0,menuDatabase.getLeadHash().size());
         assertEquals(0,menuDatabase.getContactHash().size());
         assertEquals(0,menuDatabase.getOpportunityHash().size());
@@ -104,7 +104,7 @@ class NewMenuTest {
     @DisplayName("Add prompted lead to the database")
     void mainNewMenu_NewLeadCommand_AddNewLead() throws IOException {
 
-        JsonDatabaseUtility databaseBeforeAddingLead = new JsonDatabaseUtility(leadRepository, contactRepository, accountRepository, opportunityRepository, "dummy");
+        DatabaseUtility databaseBeforeAddingLead = new DatabaseUtility(leadRepository, contactRepository, accountRepository, opportunityRepository, "dummy");
         databaseBeforeAddingLead.load();
 
         int initialSize = databaseBeforeAddingLead.getLeadHash().size();
@@ -114,7 +114,7 @@ class NewMenuTest {
 
         menu.mainMenu();
 
-        JsonDatabaseUtility databaseAfterAddingLead = new JsonDatabaseUtility(leadRepository, contactRepository, accountRepository, opportunityRepository, "dummy");
+        DatabaseUtility databaseAfterAddingLead = new DatabaseUtility(leadRepository, contactRepository, accountRepository, opportunityRepository, "dummy");
         databaseAfterAddingLead.load();
 
         int finalSize = databaseAfterAddingLead.getLeadHash().size();
@@ -125,7 +125,7 @@ class NewMenuTest {
     @Test
     @DisplayName("Add Contact, Opportunity and Account when converting Lead")
     void mainNewMenu_ConvertCommand_NewLOpportunityAccountContact() throws IOException {
-        JsonDatabaseUtility databaseBeforeConverting = new JsonDatabaseUtility(leadRepository, contactRepository, accountRepository, opportunityRepository, "dummy");
+        DatabaseUtility databaseBeforeConverting = new DatabaseUtility(leadRepository, contactRepository, accountRepository, opportunityRepository, "dummy");
         databaseBeforeConverting.load();
         int initialLeadSize = databaseBeforeConverting.getLeadHash().size();
         int initialContactSize = databaseBeforeConverting.getContactHash().size();
@@ -137,7 +137,7 @@ class NewMenuTest {
 
         menu.mainMenu();
 
-        JsonDatabaseUtility databaseAfterConverting = new JsonDatabaseUtility(leadRepository, contactRepository, accountRepository, opportunityRepository, "dummy");
+        DatabaseUtility databaseAfterConverting = new DatabaseUtility(leadRepository, contactRepository, accountRepository, opportunityRepository, "dummy");
         databaseAfterConverting.load();
         int finalLeadSize = databaseAfterConverting.getLeadHash().size();
         int finalContactSize = databaseAfterConverting.getContactHash().size();
@@ -177,7 +177,7 @@ class NewMenuTest {
 
         menu.mainMenu();
 
-        JsonDatabaseUtility databaseAfterStatusChange = new JsonDatabaseUtility(leadRepository, contactRepository, accountRepository, opportunityRepository, "dummy");
+        DatabaseUtility databaseAfterStatusChange = new DatabaseUtility(leadRepository, contactRepository, accountRepository, opportunityRepository, "dummy");
         databaseAfterStatusChange.load();
 
         assertEquals(Status.CLOSED_WON, databaseAfterStatusChange.getOpportunityHash().get(1).getStatus());
@@ -192,7 +192,7 @@ class NewMenuTest {
 
         menu.mainMenu();
 
-        JsonDatabaseUtility databaseAfterStatusChange = new JsonDatabaseUtility(leadRepository, contactRepository, accountRepository, opportunityRepository, "dummy");
+        DatabaseUtility databaseAfterStatusChange = new DatabaseUtility(leadRepository, contactRepository, accountRepository, opportunityRepository, "dummy");
         databaseAfterStatusChange.load();
 
         assertEquals(Status.CLOSED_LOST, databaseAfterStatusChange.getOpportunityHash().get(1).getStatus());
@@ -281,7 +281,7 @@ class NewMenuTest {
     @DisplayName("Compute new lead command")
     void computeCommand_NewLeadCommand_AddNewLead() throws IOException {
 
-        JsonDatabaseUtility databaseBeforeAddingLead = new JsonDatabaseUtility(leadRepository, contactRepository, accountRepository, opportunityRepository, "dummy");
+        DatabaseUtility databaseBeforeAddingLead = new DatabaseUtility(leadRepository, contactRepository, accountRepository, opportunityRepository, "dummy");
         databaseBeforeAddingLead.load();
         int initialSize = databaseBeforeAddingLead.getLeadHash().size();
 
@@ -290,7 +290,7 @@ class NewMenuTest {
 
         menu.computeCommand("new lead");
 
-        JsonDatabaseUtility databaseAfterAddingLead = menu.getDatabase();
+        DatabaseUtility databaseAfterAddingLead = menu.getDatabase();
         int finalSize = databaseAfterAddingLead.getLeadHash().size();
 
         assertEquals(initialSize + 1, finalSize);
@@ -299,7 +299,7 @@ class NewMenuTest {
     @Test
     @DisplayName("Compute convert command")
     void computeCommand_ConvertCommand_NewLOpportunityAccountContact() throws IOException {
-        JsonDatabaseUtility databaseBeforeConverting = new JsonDatabaseUtility(leadRepository, contactRepository, accountRepository, opportunityRepository, "dummy");
+        DatabaseUtility databaseBeforeConverting = new DatabaseUtility(leadRepository, contactRepository, accountRepository, opportunityRepository, "dummy");
         databaseBeforeConverting.load();
         int initialLeadSize = databaseBeforeConverting.getLeadHash().size();
         int initialContactSize = databaseBeforeConverting.getContactHash().size();
@@ -311,7 +311,7 @@ class NewMenuTest {
 
         menu.computeCommand("convert 1");
 
-        JsonDatabaseUtility databaseAfterConverting = menu.getDatabase();
+        DatabaseUtility databaseAfterConverting = menu.getDatabase();
         int finalLeadSize = databaseAfterConverting.getLeadHash().size();
         int finalContactSize = databaseAfterConverting.getContactHash().size();
         int finalOpportunitySize = databaseAfterConverting.getOpportunityHash().size();
@@ -328,7 +328,7 @@ class NewMenuTest {
     void computeCommand_CloseWon_ChangeStatusToCloseWon() throws FileNotFoundException {
         menu = new Menu(leadRepository, contactRepository, accountRepository, opportunityRepository);
 
-        JsonDatabaseUtility menuDatabase = menu.getDatabase();
+        DatabaseUtility menuDatabase = menu.getDatabase();
         menuDatabase.addOpportunity(Product.BOX, 100,
                 new Contact("John", "123", "john@ironhack.com", "Ironhack"));
 
@@ -342,7 +342,7 @@ class NewMenuTest {
     void computeCommand_CloseLost_ChangeStatusToCloseLost() throws FileNotFoundException {
         menu = new Menu(leadRepository, contactRepository, accountRepository, opportunityRepository);
 
-        JsonDatabaseUtility menuDatabase = menu.getDatabase();
+        DatabaseUtility menuDatabase = menu.getDatabase();
         menuDatabase.addOpportunity(Product.BOX, 100,
                 new Contact("John", "123", "john@ironhack.com", "Ironhack"));
 
@@ -366,4 +366,4 @@ class NewMenuTest {
         menu.computeCommand("lookup account 5");
         assertEquals(PrinterMenu.getWarning(), "There is no Account with id 5");
     }
-}
+}*/
