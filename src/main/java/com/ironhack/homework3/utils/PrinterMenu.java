@@ -15,7 +15,7 @@ public class PrinterMenu extends Printer {
     private static final String[] menuLine = {"", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""};
 
     private static void clearAll() {
-        setMenuLines("", 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23);
+        setMenuLines("", 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21);
     }
 
     // Set one or multiple lines of the menu String array to the String passed in
@@ -77,7 +77,7 @@ public class PrinterMenu extends Printer {
     private static void mainMenuLines() {
         clearAll();
         setMenuLines("Welcome to Ben's CRM program.", 1);
-        setMenuLines("Enter " + HIGHLIGHT_COLOR + "help" + ANSI_RESET + " for a list of valid commands!", 20);
+        setMenuLines("Enter " + HIGHLIGHT_COLOR + "help (-a)" + ANSI_RESET + " for a list of valid commands!", 20);
         setMenuLines("Enter " + HIGHLIGHT_COLOR + "exit" + ANSI_RESET + " to close the application!", 21);
     }
 
@@ -94,12 +94,12 @@ public class PrinterMenu extends Printer {
         clearAll();
         setMenuLines("Welcome to Ben's CRM program. Here are the main commands:", 1);
         setMenuLines(HIGHLIGHT_COLOR + "new lead" + ANSI_RESET + " - Creates a new Lead", 4);
-        setMenuLines(HIGHLIGHT_COLOR + "new sales-rep" + ANSI_RESET + " - Creates a new Sales Representative", 6);
+        setMenuLines(HIGHLIGHT_COLOR + "new salesrep" + ANSI_RESET + " - Creates a new Sales Representative", 6);
         setMenuLines(HIGHLIGHT_COLOR + "convert <ID>" + ANSI_RESET + " - Converts a Lead into an Opportunity", 8);
         setMenuLines(HIGHLIGHT_COLOR + "close-won <ID>" + ANSI_RESET + " - Close Won Opportunity", 10);
         setMenuLines(HIGHLIGHT_COLOR + "close-lost <ID>" + ANSI_RESET + " - Close Lost Opportunity", 12);
-        setMenuLines(HIGHLIGHT_COLOR + "lookup <OBJECT> <ID>" + ANSI_RESET + " - Search for specific Lead, Opportunity, Account or Contact", 14);
-        setMenuLines(HIGHLIGHT_COLOR + "show <OBJECT PLURAL>" + ANSI_RESET + " - List all Leads, Opportunities, Accounts or Contacts", 16);
+        setMenuLines(HIGHLIGHT_COLOR + "lookup <OBJECT> <ID>" + ANSI_RESET + " - Search for specific Lead, Opportunity, Account, Contact or SalesRep", 14);
+        setMenuLines(HIGHLIGHT_COLOR + "show <OBJECT PLURAL>" + ANSI_RESET + " - List all Leads, Opportunities, Accounts, Contacts or SalesRep", 16);
         setMenuLines(HIGHLIGHT_COLOR + "help (-a)" + ANSI_RESET + " - Lists essential/all help commands", 20);
         setMenuLines(HIGHLIGHT_COLOR + "exit" + ANSI_RESET + " - Exits the program", 21);
     }
@@ -109,7 +109,7 @@ public class PrinterMenu extends Printer {
         clearAll();
         setMenuLines("Welcome to Ben's CRM program. Here are all the commands:", 1);
         setMenuLines(HIGHLIGHT_COLOR + "new lead" + ANSI_RESET + " - Creates a new Lead", 2);
-        setMenuLines(HIGHLIGHT_COLOR + "new sales-rep" + ANSI_RESET + " - Creates a new Sales Representative", 3);
+        setMenuLines(HIGHLIGHT_COLOR + "new salesrep" + ANSI_RESET + " - Creates a new Sales Representative", 3);
         setMenuLines(HIGHLIGHT_COLOR + "convert <ID>" + ANSI_RESET + " - Converts a Lead into an Opportunity", 4);
         setMenuLines(HIGHLIGHT_COLOR + "close-won <ID>" + ANSI_RESET + " - Close Won Opportunity", 5);
         setMenuLines(HIGHLIGHT_COLOR + "close-lost <ID>" + ANSI_RESET + " - Close Lost Opportunity", 6);

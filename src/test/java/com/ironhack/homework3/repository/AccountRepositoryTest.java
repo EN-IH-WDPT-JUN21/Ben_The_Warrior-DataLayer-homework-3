@@ -113,8 +113,157 @@ class AccountRepositoryTest {
 //        assertEquals(account.getId(), opportunity.getAccountOpp().getId());
 //    }
 
+//    void saveANewAccount() {
+//        var AccountCountBeforeSave = accountRepository.count();
+//        var contact = new Contact("Ben", "123643543", "Ben@BenIndustries.com", "Ben Industries");
+//        contactRepository.save(contact);
+//        var account = new Account(Industry.ECOMMERCE, 100, "Madrid", "Spain");
+//        accountRepository.save(account);
+//        var opportunity = new Opportunity(Product.HYBRID, 30000, contact, Status.OPEN, account);
+//        opportunityRepository.save(opportunity);
+//        var AccountCountAfterSave = accountRepository.count();
+//        contact.setAccount(account);
+//        contactRepository.save(contact);
+//        opportunity.setAccountOpp(account);
+//        opportunityRepository.save(opportunity);
+//        assertEquals(1, AccountCountAfterSave - AccountCountBeforeSave);
+//        assertEquals(account.getId(), contact.getAccount().getId());
+//        assertEquals(account.getId(), opportunity.getAccountOpp().getId());
+//    }
+
 
     // ============================== Custom Queries Testing ==============================
+    // ==================== 3 - Reporting Functionality By Country ====================
+    @Test
+    void getCountByCountry() {
+        List<IOpportunityCountryOrCityCount> countryCounts = accountRepository.countByCountry();
+        assertEquals("UK", countryCounts.get(0).getCountryOrCityComment());
+    }
+
+    @Test
+    void getCountByCountry_With_ClosedWonStatus() {
+        var contact = new Contact("Macho Man", "123643543", "Randy@savage.com", "WWF");
+        contactRepository.save(contact);
+        var account = new Account(Industry.ECOMMERCE, 200, "New York", "USA");
+        accountRepository.save(account);
+        var opportunity = new Opportunity(Product.HYBRID, 30000, contact, Status.CLOSED_WON, account);
+        opportunityRepository.save(opportunity);
+        List<IOpportunityCountryOrCityCount> countryCounts = accountRepository.countClosedWonByCountry();
+        assertEquals("USA", countryCounts.get(0).getCountryOrCityComment());
+    }
+
+    @Test
+    void getCountByCountry_With_ClosedLostStatus() {
+        var contact = new Contact("Genghis Khan", "123643543", "Khan@steppe.com", "KhanEmpire");
+        contactRepository.save(contact);
+        var account = new Account(Industry.ECOMMERCE, 200, "Karakorum", "Mongolia");
+        accountRepository.save(account);
+        var opportunity = new Opportunity(Product.HYBRID, 30000, contact, Status.CLOSED_LOST, account);
+        opportunityRepository.save(opportunity);
+        List<IOpportunityCountryOrCityCount> countryCounts = accountRepository.countClosedLostByCountry();
+        assertEquals("Mongolia", countryCounts.get(0).getCountryOrCityComment());
+    }
+
+    @Test
+    void getCountByCountry_With_OpenStatus() {
+        var contact = new Contact("Maurice Moss", "123643543", "Moss@thebasement.com", "Reynholm Industries");
+        contactRepository.save(contact);
+        var account = new Account(Industry.ECOMMERCE, 200, "London", "UK");
+        accountRepository.save(account);
+        var opportunity = new Opportunity(Product.HYBRID, 30000, contact, Status.OPEN, account);
+        opportunityRepository.save(opportunity);
+        List<IOpportunityCountryOrCityCount> countryCounts = accountRepository.countOpenByCountry();
+        assertEquals(2, countryCounts.get(0).getCountryOrCityCount());
+    }
+
+
+    // ==================== 4 - Reporting Functionality By City ====================
+    @Test
+    void getCountByCity() {
+        List<IOpportunityCountryOrCityCount> cityCounts = accountRepository.countByCity();
+        assertEquals("London", cityCounts.get(0).getCountryOrCityComment());
+    }
+
+    @Test
+    void getCountByCity_With_ClosedWonStatus() {
+        var contact = new Contact("Macho Man", "123643543", "Randy@savage.com", "WWF");
+        contactRepository.save(contact);
+        var account = new Account(Industry.ECOMMERCE, 200, "New York", "USA");
+        accountRepository.save(account);
+        var opportunity = new Opportunity(Product.HYBRID, 30000, contact, Status.CLOSED_WON, account);
+        opportunityRepository.save(opportunity);
+        List<IOpportunityCountryOrCityCount> cityCounts = accountRepository.countClosedWonByCity();
+        assertEquals("New York", cityCounts.get(0).getCountryOrCityComment());
+    }
+
+    @Test
+    void getCountByCity_With_ClosedLostStatus() {
+        var contact = new Contact("Genghis Khan", "123643543", "Khan@steppe.com", "KhanEmpire");
+        contactRepository.save(contact);
+        var account = new Account(Industry.ECOMMERCE, 200, "Karakorum", "Mongolia");
+        accountRepository.save(account);
+        var opportunity = new Opportunity(Product.HYBRID, 30000, contact, Status.CLOSED_LOST, account);
+        opportunityRepository.save(opportunity);
+        List<IOpportunityCountryOrCityCount> cityCounts = accountRepository.countClosedLostByCity();
+        assertEquals("Karakorum", cityCounts.get(0).getCountryOrCityComment());
+    }
+
+    @Test
+    void getCountByCity_With_OpenStatus() {
+        var contact = new Contact("Maurice Moss", "123643543", "Moss@thebasement.com", "Reynholm Industries");
+        contactRepository.save(contact);
+        var account = new Account(Industry.ECOMMERCE, 200, "London", "UK");
+        accountRepository.save(account);
+        var opportunity = new Opportunity(Product.HYBRID, 30000, contact, Status.OPEN, account);
+        opportunityRepository.save(opportunity);
+        List<IOpportunityCountryOrCityCount> cityCounts = accountRepository.countOpenByCity();
+        assertEquals(2, cityCounts.get(0).getCountryOrCityCount());
+    }
+
+    // ==================== 5 - Reporting Functionality By Industry ====================
+    @Test
+    void getCountByIndustry() {
+        List<IOpportunityIndustryCount> industryCounts = accountRepository.countByIndustry();
+        assertEquals(Industry.ECOMMERCE, industryCounts.get(0).getIndustryComment());
+    }
+
+    @Test
+    void getCountByIndustry_With_ClosedWonStatus() {
+        var contact = new Contact("Macho Man", "123643543", "Randy@savage.com", "WWF");
+        contactRepository.save(contact);
+        var account = new Account(Industry.OTHER, 200, "New York", "USA");
+        accountRepository.save(account);
+        var opportunity = new Opportunity(Product.HYBRID, 30000, contact, Status.CLOSED_WON, account);
+        opportunityRepository.save(opportunity);
+        List<IOpportunityIndustryCount> industryCounts = accountRepository.countClosedWonByIndustry();
+        assertEquals(Industry.OTHER, industryCounts.get(0).getIndustryComment());
+    }
+
+    @Test
+    void getCountByIndustry_With_ClosedLostStatus() {
+        var contact = new Contact("Genghis Khan", "123643543", "Khan@steppe.com", "KhanEmpire");
+        contactRepository.save(contact);
+        var account = new Account(Industry.PRODUCE, 200, "Karakorum", "Mongolia");
+        accountRepository.save(account);
+        var opportunity = new Opportunity(Product.HYBRID, 30000, contact, Status.CLOSED_LOST, account);
+        opportunityRepository.save(opportunity);
+        List<IOpportunityIndustryCount> industryCounts = accountRepository.countClosedLostByIndustry();
+        assertEquals(Industry.PRODUCE, industryCounts.get(0).getIndustryComment());
+    }
+
+    @Test
+    void getCountByIndustry_With_OpenStatus() {
+        var contact = new Contact("Maurice Moss", "123643543", "Moss@thebasement.com", "Reynholm Industries");
+        contactRepository.save(contact);
+        var account = new Account(Industry.ECOMMERCE, 200, "London", "UK");
+        accountRepository.save(account);
+        var opportunity = new Opportunity(Product.HYBRID, 30000, contact, Status.OPEN, account);
+        opportunityRepository.save(opportunity);
+        List<IOpportunityIndustryCount> industryCounts = accountRepository.countOpenByIndustry();
+        assertEquals(2, industryCounts.get(0).getIndustryCount());
+    }
+
+
     // ==================== 6 - Reporting Functionality EmployeeCount States ====================
     @Test
     void testMeanEmployeeCount() {
@@ -228,158 +377,4 @@ class AccountRepositoryTest {
         assertEquals(9, accountRepository.maxOpportunities());
     }
 
-
-    void saveANewAccount(){
-        var AccountCountBeforeSave = accountRepository.count();
-        var contact = new Contact("Ben", "123643543", "Ben@BenIndustries.com", "Ben Industries");
-        contact.setId(101);
-        contactRepository.save(contact);
-        var account = new Account(Industry.ECOMMERCE, 100, "Madrid", "Spain");
-        accountRepository.save(account);
-        var opportunity = new Opportunity(Product.HYBRID, 30000, contact, Status.OPEN, account);
-        opportunityRepository.save(opportunity);
-        var AccountCountAfterSave = accountRepository.count();
-        contact.setAccount(account);
-        contactRepository.save(contact);
-        opportunity.setAccountOpp(account);
-        opportunityRepository.save(opportunity);
-        assertEquals(1, AccountCountAfterSave - AccountCountBeforeSave);
-        assertEquals(account.getId(), contact.getAccount().getId());
-        assertEquals(account.getId(), opportunity.getAccountOpp().getId());
-    }
-
-    @Test
-    void getCountByCountry(){
-        List<IOpportunityCountryOrCityCount> countryCounts = accountRepository.countByCountry();
-        assertEquals("UK", countryCounts.get(0).getCountryOrCityComment());
-    }
-
-    @Test
-    void getCountByCountry_With_ClosedWonStatus(){
-        var contact = new Contact("Macho Man", "123643543", "Randy@savage.com", "WWF");
-        contact.setId(101);
-        contactRepository.save(contact);
-        var account = new Account(Industry.ECOMMERCE, 200, "New York", "USA");
-        accountRepository.save(account);
-        var opportunity = new Opportunity(Product.HYBRID, 30000, contact, Status.CLOSED_WON, account);
-        opportunityRepository.save(opportunity);
-        List<IOpportunityCountryOrCityCount> countryCounts = accountRepository.countClosedWonByCountry();
-        assertEquals("USA", countryCounts.get(0).getCountryOrCityComment());
-    }
-
-    @Test
-    void getCountByCountry_With_ClosedLostStatus(){
-        var contact = new Contact("Genghis Khan", "123643543", "Khan@steppe.com", "KhanEmpire");
-        contact.setId(102);
-        contactRepository.save(contact);
-        var account = new Account(Industry.ECOMMERCE, 200, "Karakorum", "Mongolia");
-        accountRepository.save(account);
-        var opportunity = new Opportunity(Product.HYBRID, 30000, contact, Status.CLOSED_LOST, account);
-        opportunityRepository.save(opportunity);
-        List<IOpportunityCountryOrCityCount> countryCounts = accountRepository.countClosedLostByCountry();
-        assertEquals("Mongolia", countryCounts.get(0).getCountryOrCityComment());
-    }
-
-    @Test
-    void getCountByCountry_With_OpenStatus(){
-        var contact = new Contact("Maurice Moss", "123643543", "Moss@thebasement.com", "Reynholm Industries");
-        contact.setId(102);
-        contactRepository.save(contact);
-        var account = new Account(Industry.ECOMMERCE, 200, "London", "UK");
-        accountRepository.save(account);
-        var opportunity = new Opportunity(Product.HYBRID, 30000, contact, Status.OPEN, account);
-        opportunityRepository.save(opportunity);
-        List<IOpportunityCountryOrCityCount> countryCounts = accountRepository.countOpenByCountry();
-        assertEquals(2, countryCounts.get(0).getCountryOrCityCount());
-    }
-
-    @Test
-    void getCountByCity(){
-        List<IOpportunityCountryOrCityCount> cityCounts = accountRepository.countByCity();
-        assertEquals("London", cityCounts.get(0).getCountryOrCityComment());
-    }
-
-    @Test
-    void getCountByCity_With_ClosedWonStatus(){
-        var contact = new Contact("Macho Man", "123643543", "Randy@savage.com", "WWF");
-        contact.setId(101);
-        contactRepository.save(contact);
-        var account = new Account(Industry.ECOMMERCE, 200, "New York", "USA");
-        accountRepository.save(account);
-        var opportunity = new Opportunity(Product.HYBRID, 30000, contact, Status.CLOSED_WON, account);
-        opportunityRepository.save(opportunity);
-        List<IOpportunityCountryOrCityCount> cityCounts = accountRepository.countClosedWonByCity();
-        assertEquals("New York", cityCounts.get(0).getCountryOrCityComment());
-    }
-
-    @Test
-    void getCountByCity_With_ClosedLostStatus(){
-        var contact = new Contact("Genghis Khan", "123643543", "Khan@steppe.com", "KhanEmpire");
-        contact.setId(102);
-        contactRepository.save(contact);
-        var account = new Account(Industry.ECOMMERCE, 200, "Karakorum", "Mongolia");
-        accountRepository.save(account);
-        var opportunity = new Opportunity(Product.HYBRID, 30000, contact, Status.CLOSED_LOST, account);
-        opportunityRepository.save(opportunity);
-        List<IOpportunityCountryOrCityCount> cityCounts = accountRepository.countClosedLostByCity();
-        assertEquals("Karakorum", cityCounts.get(0).getCountryOrCityComment());
-    }
-
-    @Test
-    void getCountByCity_With_OpenStatus(){
-        var contact = new Contact("Maurice Moss", "123643543", "Moss@thebasement.com", "Reynholm Industries");
-        contact.setId(102);
-        contactRepository.save(contact);
-        var account = new Account(Industry.ECOMMERCE, 200, "London", "UK");
-        accountRepository.save(account);
-        var opportunity = new Opportunity(Product.HYBRID, 30000, contact, Status.OPEN, account);
-        opportunityRepository.save(opportunity);
-        List<IOpportunityCountryOrCityCount> cityCounts = accountRepository.countOpenByCity();
-        assertEquals(2, cityCounts.get(0).getCountryOrCityCount());
-    }
-
-    @Test
-    void getCountByIndustry(){
-        List<IOpportunityIndustryCount> industryCounts = accountRepository.countByIndustry();
-        assertEquals(Industry.ECOMMERCE, industryCounts.get(0).getIndustryComment());
-    }
-
-    @Test
-    void getCountByIndustry_With_ClosedWonStatus(){
-        var contact = new Contact("Macho Man", "123643543", "Randy@savage.com", "WWF");
-        contact.setId(101);
-        contactRepository.save(contact);
-        var account = new Account(Industry.OTHER, 200, "New York", "USA");
-        accountRepository.save(account);
-        var opportunity = new Opportunity(Product.HYBRID, 30000, contact, Status.CLOSED_WON, account);
-        opportunityRepository.save(opportunity);
-        List<IOpportunityIndustryCount> industryCounts = accountRepository.countClosedWonByIndustry();
-        assertEquals(Industry.OTHER, industryCounts.get(0).getIndustryComment());
-    }
-
-    @Test
-    void getCountByIndustry_With_ClosedLostStatus(){
-        var contact = new Contact("Genghis Khan", "123643543", "Khan@steppe.com", "KhanEmpire");
-        contact.setId(102);
-        contactRepository.save(contact);
-        var account = new Account(Industry.PRODUCE, 200, "Karakorum", "Mongolia");
-        accountRepository.save(account);
-        var opportunity = new Opportunity(Product.HYBRID, 30000, contact, Status.CLOSED_LOST, account);
-        opportunityRepository.save(opportunity);
-        List<IOpportunityIndustryCount> industryCounts = accountRepository.countClosedLostByIndustry();
-        assertEquals(Industry.PRODUCE, industryCounts.get(0).getIndustryComment());
-    }
-
-    @Test
-    void getCountByIndustry_With_OpenStatus(){
-        var contact = new Contact("Maurice Moss", "123643543", "Moss@thebasement.com", "Reynholm Industries");
-        contact.setId(102);
-        contactRepository.save(contact);
-        var account = new Account(Industry.ECOMMERCE, 200, "London", "UK");
-        accountRepository.save(account);
-        var opportunity = new Opportunity(Product.HYBRID, 30000, contact, Status.OPEN, account);
-        opportunityRepository.save(opportunity);
-        List<IOpportunityIndustryCount> industryCounts = accountRepository.countOpenByIndustry();
-        assertEquals(2, industryCounts.get(0).getIndustryCount());
-    }
 }
