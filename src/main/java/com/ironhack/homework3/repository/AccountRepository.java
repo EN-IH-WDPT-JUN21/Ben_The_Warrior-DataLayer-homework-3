@@ -11,6 +11,48 @@ import java.util.List;
 
 @Repository
 public interface AccountRepository extends JpaRepository<Account, Integer> {
+
+
+    // ============================== QUERIES 6 - Reporting Functionality EmployeeCount States ==============================
+    // 1. Mean EmployeeCount
+    @Query("SELECT AVG(a.employeeCount) FROM Account a")
+    double meanEmployeeCount();
+
+    // 2. Median EmployeeCount - returns all the employeeCounts ordered and uses an util method to calculate Median
+    @Query("SELECT a.employeeCount AS ec FROM Account a " +
+            "ORDER BY ec")
+    List<Integer> orderedListOfEmployeeCount();
+
+    // 3. Max EmployeeCount
+    @Query("SELECT MIN(a.employeeCount) FROM Account a")
+    int minEmployeeCount();
+
+    // 4. Min EmployeeCount
+    @Query("SELECT MAX(a.employeeCount) FROM Account a")
+    int maxEmployeeCount();
+
+    // ============================== QUERIES 8 - Reporting Functionality Opportunity States ==============================
+    // 1. Mean Opps per Account
+    @Query(value = "SELECT AVG(a.count) FROM (SELECT count(*) AS count FROM opportunity GROUP BY account_id HAVING account_id IS NOT NULL) a", nativeQuery = true)
+    double meanOpportunities();
+
+    // 2. Median Opps per Account - returns all the opportunitiesCount ordered and uses an util method to calculate Median
+    @Query(value = "SELECT count(*) AS nrOpp FROM opportunity " +
+            "GROUP BY account_id " +
+            "HAVING account_id IS NOT NULL" +
+            "ORDER BY nrOpp", nativeQuery = true)
+    List<Integer> orderListOfOpportunities();
+
+    // 3. Max Opps per Account
+    @Query(value = "SELECT MIN(a.count) FROM (SELECT count(*) AS count FROM opportunity GROUP BY account_id HAVING account_id IS NOT NULL) a", nativeQuery = true)
+    int minOpportunities();
+
+    // 4. Min Opps per Account
+    @Query(value = "SELECT MAX(a.count) FROM (SELECT count(*) AS count FROM opportunity GROUP BY account_id HAVING account_id IS NOT NULL) a", nativeQuery = true)
+    int maxOpportunities();
+
+
+
     @Query("SELECT a.country AS countryOrCityComment, COUNT(o) AS countryOrCityCount FROM Account a " +
             "LEFT JOIN a.opportunityList o " +
             "GROUP BY a.country ORDER BY COUNT(o) DESC")

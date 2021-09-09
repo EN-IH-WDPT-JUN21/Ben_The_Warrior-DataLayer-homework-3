@@ -7,6 +7,8 @@ import com.ironhack.homework3.enums.Status;
 import com.ironhack.homework3.utils.DatabaseUtility;
 import com.ironhack.homework3.utils.Printer;
 import com.ironhack.homework3.utils.PrinterMenu;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -17,23 +19,24 @@ import static com.ironhack.homework3.utils.Utils.*;
 import static com.ironhack.homework3.utils.Utils.validLocation;
 
 @Component
+@Getter
+@Setter
 public class Menu {
+
     private final Scanner scanner;
+
     @Autowired
     private DatabaseUtility db;
     //private final JsonDatabaseUtility db; TODO remove if not necessary
 
     // Variable to check if the user asked for the available commands
     private boolean showHelp;
+    private boolean showAllHelp;
 
     public Menu() {
         scanner = new Scanner(System.in);
-        /*try {
-            db.load();
-        } catch (Exception e) {
-            PrinterMenu.setWarning(e.getMessage());
-        }*/
         setShowHelp(false);
+        setShowAllHelp(false);
     }
 
 /*    private static final Menu menu = new Menu();
@@ -49,20 +52,14 @@ public class Menu {
         for (var c : allLeads) System.out.println("Our menu includes: " + c.getName());
     }*/
 
-
     public Menu(InputStream inputStream){
         scanner = new Scanner(inputStream);
-        db  = new DatabaseUtility();
+        db = new DatabaseUtility();
         setShowHelp(false);
+        setShowAllHelp(false);
     }
 
-    public boolean isShowHelp() {
-        return showHelp;
-    }
 
-    public void setShowHelp(boolean showHelp) {
-        this.showHelp = showHelp;
-    }
 
     // Core method of the application. This method is running while the app is running and only returns when closing the app
     public void mainMenu() {
@@ -71,9 +68,12 @@ public class Menu {
         showHelp = false;
         while (running) {
             // if the user asked for available commands print help menu, otherwise print main menu
-            if (isShowHelp()){
+            if (isShowHelp()) {
                 PrinterMenu.printMenu("help");
                 setShowHelp(false);
+            } else if (isShowAllHelp()) {
+                PrinterMenu.printMenu("help -a");
+                setShowAllHelp(false);
             } else {
                 PrinterMenu.printMenu("main");
             }
@@ -94,7 +94,7 @@ public class Menu {
         // commands are computed word by word and the appropriate method is called
         switch (inputArray[0]) {
             case "new":
-                if (inputArray[1].equals("lead")){
+                if (inputArray[1].equals("lead")) {
                     promptLead();
                 }else if (inputArray[1].equals("salesrep")){
                     promptSalesRep();
@@ -206,7 +206,11 @@ public class Menu {
                 break;
             // show help menu with all available commands
             case "help":
-                setShowHelp(true);
+                if (inputArray.length == 2) {
+                    if (inputArray[1].equals("-a"))
+                        setShowAllHelp(true);
+                } else
+                    setShowHelp(true);
                 break;
             /*// sava database into json file
             case "save":
@@ -221,7 +225,7 @@ public class Menu {
                 /*if (promptDecision("exit")){
                     try{
                         db.save();
-                    }catch (IOException e){
+                    } catch (IOException e) {
                         PrinterMenu.setWarning("An error as occurred. Database was not successfully saved!");
                     }
                 }*/
@@ -233,7 +237,7 @@ public class Menu {
     }
 
     // Method to create the menu when looking up an account
-    private void lookupAccountMenu(Account account){
+    private void lookupAccountMenu(Account account) {
         PrinterMenu.lookupObject(account);
         // Allow user to see list of contacts and opportunities n the looked up account
         while (true) {
@@ -321,7 +325,6 @@ public class Menu {
                     promptDecision("enter");
                     return;
                 }
-
             case "contacts":
                 List<Contact> contactList = db.getAllContacts();
                 if (contactList.size() > 0){
@@ -382,7 +385,6 @@ public class Menu {
                     promptDecision("enter");
                     return;
                 }
-
             case "opportunities":
                 List<Opportunity> opportunityList = db.getAllOpportunities();
                 if (opportunityList.size() > 0){
@@ -443,7 +445,6 @@ public class Menu {
                     promptDecision("enter");
                     return;
                 }
-
             case "accounts":
                 List<Account> accountList = db.getAllAccounts();
                 if (accountList.size() > 0){
@@ -631,6 +632,7 @@ public class Menu {
             }
         }
     }
+
     // Method to create the menu showing all available Opportunities in a List
     private void showOpportunitiesMenu(List<Opportunity> opportunityList) {
         int maxElements = PrinterMenu.getPrintMultipleObjectsMax();
@@ -821,7 +823,7 @@ public class Menu {
     }
 
     // Method to ask for the user decision - more than 2 outcomes
-    private int promptMultipleDecisions(String... choices){
+    private int promptMultipleDecisions(String... choices) {
         if (choices.length == 0) {
             throw new IllegalArgumentException();
         }
