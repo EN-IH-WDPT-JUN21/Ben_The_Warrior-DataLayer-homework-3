@@ -14,71 +14,71 @@ public interface OpportunityRepository extends JpaRepository<Opportunity, Intege
 
 
 
-    @Query("SELECT a.country AS countryOrCityComment, COUNT(a.country) AS countryOrCityCount FROM Opportunity o, Account a " +
-            "LEFT JOIN o.accountOpp a " +
+    @Query("SELECT a.country AS countryOrCityComment, COUNT(a.country) AS countryOrCityCount FROM Account a " +
+            "LEFT JOIN a.opportunityList o " +
             "GROUP BY a.country ORDER BY COUNT(a.country) DESC")
     List<IOpportunityCountryOrCityCount> countByCountry();
 
-    @Query("SELECT a.country AS countryOrCityComment, COUNT(a.country) AS countryOrCityCount FROM Opportunity o, Account a " +
-            "LEFT JOIN o.accountOpp a " +
+    @Query("SELECT a.country AS countryOrCityComment, COUNT(a.country) AS countryOrCityCount FROM Account a " +
+            "LEFT JOIN a.opportunityList o " +
             "WHERE o.status ='CLOSED_WON'" +
             "GROUP BY a.country ORDER BY COUNT(a.country) DESC")
     List<IOpportunityCountryOrCityCount> countClosedWonByCountry();
 
-    @Query("SELECT a.country AS countryOrCityComment, COUNT(a.country) AS countryOrCityCount FROM Opportunity o, Account a " +
-            "LEFT JOIN o.accountOpp a " +
+    @Query("SELECT a.country AS countryOrCityComment, COUNT(a.country) AS countryOrCityCount FROM Account a " +
+            "LEFT JOIN a.opportunityList o " +
             "WHERE o.status ='CLOSED_LOST'" +
             "GROUP BY a.country ORDER BY COUNT(a.country) DESC")
     List<IOpportunityCountryOrCityCount> countClosedLostByCountry();
 
-    @Query("SELECT a.country AS countryOrCityComment, COUNT(a.country) AS countryOrCityCount FROM Opportunity o, Account a " +
-            "LEFT JOIN o.accountOpp a " +
+    @Query("SELECT a.country AS countryOrCityComment, COUNT(a.country) AS countryOrCityCount FROM Account a " +
+            "LEFT JOIN a.opportunityList o " +
             "WHERE o.status ='OPEN'" +
             "GROUP BY a.country ORDER BY COUNT(a.country) DESC")
     List<IOpportunityCountryOrCityCount> countOpenByCountry();
 
-    @Query("SELECT a.city AS countryOrCityComment, COUNT(a.city) AS countryOrCityCount FROM Opportunity o, Account a " +
-            "LEFT JOIN o.accountOpp a " +
+    @Query("SELECT a.city AS countryOrCityComment, COUNT(a.city) AS countryOrCityCount FROM Account a " +
+            "LEFT JOIN a.opportunityList o " +
             "GROUP BY a.city ORDER BY COUNT(a.city) DESC")
     List<IOpportunityCountryOrCityCount> countByCity();
 
-    @Query("SELECT a.city AS countryOrCityComment, COUNT(a.city) AS countryOrCityCount FROM Opportunity o, Account a " +
-            "LEFT JOIN o.accountOpp a " +
+    @Query("SELECT a.city AS countryOrCityComment, COUNT(a.city) AS countryOrCityCount FROM Account a " +
+            "LEFT JOIN a.opportunityList o " +
             "WHERE o.status ='CLOSED_WON'" +
             "GROUP BY a.city ORDER BY COUNT(a.city) DESC")
     List<IOpportunityCountryOrCityCount> countClosedWonByCity();
 
-    @Query("SELECT a.city AS countryOrCityComment, COUNT(a.city) AS countryOrCityCount FROM Opportunity o, Account a " +
-            "LEFT JOIN o.accountOpp a " +
+    @Query("SELECT a.city AS countryOrCityComment, COUNT(a.city) AS countryOrCityCount FROM Account a " +
+            "LEFT JOIN a.opportunityList o " +
             "WHERE o.status ='CLOSED_LOST'" +
             "GROUP BY a.city ORDER BY COUNT(a.city) DESC")
     List<IOpportunityCountryOrCityCount> countClosedLostByCity();
 
-    @Query("SELECT a.city AS countryOrCityComment, COUNT(a.city) AS countryOrCityCount FROM Opportunity o, Account a " +
-            "LEFT JOIN o.accountOpp a " +
+    @Query("SELECT a.city AS countryOrCityComment, COUNT(a.city) AS countryOrCityCount FROM Account a " +
+            "LEFT JOIN a.opportunityList o " +
             "WHERE o.status ='OPEN'" +
             "GROUP BY a.city ORDER BY COUNT(a.city) DESC")
     List<IOpportunityCountryOrCityCount> countOpenByCity();
 
-    @Query("SELECT a.industry AS industryComment, COUNT(a.industry) AS industryCount FROM Opportunity o, Account a " +
-            "LEFT JOIN o.accountOpp a " +
+    @Query("SELECT a.industry AS industryComment, COUNT(a.industry) AS industryCount FROM Account a " +
+            "LEFT JOIN a.opportunityList o " +
             "GROUP BY a.industry ORDER BY COUNT(a.industry) DESC")
     List<IOpportunityIndustryCount> countByIndustry();
 
-    @Query("SELECT a.industry AS industryComment, COUNT(a.industry) AS industryCount FROM Opportunity o, Account a " +
-            "LEFT JOIN o.accountOpp a " +
+    @Query("SELECT a.industry AS industryComment, COUNT(a.industry) AS industryCount FROM Account a " +
+            "LEFT JOIN a.opportunityList o " +
             "WHERE o.status ='CLOSED_WON'" +
             "GROUP BY a.industry ORDER BY COUNT(a.industry) DESC")
     List<IOpportunityIndustryCount> countClosedWonByIndustry();
 
-    @Query("SELECT a.industry AS industryComment, COUNT(a.industry) AS industryCount FROM Opportunity o, Account a " +
-            "LEFT JOIN o.accountOpp a " +
+    @Query("SELECT a.industry AS industryComment, COUNT(a.industry) AS industryCount FROM Account a " +
+            "LEFT JOIN a.opportunityList o " +
             "WHERE o.status ='CLOSED_LOST'" +
             "GROUP BY a.industry ORDER BY COUNT(a.industry) DESC")
     List<IOpportunityIndustryCount> countClosedLostByIndustry();
 
-    @Query("SELECT a.industry AS industryComment, COUNT(a.industry) AS industryCount FROM Opportunity o, Account a " +
-            "LEFT JOIN o.accountOpp a " +
+    @Query("SELECT a.industry AS industryComment, COUNT(a.industry) AS industryCount FROM Account a " +
+            "LEFT JOIN a.opportunityList o " +
             "WHERE o.status ='OPEN'" +
             "GROUP BY a.industry ORDER BY COUNT(a.industry) DESC")
     List<IOpportunityIndustryCount> countOpenByIndustry();
