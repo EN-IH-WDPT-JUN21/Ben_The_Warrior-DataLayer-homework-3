@@ -38,6 +38,10 @@ public class Opportunity {
     @JoinColumn(name = "account_id", referencedColumnName = "account_id")
     private Account accountOpp;
 
+    @ManyToOne
+    @JoinColumn(name = "sales_rep_id")
+    private SalesRep salesRep;
+
     // ============================== CONSTRUCTOR ==============================
     public Opportunity(Product product, int quantity, Status status) {
         this.product = product;
@@ -46,10 +50,10 @@ public class Opportunity {
     }
 
     public Opportunity(Product product, int quantity, Contact decisionMaker, Status status) {
-        setProduct(product);
-        setQuantity(quantity);
-        setDecisionMaker(decisionMaker);
-        setStatus(status);
+        this.product = product;
+        this.quantity = quantity;
+        this.decisionMaker = decisionMaker;
+        this.status = status;
     }
 
     public Opportunity(Product product, int quantity, Contact decisionMaker, Status status, Account accountOpp) {

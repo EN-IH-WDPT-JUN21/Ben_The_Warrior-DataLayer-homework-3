@@ -13,6 +13,7 @@ import java.util.List;
 public interface OpportunityRepository extends JpaRepository<Opportunity, Integer> {
 
 
+
     // ============================== QUERIES 3 - Reporting Functionality By Country ==============================
     // 1. Report Opportunity by Country
     @Query("SELECT a.country AS countryOrCityComment, COUNT(a.country) AS countryOrCityCount FROM Account a " +
