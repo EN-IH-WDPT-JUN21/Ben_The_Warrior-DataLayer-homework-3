@@ -84,9 +84,6 @@ public class PrinterMenu extends Printer {
     private static void saveBeforeQuit() {
         clearAll();
         setMenuLines("Goodbye.", 1);
-        setMenuLines("Are you sure you want to leave?", 19);
-        setMenuLines(HIGHLIGHT_COLOR + "ENTER " + ANSI_RESET + "- exit", 20);
-        setMenuLines(HIGHLIGHT_COLOR + "exit " + ANSI_RESET + "- exit", 21);
     }
 
     // Set the menu String array for the help menu with a list of available commands
