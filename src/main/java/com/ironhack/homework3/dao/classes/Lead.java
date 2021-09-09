@@ -14,14 +14,19 @@ import java.util.Objects;
 @NoArgsConstructor
 @Entity
 @Table(name="leads")
-public class Lead {
+public class Lead{
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="lead_id")
     private Integer id;
     private String name;
     private String phoneNumber;
     private String email;
     private String companyName;
+
+    @ManyToOne
+    @JoinColumn(name = "sales_rep_id")
+    SalesRep salesRep;
 
     // ============================== CONSTRUCTOR ==============================
     public Lead(String name, String phoneNumber, String email, String companyName) {

@@ -13,9 +13,10 @@ import java.util.Objects;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class Contact {
+public class Contact{
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="contact_id")
     private Integer id;
     private String name;
@@ -32,11 +33,12 @@ public class Contact {
 
     // ============================== CONSTRUCTOR ==============================
 
-    public Contact(String name, String phoneNumber, String email, String companyName) {
+    public Contact(String name, String phoneNumber, String email, String companyName, Account account) {
         setName(name);
         setPhoneNumber(phoneNumber);
         setEmail(email);
         setCompanyName(companyName);
+        setAccount(account);
     }
 
     // ============================== METHODS ==============================

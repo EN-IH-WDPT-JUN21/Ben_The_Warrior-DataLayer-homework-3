@@ -1,9 +1,6 @@
 package com.ironhack.homework3.dao.main;
 
-import com.ironhack.homework3.repository.AccountRepository;
-import com.ironhack.homework3.repository.ContactRepository;
-import com.ironhack.homework3.repository.LeadRepository;
-import com.ironhack.homework3.repository.OpportunityRepository;
+import com.ironhack.homework3.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -19,7 +16,9 @@ public class MainMenuAutowired {
     Menu newMenu;
 
     @Autowired
-    public MainMenuAutowired(LeadRepository leadRepository, ContactRepository contactRepository, AccountRepository accountRepository, OpportunityRepository opportunityRepository) {
+    public MainMenuAutowired(LeadRepository leadRepository, ContactRepository contactRepository,
+                             AccountRepository accountRepository, OpportunityRepository opportunityRepository,
+                             SalesRepRepository salesRepRepository) {
         this.leadRepository = leadRepository;
         this.contactRepository = contactRepository;
         this.accountRepository = accountRepository;

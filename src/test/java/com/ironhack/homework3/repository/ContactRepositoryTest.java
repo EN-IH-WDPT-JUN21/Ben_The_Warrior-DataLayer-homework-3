@@ -1,4 +1,4 @@
-package com.ironhack.homework3.repository;
+/*package com.ironhack.homework3.repository;
 
 import com.ironhack.homework3.dao.classes.Contact;
 import com.ironhack.homework3.dao.classes.Lead;
@@ -44,4 +44,4 @@ class ContactRepositoryTest {
         assertEquals(1, ContactCountAfterSave - ContactCountBeforeSave);
         contactRepository.delete(contact);
     }
-}
+}*/
