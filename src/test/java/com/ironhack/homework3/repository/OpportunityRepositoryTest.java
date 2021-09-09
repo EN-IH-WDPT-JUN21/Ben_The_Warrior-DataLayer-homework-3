@@ -1,4 +1,4 @@
-/*package com.ironhack.homework3.repository;
+package com.ironhack.homework3.repository;
 
 import com.ironhack.homework3.dao.classes.Account;
 import com.ironhack.homework3.dao.classes.Contact;
@@ -200,4 +200,4 @@ class OpportunityRepositoryTest {
         List<IOpportunityIndustryCount> industryCounts = opportunityRepository.countOpenByIndustry();
         assertEquals(2, industryCounts.get(0).getIndustryCount());
     }
-}*/
+}
