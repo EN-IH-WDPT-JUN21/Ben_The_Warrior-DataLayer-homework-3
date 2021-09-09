@@ -37,7 +37,7 @@ class OpportunityRepositoryTest {
         contactRepository.save(contact);
         var account = new Account(Industry.ECOMMERCE, 200, "London", "UK");
         accountRepository.save(account);
-        var opportunity = new Opportunity(Product.HYBRID,30000, contact, Status.OPEN, account);
+        var opportunity = new Opportunity(Product.HYBRID, 3000, contact, Status.OPEN, account);
         opportunityRepository.save(opportunity);
     }
 
@@ -53,7 +53,7 @@ class OpportunityRepositoryTest {
     void testToString() {
         Contact c = new Contact("John Smith", "2460247246", "johnthewarrior@fighters.com", "The smiths");
         contactRepository.save(c);
-        Opportunity o = new Opportunity(Product.HYBRID, 30000, c, Status.OPEN, "UK", "London");
+        Opportunity o = new Opportunity(Product.HYBRID, 30000, c, Status.OPEN);
         opportunityRepository.save(o);
         assertEquals("Id: 2, Product: HYBRID, Quantity: 30000, Decision Maker: John Smith, Status: OPEN", o.toString());
     }
@@ -83,7 +83,6 @@ class OpportunityRepositoryTest {
     @Test
     void getCountByCountry_With_ClosedWonStatus() {
         var contact = new Contact("Macho Man", "123643543", "Randy@savage.com", "WWF");
-        contact.setId(101);
         contactRepository.save(contact);
         var account = new Account(Industry.ECOMMERCE, 200, "New York", "USA");
         accountRepository.save(account);
@@ -96,7 +95,6 @@ class OpportunityRepositoryTest {
     @Test
     void getCountByCountry_With_ClosedLostStatus() {
         var contact = new Contact("Genghis Khan", "123643543", "Khan@steppe.com", "KhanEmpire");
-        contact.setId(102);
         contactRepository.save(contact);
         var account = new Account(Industry.ECOMMERCE, 200, "Karakorum", "Mongolia");
         accountRepository.save(account);
@@ -109,7 +107,6 @@ class OpportunityRepositoryTest {
     @Test
     void getCountByCountry_With_OpenStatus() {
         var contact = new Contact("Maurice Moss", "123643543", "Moss@thebasement.com", "Reynholm Industries");
-        contact.setId(102);
         contactRepository.save(contact);
         var account = new Account(Industry.ECOMMERCE, 200, "London", "UK");
         accountRepository.save(account);
@@ -130,7 +127,6 @@ class OpportunityRepositoryTest {
     @Test
     void getCountByCity_With_ClosedWonStatus() {
         var contact = new Contact("Macho Man", "123643543", "Randy@savage.com", "WWF");
-        contact.setId(101);
         contactRepository.save(contact);
         var account = new Account(Industry.ECOMMERCE, 200, "New York", "USA");
         accountRepository.save(account);
@@ -143,7 +139,6 @@ class OpportunityRepositoryTest {
     @Test
     void getCountByCity_With_ClosedLostStatus() {
         var contact = new Contact("Genghis Khan", "123643543", "Khan@steppe.com", "KhanEmpire");
-        contact.setId(102);
         contactRepository.save(contact);
         var account = new Account(Industry.ECOMMERCE, 200, "Karakorum", "Mongolia");
         accountRepository.save(account);
@@ -156,7 +151,6 @@ class OpportunityRepositoryTest {
     @Test
     void getCountByCity_With_OpenStatus() {
         var contact = new Contact("Maurice Moss", "123643543", "Moss@thebasement.com", "Reynholm Industries");
-        contact.setId(102);
         contactRepository.save(contact);
         var account = new Account(Industry.ECOMMERCE, 200, "London", "UK");
         accountRepository.save(account);
@@ -177,7 +171,6 @@ class OpportunityRepositoryTest {
     @Test
     void getCountByIndustry_With_ClosedWonStatus() {
         var contact = new Contact("Macho Man", "123643543", "Randy@savage.com", "WWF");
-        contact.setId(101);
         contactRepository.save(contact);
         var account = new Account(Industry.OTHER, 200, "New York", "USA");
         accountRepository.save(account);
@@ -190,7 +183,6 @@ class OpportunityRepositoryTest {
     @Test
     void getCountByIndustry_With_ClosedLostStatus() {
         var contact = new Contact("Genghis Khan", "123643543", "Khan@steppe.com", "KhanEmpire");
-        contact.setId(102);
         contactRepository.save(contact);
         var account = new Account(Industry.PRODUCE, 200, "Karakorum", "Mongolia");
         accountRepository.save(account);
@@ -203,7 +195,6 @@ class OpportunityRepositoryTest {
     @Test
     void getCountByIndustry_With_OpenStatus() {
         var contact = new Contact("Maurice Moss", "123643543", "Moss@thebasement.com", "Reynholm Industries");
-        contact.setId(102);
         contactRepository.save(contact);
         var account = new Account(Industry.ECOMMERCE, 200, "London", "UK");
         accountRepository.save(account);
@@ -221,8 +212,8 @@ class OpportunityRepositoryTest {
         var o3 = new Opportunity(Product.HYBRID, 386, Status.OPEN);
         var o4 = new Opportunity(Product.HYBRID, 3468, Status.OPEN);
         opportunityRepository.saveAll(List.of(o2, o3, o4));
-//         mean is from the values of setup (30000) and this new account
-        assertEquals(((double) Math.round(((30000 + 73 + 386 + 3468) / 4.0) * 10000d) / 10000d), opportunityRepository.meanQuantity());
+//         mean is from the values of setup (3000) and this new account
+        assertEquals(((double) Math.round(((3000 + 73 + 386 + 3468) / 4.0) * 10000d) / 10000d), opportunityRepository.meanQuantity());
     }
 
     @Test
@@ -231,8 +222,8 @@ class OpportunityRepositoryTest {
         var o3 = new Opportunity(Product.HYBRID, 73, Status.OPEN);
         var o4 = new Opportunity(Product.HYBRID, 3468, Status.OPEN);
         opportunityRepository.saveAll(List.of(o2, o3, o4));
-        // mean is from the values of setup (30000) and this new account
-        assertEquals(List.of(73, 386, 3468, 30000), opportunityRepository.orderedListOfQuantities());
+        // mean is from the values of setup (3000) and this new account
+        assertEquals(List.of(73, 386, 3000, 3468), opportunityRepository.orderedListOfQuantities());
     }
 
     @Test
@@ -241,7 +232,7 @@ class OpportunityRepositoryTest {
         var o3 = new Opportunity(Product.HYBRID, 386, Status.OPEN);
         var o4 = new Opportunity(Product.HYBRID, 3468, Status.OPEN);
         opportunityRepository.saveAll(List.of(o2, o3, o4));
-        // min is from the values of setup (30000) and this new account
+        // min is from the values of setup (3000) and this new account
         assertEquals(73, opportunityRepository.minQuantity());
     }
 
@@ -252,8 +243,8 @@ class OpportunityRepositoryTest {
         var o4 = new Opportunity(Product.HYBRID, 3468, Status.OPEN);
         opportunityRepository.saveAll(List.of(o2, o3, o4));
         opportunityRepository.save(o3);
-        // max is from the values of setup (30000) and this new account
-        assertEquals(30000, opportunityRepository.maxQuantity());
+        // max is from the values of setup (3000) and this new account
+        assertEquals(3468, opportunityRepository.maxQuantity());
     }
 
 

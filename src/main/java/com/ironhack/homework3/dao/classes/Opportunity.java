@@ -45,14 +45,6 @@ public class Opportunity {
         this.status = status;
     }
 
-    public Opportunity(Product product, int quantity, Contact decisionMaker, Status status, Account accountOpp) {
-        this.product = product;
-        this.quantity = quantity;
-        this.decisionMaker = decisionMaker;
-        this.status = status;
-        this.accountOpp = accountOpp;
-    }
-
     public Opportunity(Product product, int quantity, Contact decisionMaker, Status status) {
         setProduct(product);
         setQuantity(quantity);
