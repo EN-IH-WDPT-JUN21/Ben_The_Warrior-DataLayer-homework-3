@@ -52,13 +52,12 @@ public class Menu {
         for (var c : allLeads) System.out.println("Our menu includes: " + c.getName());
     }*/
 
-    public Menu(InputStream inputStream){
+    public Menu(InputStream inputStream) {
         scanner = new Scanner(inputStream);
         db = new DatabaseUtility();
         setShowHelp(false);
         setShowAllHelp(false);
     }
-
 
 
     // Core method of the application. This method is running while the app is running and only returns when closing the app
@@ -90,13 +89,14 @@ public class Menu {
 
     // Method to compute commands after being validated
     public boolean computeCommand(String input) {
-        String[] inputArray = input.trim().toLowerCase().split(" ");
+        String cleanInput = input.trim().toLowerCase();
+        String[] inputArray = cleanInput.split(" ");
         // commands are computed word by word and the appropriate method is called
         switch (inputArray[0]) {
             case "new":
                 if (inputArray[1].equals("lead")) {
                     promptLead();
-                }else if (inputArray[1].equals("salesrep")){
+                } else if (inputArray[1].equals("salesrep")) {
                     promptSalesRep();
                 }
                 break;
@@ -204,6 +204,133 @@ public class Menu {
                     PrinterMenu.setWarning(e.getMessage());
                 }
                 break;
+
+            case "report":
+            case "mean":
+            case "median":
+            case "max":
+            case "min":
+                switch (cleanInput) {
+                    // BY SALESREP
+                    case "report lead by salesrep":
+                        System.out.println(cleanInput);
+                        break;
+                    case "report opportunity by salesrep":
+                        System.out.println(cleanInput);
+                        break;
+                    case "report closed-won by salesrep":
+                        System.out.println(cleanInput);
+                        break;
+                    case "report closed-lost by salesrep":
+                        System.out.println(cleanInput);
+                        break;
+                    case "report open by salesrep":
+                        System.out.println(cleanInput);
+                        break;
+
+                    // BY PRODUCT
+                    case "report opportunity by product":
+                        System.out.println(cleanInput);
+                        break;
+                    case "report closed-won by product":
+                        System.out.println(cleanInput);
+                        break;
+                    case "report closed-lost by product":
+                        System.out.println(cleanInput);
+                        break;
+                    case "report open by product":
+                        System.out.println(cleanInput);
+                        break;
+
+                    // BY COUNTRY
+                    case "report opportunity by country":
+                        System.out.println(cleanInput);
+                        break;
+                    case "report closed-won by country":
+                        System.out.println(cleanInput);
+                        break;
+                    case "report closed-lost by country":
+                        System.out.println(cleanInput);
+                        break;
+                    case "report open by country":
+                        System.out.println(cleanInput);
+                        break;
+
+                    // BY CITY
+                    case "report opportunity by city":
+                        System.out.println(cleanInput);
+                        break;
+                    case "report closed-won by city":
+                        System.out.println(cleanInput);
+                        break;
+                    case "report closed-lost by city":
+                        System.out.println(cleanInput);
+                        break;
+                    case "report open by city":
+                        System.out.println(cleanInput);
+                        break;
+
+                    // BY INDUSTRY
+                    case "report opportunity by industry":
+                        System.out.println(cleanInput);
+                        break;
+                    case "report closed-won by industry":
+                        System.out.println(cleanInput);
+                        break;
+                    case "report closed-lost by industry":
+                        System.out.println(cleanInput);
+                        break;
+                    case "report open by industry":
+                        System.out.println(cleanInput);
+                        break;
+
+                    // EMPLOYEECOUNT STATES
+                    case "mean employeecount":
+                        System.out.println(db.getMeanEmployeeCount());
+                        break;
+                    case "median employeecount":
+                        System.out.println(db.getMedianEmployeeCount());
+                        break;
+                    case "max employeecount":
+                        System.out.println(db.getMaxEmployeeCount());
+                        break;
+                    case "min employeecount":
+                        System.out.println(db.getMinEmployeeCount());
+                        break;
+
+                    // QUANTITY STATES
+                    case "mean quantity":
+                        System.out.println(db.getMeanQuantity());
+                        break;
+                    case "median quantity":
+                        System.out.println(db.getMedianQuantity());
+                        break;
+                    case "max quantity":
+                        System.out.println(db.getMaxQuantity());
+                        break;
+                    case "min quantity":
+                        System.out.println(db.getMinQuantity());
+                        break;
+
+                    // OPPORTUNITY STATES
+                    case "mean opps per account":
+                        System.out.println(db.getMeanOppsPerAccount());
+                        break;
+                    case "median opps per account":
+                        System.out.println(db.getMedianOppsPerAccount());
+                        break;
+                    case "max opps per account":
+                        System.out.println(db.getMaxOppsPerAccount());
+                        break;
+                    case "min opps per account":
+                        System.out.println(db.getMinOppsPerAccount());
+
+                        break;
+
+                    default:
+                        break;
+                }
+                break;
             // show help menu with all available commands
             case "help":
                 if (inputArray.length == 2) {
@@ -212,23 +339,8 @@ public class Menu {
                 } else
                     setShowHelp(true);
                 break;
-            /*// sava database into json file
-            case "save":
-                try{
-                    //db.save();
-                }catch (IOException e){
-                    PrinterMenu.setWarning("An error as occurred. Database was not successfully saved!");
-                }
-                break; TODO delete save option */
             case "exit":
                 PrinterMenu.printMenu("exit");
-                /*if (promptDecision("exit")){
-                    try{
-                        db.save();
-                    } catch (IOException e) {
-                        PrinterMenu.setWarning("An error as occurred. Database was not successfully saved!");
-                    }
-                }*/
                 return false;
             default:
                 break;
@@ -264,10 +376,10 @@ public class Menu {
         int currentPage = 0;
         int numPages;
         int decision;
-        switch (objectType.toLowerCase()){
+        switch (objectType.toLowerCase()) {
             case "leads":
                 List<Lead> leadList = db.getAllLeads();
-                if (leadList.size() > 0){
+                if (leadList.size() > 0) {
                     List<ArrayList<Lead>> listList = new ArrayList<>();
                     listList.add(new ArrayList<>());
                     for (Lead lead : leadList) {
@@ -320,14 +432,14 @@ public class Menu {
                             return;
                         }
                     }
-                }else{
+                } else {
                     PrinterMenu.showLeads(new ArrayList<Lead>(), true, true);
                     promptDecision("enter");
                     return;
                 }
             case "contacts":
                 List<Contact> contactList = db.getAllContacts();
-                if (contactList.size() > 0){
+                if (contactList.size() > 0) {
                     List<ArrayList<Contact>> listList = new ArrayList<>();
                     listList.add(new ArrayList<>());
                     for (Contact contact : contactList) {
@@ -380,14 +492,14 @@ public class Menu {
                             return;
                         }
                     }
-                }else{
+                } else {
                     PrinterMenu.showContacts(new ArrayList<Contact>(), true, true, false);
                     promptDecision("enter");
                     return;
                 }
             case "opportunities":
                 List<Opportunity> opportunityList = db.getAllOpportunities();
-                if (opportunityList.size() > 0){
+                if (opportunityList.size() > 0) {
                     List<ArrayList<Opportunity>> listList = new ArrayList<>();
                     listList.add(new ArrayList<>());
                     for (Opportunity opportunity : opportunityList) {
@@ -440,14 +552,14 @@ public class Menu {
                             return;
                         }
                     }
-                }else{
+                } else {
                     PrinterMenu.showOpportunities(new ArrayList<Opportunity>(), true, true, false);
                     promptDecision("enter");
                     return;
                 }
             case "accounts":
                 List<Account> accountList = db.getAllAccounts();
-                if (accountList.size() > 0){
+                if (accountList.size() > 0) {
                     List<ArrayList<Account>> listList = new ArrayList<>();
                     listList.add(new ArrayList<>());
                     for (Account account : accountList) {
@@ -500,7 +612,7 @@ public class Menu {
                             return;
                         }
                     }
-                }else{
+                } else {
                     PrinterMenu.showAccounts(new ArrayList<Account>(), true, true);
                     promptDecision("enter");
                     return;
@@ -508,7 +620,7 @@ public class Menu {
 
             case "salesrep":
                 List<SalesRep> salesRepList = db.getAllSalesRep();
-                if (salesRepList.size() > 0){
+                if (salesRepList.size() > 0) {
                     List<ArrayList<SalesRep>> listList = new ArrayList<>();
                     listList.add(new ArrayList<>());
                     for (SalesRep salesRep : salesRepList) {
@@ -561,7 +673,7 @@ public class Menu {
                             return;
                         }
                     }
-                }else{
+                } else {
                     PrinterMenu.showSalesRep(new ArrayList<SalesRep>(), true, true);
                     promptDecision("enter");
                     return;
@@ -694,11 +806,11 @@ public class Menu {
         }
     }
 
-    private void promptSalesRep(){
+    private void promptSalesRep() {
         PrinterMenu.printMenu("salesrep");
         String name = promptString("name");
         PrinterMenu.printMenu("salesrep", name);
-        if (promptDecision("enter back")){
+        if (promptDecision("enter back")) {
             db.addSalesRep(name);
         }
     }
@@ -715,18 +827,18 @@ public class Menu {
             int quantity = promptPositiveNumber();
             //print also the contact (from the lead's info)
             PrinterMenu.printMenu("convert", "quantity and contact", Integer.toString(quantity), contactName);
-            if (!promptDecision("enter back")){
+            if (!promptDecision("enter back")) {
                 return;
             }
             PrinterMenu.printMenu("convert", "account_select", Integer.valueOf(db.getAllAccounts().size()).toString());
             int decision;
-            if (db.getAllAccounts().size() == 0){
-                if (promptDecision("enter back")){
+            if (db.getAllAccounts().size() == 0) {
+                if (promptDecision("enter back")) {
                     decision = 0;
-                }else {
+                } else {
                     return;
                 }
-            }else {
+            } else {
                 decision = promptMultipleDecisions("y", "n", "back");
             }
             switch (decision) {
@@ -749,14 +861,14 @@ public class Menu {
                     PrinterMenu.printMenu("convert", "account_id");
                     Integer accountId = promptId("account");
                     Account account = db.getAccountById(accountId);
-                    if (account != null){
-                        PrinterMenu.printMenu("convert","account_id", accountId.toString(),
+                    if (account != null) {
+                        PrinterMenu.printMenu("convert", "account_id", accountId.toString(),
                                 account.getIndustry().toString(), Integer.valueOf(account.getEmployeeCount()).toString()
                                 , account.getCity(), account.getCountry());
                         if (promptDecision("enter back")) {
                             db.convertLead(id, product, quantity, accountId);
                         }
-                    }else{
+                    } else {
                         PrinterMenu.setWarning("Error: Account could not be fetched!");
                     }
                     break;
@@ -930,10 +1042,11 @@ public class Menu {
                 return input;
         }
     }
+
     //prompt id
-    private Integer promptId(String condition){
+    private Integer promptId(String condition) {
         int id;
-        switch (condition){
+        switch (condition) {
             case "account":
                 id = promptPositiveNumber();
                 while (!db.hasAccount(id)) {

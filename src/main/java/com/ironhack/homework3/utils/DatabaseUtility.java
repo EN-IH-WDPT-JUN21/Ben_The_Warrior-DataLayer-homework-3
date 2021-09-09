@@ -3,6 +3,7 @@ package com.ironhack.homework3.utils;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.ironhack.homework3.dao.classes.*;
+import com.ironhack.homework3.dao.queryInterfaces.IOpportunityCountryOrCityCount;
 import com.ironhack.homework3.enums.Industry;
 import com.ironhack.homework3.enums.Product;
 import com.ironhack.homework3.enums.Status;
@@ -32,6 +33,7 @@ public class DatabaseUtility {
     private OpportunityRepository opportunityRepository;
     @Autowired
     private SalesRepRepository salesRepRepository;
+
     @Autowired
     public DatabaseUtility() {
     }
@@ -215,8 +217,8 @@ public class DatabaseUtility {
     public void addLead(String name, String phoneNumber, String email, String companyName) {
         Lead newLead = new Lead(name, phoneNumber, email, companyName);
         var allLeads = leadRepository.findAll();
-        for(var lead : allLeads){
-            if(lead.equals(newLead)){
+        for (var lead : allLeads) {
+            if (lead.equals(newLead)) {
                 return;
             }
         }
@@ -237,6 +239,7 @@ public class DatabaseUtility {
             return lead.get();
         }
     }
+
     // Search a opportunity from id. If it doesn't exist throw exception
     public Opportunity lookupOpportunityId(int id) {
         Optional<Opportunity> opportunity = opportunityRepository.findById(id);
@@ -246,6 +249,7 @@ public class DatabaseUtility {
             return opportunity.get();
         }
     }
+
     // Search a contact from id. If it doesn't exist throw exception
     public Contact lookupContactId(int id) {
         Optional<Contact> contact = contactRepository.findById(id);
@@ -255,6 +259,7 @@ public class DatabaseUtility {
             return contact.get();
         }
     }
+
     // Search a account from id. If it doesn't exist throw exception
     public Account lookupAccountId(int id) {
         Optional<Account> account = accountRepository.findById(id);
@@ -264,6 +269,7 @@ public class DatabaseUtility {
             return account.get();
         }
     }
+
     // Search a salesrep from id. If it doesn't exist throw exception
     public SalesRep lookupSalesRepId(int id) {
         Optional<SalesRep> salesRep = salesRepRepository.findById(id);
@@ -282,9 +288,9 @@ public class DatabaseUtility {
     } TODO ID's are handled by the repo. Method may not be necessary */
 
     //creating new contact (from lead)
-    public int addContact(Integer id,Account account) {
+    public int addContact(Integer id, Account account) {
         Optional<Lead> leadToConvert = leadRepository.findById(id);
-        if (leadToConvert.isEmpty()){
+        if (leadToConvert.isEmpty()) {
             throw new IllegalArgumentException("There is no lead with id " + id + "! Unable to convert");
         }
         Contact newContact = new Contact(leadToConvert.get().getName(),
@@ -334,44 +340,46 @@ public class DatabaseUtility {
         accountRepository.save(newAccount);
         return newAccount;
     }
+
     // ==================== Converts Lead -> calls: addOpportunity, addAccount, addContact, removeLead====================
     public void convertLead(Integer id, Product product, int quantity, Industry industry, int employeeCount, String city, String country) {
         Account account = addAccount(industry, employeeCount, city, country);
         try {
             id = addContact(id, account);
             Optional<Contact> decisionMaker = contactRepository.findById(id);
-            if (decisionMaker.isPresent()){
+            if (decisionMaker.isPresent()) {
                 Opportunity newOpportunity = addOpportunity(product, quantity, decisionMaker.get(), account);
-            }else {
+            } else {
                 PrinterMenu.setWarning("Something went wrong, Lead converted but Contacted unable to be fetched!");
             }
-        }catch (IllegalArgumentException e){
+        } catch (IllegalArgumentException e) {
             PrinterMenu.setWarning(e.getMessage());
         }
     }
+
     // Convert lead with existing account
     public void convertLead(Integer id, Product product, int quantity, int accountId) {
         Optional<Account> account = accountRepository.findById(accountId);
-        if (account.isPresent()){
+        if (account.isPresent()) {
             try {
                 id = addContact(id, account.get());
                 Optional<Contact> decisionMaker = contactRepository.findById(id);
-                if (decisionMaker.isPresent()){
+                if (decisionMaker.isPresent()) {
                     Opportunity newOpportunity = addOpportunity(product, quantity, decisionMaker.get(), account.get());
 
-                }else {
+                } else {
                     PrinterMenu.setWarning("Something went wrong, Lead converted but Contacted unable to be fetched!");
                 }
-            }catch (IllegalArgumentException e){
+            } catch (IllegalArgumentException e) {
                 PrinterMenu.setWarning(e.getMessage());
             }
-        }else {
+        } else {
             PrinterMenu.setWarning("Account with id " + accountId + " was not found!");
         }
 //        Contact decisionMaker = contactRepository.getById(id);
     }
 
-    public void addSalesRep(String name){
+    public void addSalesRep(String name) {
         SalesRep salesRep = new SalesRep(name);
         salesRepRepository.save(salesRep);
     }
@@ -380,53 +388,177 @@ public class DatabaseUtility {
     public boolean hasLead(int id) {
         return leadRepository.findById(id).isPresent();
     }
+
     // Method to check if a contact exists with a specific id
     public boolean hasContact(int id) {
         return contactRepository.findById(id).isPresent();
     }
+
     // Method to check if a account exists with a specific id
     public boolean hasAccount(int id) {
         return accountRepository.findById(id).isPresent();
     }
+
     // Method to check if a opportunity exists with a specific id
     public boolean hasOpportunity(int id) {
         return opportunityRepository.findById(id).isPresent();
     }
+
     //Method to check if a salesRep exists with a specific id
-    public boolean hasSalesRep(int id){ return salesRepRepository.findById(id).isPresent(); }
+    public boolean hasSalesRep(int id) {
+        return salesRepRepository.findById(id).isPresent();
+    }
 
     public Account getAccountById(int id) {
         return accountRepository.findById(id).orElse(null);
     }
 
-    public List<Lead> getAllLeads(){
+    public List<Lead> getAllLeads() {
         return leadRepository.findAll();
     }
-    public List<Contact> getAllContacts(){
+
+    public List<Contact> getAllContacts() {
         return contactRepository.findAll();
     }
-    public List<Opportunity> getAllOpportunities(){
+
+    public List<Opportunity> getAllOpportunities() {
         return opportunityRepository.findAll();
     }
-    public List<Account> getAllAccounts(){
+
+    public List<Account> getAllAccounts() {
         return accountRepository.findAll();
     }
-    public List<SalesRep> getAllSalesRep(){
+
+    public List<SalesRep> getAllSalesRep() {
         return salesRepRepository.findAll();
     }
 
-    /*@Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        DatabaseUtility that = (DatabaseUtility) o;
-        return Objects.equals(opportunityId, that.opportunityId) && Objects.equals(accountId, that.accountId) && Objects.equals(leadHash, that.leadHash) && Objects.equals(contactHash, that.contactHash) && Objects.equals(opportunityHash, that.opportunityHash) && Objects.equals(accountHash, that.accountHash);
+    // QUERY METHODS
+
+    // BY SALESREP
+
+    // BY PRODUCT
+
+    // BY COUNTRY
+
+    // BY CITY
+
+    // BY INDUSTRY
+
+
+    // EMPLOYEECOUNT STATES
+    public double getMeanEmployeeCount() {
+        try {
+            return accountRepository.meanEmployeeCount();
+        } catch (Exception e) {
+            PrinterMenu.setWarning("Something went wrong, accounts might not be present!");
+            return 0.0;
+        }
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(opportunityId, accountId, leadHash, contactHash, opportunityHash, accountHash);
-    } TODO probably these methods aren't needed anymore*/
+    public double getMedianEmployeeCount() {
+        try {
+            return Utils.getMedianValue(accountRepository.orderedListOfEmployeeCount());
+        } catch (Exception e) {
+            PrinterMenu.setWarning("Something went wrong, accounts might not be present!");
+            return 0.0;
+        }
+    }
+
+    public int getMaxEmployeeCount() {
+        try {
+            return accountRepository.maxEmployeeCount();
+        } catch (Exception e) {
+            PrinterMenu.setWarning("Something went wrong, accounts might not be present!");
+            return 0;
+        }
+    }
+
+    public int getMinEmployeeCount() {
+        try {
+            return accountRepository.minEmployeeCount();
+        } catch (Exception e) {
+            PrinterMenu.setWarning("Something went wrong, accounts might not be present!");
+            return 0;
+        }
+    }
+
+    // QUANTITY STATES
+    public double getMeanQuantity() {
+        try {
+            return opportunityRepository.meanQuantity();
+        } catch (Exception e) {
+            PrinterMenu.setWarning("Something went wrong, opportunities might not be present!");
+            return 0.0;
+        }
+
+    }
+
+    public double getMedianQuantity() {
+        try {
+            return Utils.getMedianValue(opportunityRepository.orderedListOfQuantities());
+        } catch (Exception e) {
+            PrinterMenu.setWarning("Something went wrong, opportunities might not be present!");
+            return 0.0;
+        }
+    }
+
+    public int getMaxQuantity() {
+        try {
+            return opportunityRepository.maxQuantity();
+        } catch (Exception e) {
+            PrinterMenu.setWarning("Something went wrong, opportunities might not be present!");
+            return 0;
+        }
+    }
+
+    public int getMinQuantity() {
+        try {
+            return opportunityRepository.minQuantity();
+        } catch (Exception e) {
+            PrinterMenu.setWarning("Something went wrong, opportunities might not be present!");
+            return 0;
+        }
+    }
+
+    // OPPORTUNITY STATES
+    public double getMeanOppsPerAccount() {
+        try {
+            return accountRepository.meanOpportunities();
+        } catch (Exception e) {
+            PrinterMenu.setWarning("Something went wrong, accounts might not be present!");
+            return 0.0;
+        }
+    }
+
+    public double getMedianOppsPerAccount() {
+        try {
+            return Utils.getMedianValue(accountRepository.orderListOfOpportunities());
+        } catch (Exception e) {
+            PrinterMenu.setWarning("Something went wrong, accounts might not be present!");
+            return 0.0;
+        }
+    }
+
+    public int getMaxOppsPerAccount() {
+        try {
+            return accountRepository.maxOpportunities();
+        } catch (Exception e) {
+            PrinterMenu.setWarning("Something went wrong, accounts might not be present!");
+            return 0;
+        }
+    }
+
+    public int getMinOppsPerAccount() {
+        try {
+            return accountRepository.minOpportunities();
+        } catch (Exception e) {
+            PrinterMenu.setWarning("Something went wrong, accounts might not be present!");
+            return 0;
+        }
+    }
+
+
 }
 
 
