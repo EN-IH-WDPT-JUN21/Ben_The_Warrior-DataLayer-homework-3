@@ -50,7 +50,7 @@ class AccountRepositoryTest {
         Contact c = new Contact("John Smith", "2460247246", "johnthewarrior@fighters.com", "The smiths");
         c.setId(102);
         contactRepository.save(c);
-        Opportunity o = new Opportunity(Product.HYBRID, 30000, c, Status.OPEN, "UK", "London");
+        Opportunity o = new Opportunity(Product.HYBRID, 30000, c, Status.OPEN);
         opportunityRepository.save(o);
         a = new Account(Industry.ECOMMERCE, 100, "Madrid", "Spain", List.of(c), List.of(o));
         accountRepository.save(a);
@@ -67,7 +67,7 @@ class AccountRepositoryTest {
         var contact = new Contact("Ben", "123643543", "Ben@BenIndustries.com", "Ben Industries");
         contact.setId(101);
         contactRepository.save(contact);
-        var opportunity = new Opportunity(Product.HYBRID, 30000, contact, Status.OPEN, "UK", "London");
+        var opportunity = new Opportunity(Product.HYBRID, 30000, contact, Status.OPEN);
         opportunityRepository.save(opportunity);
         var account = new Account(Industry.ECOMMERCE, 100, "Madrid", "Spain");
         accountRepository.save(account);
