@@ -20,7 +20,7 @@
     4. [Close Lost Opportunity](#Close-Lost-Opportunity)
     5. [Search for specific Lead, Opportunity, Account or Contact](#Search-for-specific-Lead,-Opportunity,-Account-or-Contact)
     6. [List all Leads, Opportunities, Accounts or Contacts](#List-all-Leads,-Opportunities,-Accounts-or-Contacts)
-    7. [Reporting Functionality](#Data-reports)
+    7. [Reporting Functionality](#Reporting Functionality)
     8. [Save the changed data](#Save-the-changed-data)
     9. [Save and exit the program](#Save-and-exit-the-program)
 7. [**Use Case Diagram**](#Use-Case-Diagram)
