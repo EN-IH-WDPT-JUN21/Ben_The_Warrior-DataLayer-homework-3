@@ -1,4 +1,4 @@
-package com.ironhack.homework3.repository;
+/*package com.ironhack.homework3.repository;
 
 import com.ironhack.homework3.dao.classes.Lead;
 import org.junit.jupiter.api.AfterEach;
@@ -37,4 +37,4 @@ class LeadRepositoryTest {
         assertEquals(1, LeadCountAfterSave - LeadCountBeforeSave);
         leadRepository.delete(lead);
     }
-}
+}*/

@@ -15,7 +15,7 @@ import java.util.Objects;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class Opportunity {
+public class Opportunity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="opportunity_id")
@@ -37,13 +37,18 @@ public class Opportunity {
     @JoinColumn(name="account_id", referencedColumnName = "account_id")
     private Account accountOpp;
 
+    @ManyToOne
+    @JoinColumn(name = "sales_rep_id")
+    private SalesRep salesRep;
+
     // ============================== CONSTRUCTOR ==============================
 
-    public Opportunity(Product product, int quantity, Contact decisionMaker, Status status) {
+    public Opportunity(Product product, int quantity, Contact decisionMaker, Status status, Account account) {
         setProduct(product);
         setQuantity(quantity);
         setDecisionMaker(decisionMaker);
         setStatus(status);
+        setAccountOpp(account);
     }
 
     // ============================== METHODS ==============================

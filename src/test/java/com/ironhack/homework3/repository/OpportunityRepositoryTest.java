@@ -1,4 +1,4 @@
-package com.ironhack.homework3.repository;
+/*package com.ironhack.homework3.repository;
 
 import com.ironhack.homework3.dao.classes.Contact;
 import com.ironhack.homework3.dao.classes.Opportunity;
@@ -50,4 +50,4 @@ class OpportunityRepositoryTest {
         assertEquals(1, OpportunityCountAfterSave - OpportunityCountBeforeSave);
 
     }
-}
+}*/

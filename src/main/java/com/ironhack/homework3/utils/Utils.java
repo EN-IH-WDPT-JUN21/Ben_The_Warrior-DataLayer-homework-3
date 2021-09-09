@@ -96,7 +96,7 @@ public class Utils {
             switch (commandWords[0]) {
                 case "help":
                 case "exit":
-                case "save":
+                //case "save":
                     return true;
                 default:
                     return false;

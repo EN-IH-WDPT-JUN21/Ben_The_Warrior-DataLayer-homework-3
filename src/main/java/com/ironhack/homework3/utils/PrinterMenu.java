@@ -145,8 +145,28 @@ public class PrinterMenu extends Printer {
             setMenuLines("Product: ", 6);
             setMenuLines("Quantity: ", 8);
             setMenuLines(HIGHLIGHT_COLOR + "Insert Product type [HYBRID, FLATBED or BOX]: " + HIGHLIGHT_COLOR, 20);
-            // Update the menu for the lead conversion
+        } else if (params.length == 1) {
+            switch (params[0].toLowerCase()) {
+                case "account":
+                    //Set menu for the new Account creation
+                    setMenuLines("", 1, 7, 9, 11, 13, 14, 15, 16, 17, 18, 19, 21);
+                    setMenuLines(HIGHLIGHT_COLOR + "Create New Account" + HIGHLIGHT_COLOR, 4);
+                    setMenuLines("Industry: ", 6);
+                    setMenuLines("Number of Employees: ", 8);
+                    setMenuLines("City: ", 10);
+                    setMenuLines("Country: ", 12);
+                    setMenuLines(HIGHLIGHT_COLOR + "Insert Industry [PRODUCE, ECOMMERCE, MANUFACTURING, MEDICAL, or OTHER]: " + HIGHLIGHT_COLOR, 20);
+                    break;
+                case "account_id":
+                    //Set menu for existing Account
+                    setMenuLines(HIGHLIGHT_COLOR + "Associate Existing Account" + HIGHLIGHT_COLOR, 4);
+                    setMenuLines("Id: ", 6);
+                    setMenuLines(HIGHLIGHT_COLOR + "Insert Id " + HIGHLIGHT_COLOR, 20);
+                    break;
+            }
+
         } else if (params.length == 2) {
+            // Update the menu for the lead conversion
             switch (params[0].toLowerCase()) {
                 case "product":
                     setMenuLines(getMenuLine(6) + INSERT_HIGHLIGHT_COLOR + params[1] + ANSI_RESET, 6);
@@ -169,21 +189,31 @@ public class PrinterMenu extends Printer {
                     setMenuLines(HIGHLIGHT_COLOR + "ENTER " + ANSI_RESET + "- delete Lead and create Contact, Opportunity and Account | " +
                             HIGHLIGHT_COLOR + "back " + ANSI_RESET + "- cancel Lead conversion", 20);
                     break;
+                case "account_select":
+                    setMenuLines("", 1, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 21);
+                    setMenuLines(HIGHLIGHT_COLOR + "Do you want to create a new Account?" + HIGHLIGHT_COLOR, 4);
+                    setMenuLines(params[1].equals("0") ? HIGHLIGHT_COLOR + "ENTER " + ANSI_RESET + "- create new Account | " + HIGHLIGHT_COLOR + "back "
+                            + ANSI_RESET + "- return to the main menu" :
+                            HIGHLIGHT_COLOR + "y " + ANSI_RESET + "- create new Account | " + HIGHLIGHT_COLOR + "n " +
+                                    ANSI_RESET + "- use existing Account | " + HIGHLIGHT_COLOR + "back " + ANSI_RESET + "- return to the main menu" , 20);
+                    break;
+                case "account_id":
+                    setMenuLines(getMenuLine(6) + INSERT_HIGHLIGHT_COLOR + params[1] + ANSI_RESET, 6);
+                    break;
             }
         } else if (params.length == 3 && params[0].toLowerCase().equals("quantity and contact")) {
             setMenuLines(getMenuLine(8) + INSERT_HIGHLIGHT_COLOR + params[1] + ANSI_RESET, 8);
             setMenuLines("Contact Name: " + INSERT_HIGHLIGHT_COLOR + params[2] + ANSI_RESET, 10);
             setMenuLines("Status: " + INSERT_HIGHLIGHT_COLOR + Status.OPEN + ANSI_RESET, 12);
             setMenuLines(HIGHLIGHT_COLOR + "ENTER " + ANSI_RESET + "- confirm Opportunity information | " + HIGHLIGHT_COLOR + "back " + ANSI_RESET + "- return to the main menu", 20);
-            //Set menu for the new Account creation
-        } else if (params.length == 1 && params[0].toLowerCase().equals("account")) {
-            setMenuLines("", 1, 7, 9, 11, 13, 14, 15, 16, 17, 18, 19, 21);
-            setMenuLines(HIGHLIGHT_COLOR + "Create New Account" + HIGHLIGHT_COLOR, 4);
-            setMenuLines("Industry: ", 6);
-            setMenuLines("Number of Employees: ", 8);
-            setMenuLines("City: ", 10);
-            setMenuLines("Country: ", 12);
-            setMenuLines(HIGHLIGHT_COLOR + "Insert Industry [PRODUCE, ECOMMERCE, MANUFACTURING, MEDICAL, or OTHER]: " + HIGHLIGHT_COLOR, 20);
+        } else if (params.length == 6 && params[0].toLowerCase().equals("account_id")) {
+            setMenuLines(getMenuLine(6) + INSERT_HIGHLIGHT_COLOR + params[1] + ANSI_RESET, 6);
+            setMenuLines("Industry: " + INSERT_HIGHLIGHT_COLOR + params[2] + ANSI_RESET, 8);
+            setMenuLines("Number of Employees: " + INSERT_HIGHLIGHT_COLOR + params[3] + ANSI_RESET, 10);
+            setMenuLines("City: " + INSERT_HIGHLIGHT_COLOR + params[4] + ANSI_RESET, 12);
+            setMenuLines("Country: " + INSERT_HIGHLIGHT_COLOR + params[5] + ANSI_RESET, 12);
+            setMenuLines(HIGHLIGHT_COLOR + "ENTER " + ANSI_RESET + "- delete Lead and create Contact, Opportunity and Account | " +
+                    HIGHLIGHT_COLOR + "back " + ANSI_RESET + "- return to the main menu", 20);
         }
     }
 
