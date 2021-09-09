@@ -14,6 +14,8 @@ import com.ironhack.homework3.repository.OpportunityRepository;
 import com.ironhack.homework3.utils.JsonDatabaseUtility;
 import com.ironhack.homework3.utils.Printer;
 import com.ironhack.homework3.utils.PrinterMenu;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -25,17 +27,20 @@ import static com.ironhack.homework3.utils.Utils.*;
 import static com.ironhack.homework3.utils.Utils.validLocation;
 
 @Component
+@Getter
+@Setter
 public class Menu {
 
-    final LeadRepository leadRepository;
-    final ContactRepository contactRepository;
-    final AccountRepository accountRepository;
-    final OpportunityRepository opportunityRepository;
+    private final LeadRepository leadRepository;
+    private final ContactRepository contactRepository;
+    private final AccountRepository accountRepository;
+    private final OpportunityRepository opportunityRepository;
     private final Scanner scanner;
     private final JsonDatabaseUtility db;
 
     // Variable to check if the user asked for the available commands
     private boolean showHelp;
+    private boolean showAllHelp;
 
 //    @Autowired
 //    JsonDatabaseUtility db;
@@ -47,13 +52,14 @@ public class Menu {
         this.accountRepository = accountRepository;
         this.opportunityRepository = opportunityRepository;
         scanner = new Scanner(System.in);
-        db  = new JsonDatabaseUtility(leadRepository, contactRepository, accountRepository, opportunityRepository);
+        db = new JsonDatabaseUtility(leadRepository, contactRepository, accountRepository, opportunityRepository);
         try {
             db.load();
         } catch (Exception e) {
             PrinterMenu.setWarning(e.getMessage());
         }
         setShowHelp(false);
+        setShowAllHelp(false);
     }
 
 /*    private static final Menu menu = new Menu();
@@ -70,30 +76,23 @@ public class Menu {
     }*/
 
 
-    public Menu(LeadRepository leadRepository, ContactRepository contactRepository, AccountRepository accountRepository, OpportunityRepository opportunityRepository, InputStream inputStream){
+    public Menu(LeadRepository leadRepository, ContactRepository contactRepository, AccountRepository accountRepository, OpportunityRepository opportunityRepository, InputStream inputStream) {
         this.leadRepository = leadRepository;
         this.contactRepository = contactRepository;
         this.accountRepository = accountRepository;
         this.opportunityRepository = opportunityRepository;
         scanner = new Scanner(inputStream);
-        db  = new JsonDatabaseUtility(leadRepository, contactRepository, accountRepository, opportunityRepository, "dummy");
+        db = new JsonDatabaseUtility(leadRepository, contactRepository, accountRepository, opportunityRepository, "dummy");
         try {
             db.load();
         } catch (Exception e) {
             PrinterMenu.setWarning(e.getMessage());
         }
         setShowHelp(false);
+        setShowAllHelp(false);
     }
 
-    public boolean isShowHelp() {
-        return showHelp;
-    }
-
-    public void setShowHelp(boolean showHelp) {
-        this.showHelp = showHelp;
-    }
-
-    public JsonDatabaseUtility getDatabase(){
+    public JsonDatabaseUtility getDatabase() {
         return this.db;
     }
 
@@ -105,9 +104,12 @@ public class Menu {
         showHelp = false;
         while (running) {
             // if the user asked for available commands print help menu, otherwise print main menu
-            if (isShowHelp()){
+            if (isShowHelp()) {
                 PrinterMenu.printMenu("help");
                 setShowHelp(false);
+            } else if (isShowAllHelp()) {
+                PrinterMenu.printMenu("help -a");
+                setShowAllHelp(false);
             } else {
                 PrinterMenu.printMenu("main");
             }
@@ -128,7 +130,7 @@ public class Menu {
         // commands are computed word by word and the appropriate method is called
         switch (inputArray[0]) {
             case "new":
-                if (inputArray[1].equals("lead")){
+                if (inputArray[1].equals("lead")) {
                     promptLead();
                 }
                 break;
@@ -231,22 +233,26 @@ public class Menu {
                 break;
             // show help menu with all available commands
             case "help":
-                setShowHelp(true);
+                if (inputArray.length == 2) {
+                    if (inputArray[1].equals("-a"))
+                        setShowAllHelp(true);
+                } else
+                    setShowHelp(true);
                 break;
             // sava database into json file
             case "save":
-                try{
+                try {
                     db.save();
-                }catch (IOException e){
+                } catch (IOException e) {
                     PrinterMenu.setWarning("An error as occurred. Database was not successfully saved!");
                 }
                 break;
             case "exit":
                 PrinterMenu.printMenu("exit");
-                if (promptDecision("exit")){
-                    try{
+                if (promptDecision("exit")) {
+                    try {
                         db.save();
-                    }catch (IOException e){
+                    } catch (IOException e) {
                         PrinterMenu.setWarning("An error as occurred. Database was not successfully saved!");
                     }
                 }
@@ -258,7 +264,7 @@ public class Menu {
     }
 
     // Method to create the menu when looking up an account
-    private void lookupAccountMenu(Account account){
+    private void lookupAccountMenu(Account account) {
         PrinterMenu.lookupObject(account);
         // Allow user to see list of contacts and opportunities n the looked up account
         while (true) {
@@ -345,7 +351,7 @@ public class Menu {
     }
 
     // Method to create the menu showing all available Opportunities
-    private void showOpportunitiesMenu(){
+    private void showOpportunitiesMenu() {
         int maxElements = PrinterMenu.getPrintMultipleObjectsMax();
         int currentIndex = 0;
         int currentPage = 0;
@@ -406,8 +412,9 @@ public class Menu {
             }
         }
     }
+
     // Method to create the menu showing all available Accounts
-    private void showAccountsMenu(){
+    private void showAccountsMenu() {
         int maxElements = PrinterMenu.getPrintMultipleObjectsMax();
         int currentIndex = 0;
         int currentPage = 0;
@@ -469,8 +476,9 @@ public class Menu {
             }
         }
     }
+
     // Method to create the menu showing all available Contacts
-    private void showContactsMenu(){
+    private void showContactsMenu() {
         int maxElements = PrinterMenu.getPrintMultipleObjectsMax();
         int currentIndex = 0;
         int currentPage = 0;
@@ -532,6 +540,7 @@ public class Menu {
             }
         }
     }
+
     // Method to create the menu showing all available Contacts in a List
     private void showContactsMenu(List<Contact> contactList) {
         int maxElements = PrinterMenu.getPrintMultipleObjectsMax();
@@ -592,6 +601,7 @@ public class Menu {
             }
         }
     }
+
     // Method to create the menu showing all available Opportunities in a List
     private void showOpportunitiesMenu(List<Opportunity> opportunityList) {
         int maxElements = PrinterMenu.getPrintMultipleObjectsMax();
@@ -742,7 +752,7 @@ public class Menu {
     }
 
     // Method to ask for the user decision - more than 2 outcomes
-    private int promptMultipleDecisions(String... choices){
+    private int promptMultipleDecisions(String... choices) {
         if (choices.length == 0) {
             throw new IllegalArgumentException();
         }

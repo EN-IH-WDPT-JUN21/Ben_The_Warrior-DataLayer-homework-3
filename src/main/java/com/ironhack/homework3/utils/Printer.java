@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.TreeMap;
 
 public class Printer {
-    private static final int PROGRAM_WIDTH = 150;
+    private static final int PROGRAM_WIDTH = 154;
     private static final int PROGRAM_HEIGHT = 25;
     private static final int BORDER_WIDTH = 2;
     private static final int BORDER_TO_TEXT_SPACES = 4;

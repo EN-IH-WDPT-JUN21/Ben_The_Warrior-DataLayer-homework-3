@@ -4,7 +4,6 @@ import com.ironhack.homework3.enums.Industry;
 import com.ironhack.homework3.enums.Product;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -73,6 +72,7 @@ public class Utils {
         String[] commandWords = command.trim().toLowerCase().split(" ");
         if (commandWords.length > 1) {
             switch (commandWords[0]) {
+
                 case "new":
                     return commandWords[1].equals("lead") && commandWords.length == 2;
                 case "show":
@@ -99,6 +99,9 @@ public class Utils {
                 case "close-won":
                 case "close-lost":
                     return isValidPositiveNumber(commandWords[1]);
+                case "help":
+                    if (commandWords[1].equals("-a") && commandWords.length == 2)
+                        return true;
                 default:
                     return false;
             }
@@ -106,7 +109,7 @@ public class Utils {
             switch (commandWords[0]) {
                 case "help":
                 case "exit":
-                case "save":
+//                case "save":
                     return true;
                 default:
                     return false;
