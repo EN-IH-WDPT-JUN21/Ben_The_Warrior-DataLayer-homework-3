@@ -1,4 +1,4 @@
-# Ben_The_Warrior-CRM-homework-2
+# Ben_The_Warrior-CRM-homework-3
 
 ## Table of Contents
 
@@ -20,8 +20,9 @@
     4. [Close Lost Opportunity](#Close-Lost-Opportunity)
     5. [Search for specific Lead, Opportunity, Account or Contact](#Search-for-specific-Lead,-Opportunity,-Account-or-Contact)
     6. [List all Leads, Opportunities, Accounts or Contacts](#List-all-Leads,-Opportunities,-Accounts-or-Contacts)
-    7. [Save the changed data](#Save-the-changed-data)
-    8. [Save and exit the program](#Save-and-exit-the-program)
+    7. [Reporting Functionality](#Data-reports)
+    8. [Save the changed data](#Save-the-changed-data)
+    9. [Save and exit the program](#Save-and-exit-the-program)
 7. [**Use Case Diagram**](#Use-Case-Diagram)
 8. [**Class Diagram**](#Class-Diagram)
 9. [**The Team**](#The-Team)
