@@ -1,9 +1,6 @@
 package com.ironhack.homework3.utils;
 
-import com.ironhack.homework3.dao.classes.Account;
-import com.ironhack.homework3.dao.classes.Contact;
-import com.ironhack.homework3.dao.classes.Lead;
-import com.ironhack.homework3.dao.classes.Opportunity;
+import com.ironhack.homework3.dao.classes.*;
 import com.ironhack.homework3.enums.Status;
 
 import java.util.ArrayList;
@@ -56,6 +53,9 @@ public class PrinterMenu extends Printer {
                 break;
             case "convert":
                 convertLeadLines(params);
+                break;
+            case "salesrep":
+                newSalesRepLines(params);
                 break;
         }
         clearCommandLine();
@@ -285,12 +285,38 @@ public class PrinterMenu extends Printer {
                         break;
                 }
             }
+        } else if (SalesRep.class.equals(object.getClass())){
+            SalesRep salesRep = (SalesRep) object;
+            setMenuLines("", 1, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 21);
+            setMenuLines(HIGHLIGHT_COLOR + "Information of SalesRep with id " + salesRep.getId() + HIGHLIGHT_COLOR, 4);
+            setMenuLines("Name: " + INSERT_HIGHLIGHT_COLOR + salesRep.getName() + ANSI_RESET, 6);
+            setMenuLines(HIGHLIGHT_COLOR + "ENTER " + ANSI_RESET + "- return to the main menu", 20);
         } else {
             throw new IllegalArgumentException("There is no class " + object.getClass());
         }
 
         PrinterMenu.printMenu("");
     }
+
+    // ======================================== 4. NEW SALES REP LINES ========================================
+    // Set the menu String array to add a new SalesRep
+    private static void newSalesRepLines(String... params){
+        // Set initial menu for the SalesRep creation
+        if (params.length == 0) {
+            setMenuLines("", 1, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 21);
+            setMenuLines(HIGHLIGHT_COLOR + "Create New SalesRep" + HIGHLIGHT_COLOR, 4);
+            setMenuLines("Name: ", 6);
+            setMenuLines(HIGHLIGHT_COLOR + "Insert SalesRep Name: " + HIGHLIGHT_COLOR, 20);
+        } else if (params.length == 1) {
+            // Update the menu with SalesRep name
+            setMenuLines(getMenuLine(6) + INSERT_HIGHLIGHT_COLOR + params[0] + ANSI_RESET, 6);
+            setMenuLines(HIGHLIGHT_COLOR + "ENTER " + ANSI_RESET + "- confirm SalesRep creation | " +
+                    HIGHLIGHT_COLOR + "back " + ANSI_RESET + "- cancel SalesRep creation", 20);
+        } else {
+            throw new IllegalArgumentException("Incorrect number of parameters");
+        }
+    }
+
     // Set the menu String array to show the provided page (List) of leads
     public static void showLeads(ArrayList<Lead> leads, boolean firstPage, boolean lastPage) {
         setMenuLines("", 1, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 21);
@@ -407,6 +433,38 @@ public class PrinterMenu extends Printer {
                     "back " + ANSI_RESET + "- return to the main menu", 20);
         } else {
             setMenuLines(HIGHLIGHT_COLOR + "next" + ANSI_RESET + "- go to the next page |" + HIGHLIGHT_COLOR +
+                    "previous " + ANSI_RESET + "- return to the previous page | " + HIGHLIGHT_COLOR +
+                    "back " + ANSI_RESET + "- return to the main menu", 20);
+        }
+        PrinterMenu.printMenu("");
+    }
+
+    // Set the menu String array to show the provided page (List) of SalesRep
+    public static void showSalesRep(ArrayList<SalesRep> salesReps, boolean firstPage, boolean lastPage) {
+        setMenuLines("", 1, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 21);
+        if (salesReps.size() == 0) {
+            setMenuLines(HIGHLIGHT_COLOR + "There are no SalesRep" + HIGHLIGHT_COLOR, 4);
+        } else {
+            setMenuLines(HIGHLIGHT_COLOR + "Available SalesRep" + HIGHLIGHT_COLOR, 4);
+        }
+        // String is built with the current page of SalesRep and then the corresponding menu String lines are set
+        int initialLine = 6;
+        StringBuilder leadString = new StringBuilder("");
+        for (SalesRep salesRep : salesReps) {
+            leadString.append(salesRep.toString()).append("\n");
+        }
+        setLinesFromConcatString(leadString.toString(), initialLine);
+
+        if (firstPage && lastPage) {
+            setMenuLines(HIGHLIGHT_COLOR + "ENTER " + ANSI_RESET + "- return to the main menu", 20);
+        } else if (firstPage) {
+            setMenuLines(HIGHLIGHT_COLOR + "next " + ANSI_RESET + "- go to the next page |" + HIGHLIGHT_COLOR +
+                    " back " + ANSI_RESET + "- return to the main menu", 20);
+        } else if (lastPage) {
+            setMenuLines(HIGHLIGHT_COLOR + "previous " + ANSI_RESET + "- return to the previous page | " + HIGHLIGHT_COLOR +
+                    "back " + ANSI_RESET + " - return to the main menu", 20);
+        } else {
+            setMenuLines(HIGHLIGHT_COLOR + "next" + ANSI_RESET + "- go to the next page | " + HIGHLIGHT_COLOR +
                     "previous " + ANSI_RESET + "- return to the previous page | " + HIGHLIGHT_COLOR +
                     "back " + ANSI_RESET + "- return to the main menu", 20);
         }

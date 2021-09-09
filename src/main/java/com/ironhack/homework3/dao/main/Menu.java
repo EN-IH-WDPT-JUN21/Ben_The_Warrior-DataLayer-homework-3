@@ -1,9 +1,6 @@
 package com.ironhack.homework3.dao.main;
 
-import com.ironhack.homework3.dao.classes.Account;
-import com.ironhack.homework3.dao.classes.Contact;
-import com.ironhack.homework3.dao.classes.Lead;
-import com.ironhack.homework3.dao.classes.Opportunity;
+import com.ironhack.homework3.dao.classes.*;
 import com.ironhack.homework3.enums.Industry;
 import com.ironhack.homework3.enums.Product;
 import com.ironhack.homework3.enums.Status;
@@ -99,6 +96,8 @@ public class Menu {
             case "new":
                 if (inputArray[1].equals("lead")){
                     promptLead();
+                }else if (inputArray[1].equals("salesrep")){
+                    promptSalesRep();
                 }
                 break;
             case "show":
@@ -107,6 +106,7 @@ public class Menu {
                     case "opportunities":
                     case "contacts":
                     case "accounts":
+                    case "salesrep":
                         showMenu(inputArray[1]);
                         break;
                 }
@@ -161,6 +161,18 @@ public class Menu {
                             Account account = db.lookupAccountId(Integer.parseInt(inputArray[2]));
                             PrinterMenu.clearWarning();
                             lookupAccountMenu(account);
+                        } catch (IllegalArgumentException e) {
+                            PrinterMenu.setWarning(e.getMessage());
+                        }
+                        break;
+                    case "salesrep":
+                        try {
+                            // If there is no SalesRep an error is thrown
+                            // Otherwise the command can be correctly computed and the warning messages can be cleared
+                            SalesRep salesRep = db.lookupSalesRepId(Integer.parseInt(inputArray[2]));
+                            PrinterMenu.clearWarning();
+                            PrinterMenu.lookupObject(salesRep);
+                            promptDecision("enter");
                         } catch (IllegalArgumentException e) {
                             PrinterMenu.setWarning(e.getMessage());
                         }
@@ -493,6 +505,67 @@ public class Menu {
                     return;
                 }
 
+            case "salesrep":
+                List<SalesRep> salesRepList = db.getAllSalesRep();
+                if (salesRepList.size() > 0){
+                    List<ArrayList<SalesRep>> listList = new ArrayList<>();
+                    listList.add(new ArrayList<>());
+                    for (SalesRep salesRep : salesRepList) {
+                        if (currentIndex + Printer.numberOfTextRows(salesRep.toString()) < maxElements) {
+                            currentIndex = currentIndex + Printer.numberOfTextRows(salesRep.toString());
+                            listList.get(currentPage).add(salesRep);
+                        } else {
+                            listList.add(new ArrayList<>());
+                            listList.get(++currentPage).add(salesRep);
+                        }
+                    }
+                    currentPage = 0;
+                    numPages = listList.size();
+                    while (true) {
+                        PrinterMenu.showSalesRep(listList.get(currentPage), currentPage == 0, currentPage + 1 == numPages);
+                        if (listList.size() > 1) {
+                            if (currentPage == 0) {
+                                decision = promptMultipleDecisions("next", "back");
+                                switch (decision) {
+                                    case 0:
+                                        currentPage++;
+                                        break;
+                                    case 1:
+                                        return;
+                                }
+                            } else if (currentPage + 1 == numPages) {
+                                decision = promptMultipleDecisions("previous", "back");
+                                switch (decision) {
+                                    case 0:
+                                        currentPage--;
+                                        break;
+                                    case 1:
+                                        return;
+                                }
+                            } else {
+                                decision = promptMultipleDecisions("next", "previous", "back");
+                                switch (decision) {
+                                    case 0:
+                                        currentPage++;
+                                        break;
+                                    case 1:
+                                        currentPage--;
+                                        break;
+                                    case 2:
+                                        return;
+                                }
+                            }
+                        } else {
+                            promptDecision("enter");
+                            return;
+                        }
+                    }
+                }else{
+                    PrinterMenu.showSalesRep(new ArrayList<SalesRep>(), true, true);
+                    promptDecision("enter");
+                    return;
+                }
+
             default:
                 throw new IllegalArgumentException("There is no implementation of show method to the object type " + objectType);
         }
@@ -616,6 +689,15 @@ public class Menu {
                 promptDecision("enter");
                 return;
             }
+        }
+    }
+
+    private void promptSalesRep(){
+        PrinterMenu.printMenu("salesrep");
+        String name = promptString("name");
+        PrinterMenu.printMenu("salesrep", name);
+        if (promptDecision("enter back")){
+            db.addSalesRep(name);
         }
     }
 

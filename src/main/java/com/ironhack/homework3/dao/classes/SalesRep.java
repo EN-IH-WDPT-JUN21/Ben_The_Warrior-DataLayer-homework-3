@@ -26,7 +26,14 @@ public class SalesRep {
     @OneToMany(mappedBy = "salesRep")
     List<Opportunity> opportunityList;
 
+    // ============================== CONSTRUCTOR ==============================
     public SalesRep(String name){
         setName(name);
+    }
+
+    // ============================== METHODS ==============================
+    @Override
+    public String toString() {
+        return "Id: " + id + ", Name: " + name;
     }
 }

@@ -264,6 +264,15 @@ public class DatabaseUtility {
             return account.get();
         }
     }
+    // Search a salesrep from id. If it doesn't exist throw exception
+    public SalesRep lookupSalesRepId(int id) {
+        Optional<SalesRep> salesRep = salesRepRepository.findById(id);
+        if (salesRep.isEmpty()) {
+            throw new IllegalArgumentException("There is no SalesRep with id " + id);
+        } else {
+            return salesRep.get();
+        }
+    }
 
     // ==================== Adds new Contact to HashMap for Contacts====================
     //Increments Contact's id counter and returns the new id
@@ -362,6 +371,11 @@ public class DatabaseUtility {
 //        Contact decisionMaker = contactRepository.getById(id);
     }
 
+    public void addSalesRep(String name){
+        SalesRep salesRep = new SalesRep(name);
+        salesRepRepository.save(salesRep);
+    }
+
     // Method to check if a lead exists with a specific id
     public boolean hasLead(int id) {
         return leadRepository.findById(id).isPresent();
@@ -396,6 +410,9 @@ public class DatabaseUtility {
     }
     public List<Account> getAllAccounts(){
         return accountRepository.findAll();
+    }
+    public List<SalesRep> getAllSalesRep(){
+        return salesRepRepository.findAll();
     }
 
     /*@Override
