@@ -16,10 +16,10 @@ import java.util.Objects;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class Opportunity{
+public class Opportunity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="opportunity_id")
+    @Column(name = "opportunity_id")
     private Integer id;
 
     @Enumerated(EnumType.STRING)
@@ -28,14 +28,14 @@ public class Opportunity{
     private int quantity;
 
     @OneToOne
-    @JoinColumn(name="decision_maker_id")
+    @JoinColumn(name = "decision_maker_id")
     private Contact decisionMaker;
 
     @Enumerated(EnumType.STRING)
     private Status status;
 
     @ManyToOne
-    @JoinColumn(name="account_id", referencedColumnName = "account_id")
+    @JoinColumn(name = "account_id", referencedColumnName = "account_id")
     private Account accountOpp;
 
     @ManyToOne
@@ -43,6 +43,11 @@ public class Opportunity{
     private SalesRep salesRep;
 
     // ============================== CONSTRUCTOR ==============================
+    public Opportunity(Product product, int quantity, Status status) {
+        this.product = product;
+        this.quantity = quantity;
+        this.status = status;
+    }
 
     public Opportunity(Product product, int quantity, Contact decisionMaker, Status status, Account account, SalesRep salesRep) {
         setProduct(product);
@@ -51,6 +56,7 @@ public class Opportunity{
         setStatus(status);
         setAccountOpp(account);
         setSalesRep(salesRep);
+
     }
 
     public Opportunity(Product product, int quantity, Contact decisionMaker, Status status, Account accountOpp) {
@@ -60,6 +66,7 @@ public class Opportunity{
         this.status = status;
         this.accountOpp = accountOpp;
     }
+
 
     // ============================== METHODS ==============================
     @Override
@@ -82,7 +89,7 @@ public class Opportunity{
         return Objects.hash(product, quantity, decisionMaker, status);
     }
 
-    public boolean hasNullValues(){
+    public boolean hasNullValues() {
         return getProduct() == null || getStatus() == null || getDecisionMaker().hasNullValues();
     }
 }

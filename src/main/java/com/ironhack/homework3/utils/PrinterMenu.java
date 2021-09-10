@@ -14,6 +14,10 @@ public class PrinterMenu extends Printer {
     // String array to print the menu
     private static final String[] menuLine = {"", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""};
 
+    private static void clearAll() {
+        setMenuLines("", 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21);
+    }
+
     // Set one or multiple lines of the menu String array to the String passed in
     public static void setMenuLines(String str, int... lines) {
         for (int line : lines) {
@@ -45,6 +49,9 @@ public class PrinterMenu extends Printer {
             case "help":
                 helpMenuLines();
                 break;
+            case "help -a":
+                helpAllLines();
+                break;
             case "exit":
                 saveBeforeQuit();
                 break;
@@ -67,35 +74,60 @@ public class PrinterMenu extends Printer {
     }
 
     // Set the menu String array for the main menu
-    private static void mainMenuLines(){
-        setMenuLines("",4,6,7,8,9,10,11,12,13,14,15,16,17,18,19);
-        setMenuLines("Welcome to Ben's CRM program.",1);
-        setMenuLines("Enter " + HIGHLIGHT_COLOR + "help" + ANSI_RESET + " for a list of valid commands!",20);
-        setMenuLines("Enter " + HIGHLIGHT_COLOR + "exit" + ANSI_RESET + " to close the application!",21);
+    private static void mainMenuLines() {
+        clearAll();
+        setMenuLines("Welcome to Ben's CRM program.", 1);
+        setMenuLines("Enter " + HIGHLIGHT_COLOR + "help (-a)" + ANSI_RESET + " for a list of valid commands!", 20);
+        setMenuLines("Enter " + HIGHLIGHT_COLOR + "exit" + ANSI_RESET + " to close the application!", 21);
     }
 
-    private static void saveBeforeQuit(){
-        setMenuLines("",4,6,7,8,9,10,11,12,13,14,15,16,17,18,19);
-        setMenuLines("Goodbye.",1);
-        setMenuLines("Do you want to save before exiting?", 19);
-        setMenuLines(HIGHLIGHT_COLOR + "ENTER " + ANSI_RESET + "- save and exit",20);
-        setMenuLines(HIGHLIGHT_COLOR + "exit " + ANSI_RESET + "- exit",21);
+    private static void saveBeforeQuit() {
+        clearAll();
+        setMenuLines("Goodbye.", 1);
     }
 
     // Set the menu String array for the help menu with a list of available commands
-    private static void helpMenuLines(){
-        setMenuLines("",7,9,11,13,15,16,18,20);
-        setMenuLines("Welcome to Ben's CRM program. Here are the main commands:",1);
-        setMenuLines(HIGHLIGHT_COLOR + "new lead" + ANSI_RESET + " - Creates a new Lead",4);
-        setMenuLines(HIGHLIGHT_COLOR + "convert <ID>" + ANSI_RESET + " - Converts a Lead into an Opportunity",6);
-        setMenuLines(HIGHLIGHT_COLOR + "close-won <ID>" + ANSI_RESET + " - Close Won Opportunity",8);
-        setMenuLines(HIGHLIGHT_COLOR + "close-lost <ID>" + ANSI_RESET + " - Close Lost Opportunity",10);
-        setMenuLines(HIGHLIGHT_COLOR + "lookup <OBJECT> <ID>" + ANSI_RESET + " - Search for specific Lead, Opportunity, Account or Contact",12);
-        setMenuLines(HIGHLIGHT_COLOR + "show <OBJECT PLURAL>" + ANSI_RESET + " - List all Leads, Opportunities, Accounts or Contacts",14);
-        setMenuLines(HIGHLIGHT_COLOR + "help" + ANSI_RESET + " - Explains usage of available commands",17);
-        setMenuLines(HIGHLIGHT_COLOR + "save" + ANSI_RESET + " - Saves the changed data",19);
-        setMenuLines(HIGHLIGHT_COLOR + "exit" + ANSI_RESET + " - Saves and exits the program",21);
+    private static void helpMenuLines() {
+        clearAll();
+        setMenuLines("Welcome to Ben's CRM program. Here are the main commands:", 1);
+        setMenuLines(HIGHLIGHT_COLOR + "new lead" + ANSI_RESET + " - Creates a new Lead", 4);
+        setMenuLines(HIGHLIGHT_COLOR + "new salesrep" + ANSI_RESET + " - Creates a new Sales Representative", 6);
+        setMenuLines(HIGHLIGHT_COLOR + "convert <ID>" + ANSI_RESET + " - Converts a Lead into an Opportunity", 8);
+        setMenuLines(HIGHLIGHT_COLOR + "close-won <ID>" + ANSI_RESET + " - Close Won Opportunity", 10);
+        setMenuLines(HIGHLIGHT_COLOR + "close-lost <ID>" + ANSI_RESET + " - Close Lost Opportunity", 12);
+        setMenuLines(HIGHLIGHT_COLOR + "lookup <OBJECT> <ID>" + ANSI_RESET + " - Search for specific Lead, Opportunity, Account, Contact or SalesRep", 14);
+        setMenuLines(HIGHLIGHT_COLOR + "show <OBJECT PLURAL>" + ANSI_RESET + " - List all Leads, Opportunities, Accounts, Contacts or SalesRep", 16);
+        setMenuLines(HIGHLIGHT_COLOR + "help (-a)" + ANSI_RESET + " - Lists essential/all help commands", 20);
+        setMenuLines(HIGHLIGHT_COLOR + "exit" + ANSI_RESET + " - Exits the program", 21);
     }
+
+    // Set the menu String array for the help menu with a list of available commands
+    private static void helpAllLines() {
+        clearAll();
+        setMenuLines("Welcome to Ben's CRM program. Here are all the commands:", 1);
+        setMenuLines(HIGHLIGHT_COLOR + "new lead" + ANSI_RESET + " - Creates a new Lead", 2);
+        setMenuLines(HIGHLIGHT_COLOR + "new salesrep" + ANSI_RESET + " - Creates a new Sales Representative", 3);
+        setMenuLines(HIGHLIGHT_COLOR + "convert <ID>" + ANSI_RESET + " - Converts a Lead into an Opportunity", 4);
+        setMenuLines(HIGHLIGHT_COLOR + "close-won <ID>" + ANSI_RESET + " - Close Won Opportunity", 5);
+        setMenuLines(HIGHLIGHT_COLOR + "close-lost <ID>" + ANSI_RESET + " - Close Lost Opportunity", 6);
+        setMenuLines(HIGHLIGHT_COLOR + "lookup <OBJECT> <ID>" + ANSI_RESET + " - Search for specific <Lead>, <Opportunity>, <Account> or <Contact>", 7);
+        setMenuLines(HIGHLIGHT_COLOR + "show <OBJECT PLURAL>" + ANSI_RESET + " - List all <Leads>, <Opportunities>, <Accounts> or <Contacts>", 8);
+
+        setMenuLines(HIGHLIGHT_COLOR + "Report Lead by SalesRep" + ANSI_RESET + " - Reports the number of leads per SalesRep", 10);
+        setMenuLines(HIGHLIGHT_COLOR + "Report Opportunity by <PROPERTY>" + ANSI_RESET + " - Reports the number of opportunities per <SalesRep>, <Product>, <Country>, <City> or <Industry>", 11);
+        setMenuLines(HIGHLIGHT_COLOR + "Report CLOSED-WON by <PROPERTY>" + ANSI_RESET + " - Reports the number of closed-won opportunities per <SalesRep>, <Product>, <Country>, <City> or <Industry>", 12);
+        setMenuLines(HIGHLIGHT_COLOR + "Report CLOSED-LOST by <PROPERTY>" + ANSI_RESET + " - Reports the number of closed-lost opportunities per <SalesRep>, <Product>, <Country>, <City> or <Industry>", 13);
+        setMenuLines(HIGHLIGHT_COLOR + "Report OPEN by <PROPERTY>" + ANSI_RESET + " - Reports the number of open opportunities per <SalesRep>, <Product>, <Country>, <City> or <Industry>", 14);
+
+        setMenuLines(HIGHLIGHT_COLOR + "Mean <PROPERTY>" + ANSI_RESET + " - Reports the mean value of <EmployeeCount>, <Quantity> or <Opps per Account>", 15);
+        setMenuLines(HIGHLIGHT_COLOR + "Median <PROPERTY>" + ANSI_RESET + " - Reports the median value of <EmployeeCount>, <Quantity> or <Opps per Account>", 16);
+        setMenuLines(HIGHLIGHT_COLOR + "Max <PROPERTY>" + ANSI_RESET + " - Reports the maximum value of <EmployeeCount>, <Quantity> or <Opps per Account>", 17);
+        setMenuLines(HIGHLIGHT_COLOR + "Min <PROPERTY>" + ANSI_RESET + " - RReports the minimum value of <EmployeeCount>, <Quantity> or <Opps per Account>", 18);
+
+        setMenuLines(HIGHLIGHT_COLOR + "help (-a)" + ANSI_RESET + " - Lists essential/all help commands", 20);
+        setMenuLines(HIGHLIGHT_COLOR + "exit" + ANSI_RESET + " - Exits the program", 21);
+    }
+
 
     // ======================================== 3.1 NEW LEAD MENU ========================================
     // Set the menu String array for the lead creation menu
@@ -345,6 +377,7 @@ public class PrinterMenu extends Printer {
         }
     }
 
+
     // Set the menu String array to show the provided page (List) of leads
     public static void showLeads(ArrayList<Lead> leads, boolean firstPage, boolean lastPage) {
         setMenuLines("", 1, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 21);
@@ -376,6 +409,7 @@ public class PrinterMenu extends Printer {
         }
         PrinterMenu.printMenu("");
     }
+
     // Set the menu String array to show the provided page (List) of opportunities
     public static void showOpportunities(ArrayList<Opportunity> opportunities, boolean firstPage, boolean lastPage, boolean fromAccount) {
         setMenuLines("", 1, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 21);
@@ -406,6 +440,7 @@ public class PrinterMenu extends Printer {
         }
         PrinterMenu.printMenu("");
     }
+
     // Set the menu String array to show the provided page (List) of contacts
     public static void showContacts(ArrayList<Contact> contacts, boolean firstPage, boolean lastPage, boolean fromAccount) {
         setMenuLines("", 1, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 21);
@@ -436,6 +471,7 @@ public class PrinterMenu extends Printer {
         }
         PrinterMenu.printMenu("");
     }
+
     // Set the menu String array to show the provided page (List) of accounts
     public static void showAccounts(ArrayList<Account> accounts, boolean firstPage, boolean lastPage) {
         setMenuLines("", 1, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 21);
@@ -500,12 +536,12 @@ public class PrinterMenu extends Printer {
     }
 
     // Set menu lines from a concatenated String starting from the index passed in
-    public static void setLinesFromConcatString(String str, int index){
+    public static void setLinesFromConcatString(String str, int index) {
         String[] stringArr = str.split("\n");
-        for (String singleString : stringArr){
+        for (String singleString : stringArr) {
             String[] dividedString = divideText(singleString);
             setMenuLines(dividedString[0], index++);
-            while (!dividedString[1].equals("")){
+            while (!dividedString[1].equals("")) {
                 dividedString = divideText(dividedString[1]);
                 setMenuLines(dividedString[0], index++);
             }
@@ -516,8 +552,12 @@ public class PrinterMenu extends Printer {
     public static void setWarning(String message) {
         setMenuLines(ANSI_BRIGHT_RED + message + ANSI_RESET, ERROR_LINE);
     }
-    public static String getWarning() { return getMenuLine(ERROR_LINE).replace(ANSI_BRIGHT_RED,"").replace(ANSI_RESET,""); }
+
+    public static String getWarning() {
+        return getMenuLine(ERROR_LINE).replace(ANSI_BRIGHT_RED, "").replace(ANSI_RESET, "");
+    }
+
     public static void clearWarning() {
-        setMenuLines("",ERROR_LINE);
+        setMenuLines("", ERROR_LINE);
     }
 }
