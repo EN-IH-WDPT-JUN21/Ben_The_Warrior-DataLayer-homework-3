@@ -356,11 +356,11 @@ public class Menu {
             int answer = promptMultipleDecisions("contacts", "opportunities", "back");
             switch (answer) {
                 case 0:
-                    showContactsMenu(account.getContactList());
+                    showFromListMenu(account.getContactList(), "contacts");
                     PrinterMenu.lookupObject(account);
                     break;
                 case 1:
-                    showOpportunitiesMenu(account.getOpportunityList());
+                    showFromListMenu(account.getOpportunityList(), "opportunities");
                     PrinterMenu.lookupObject(account);
                     break;
                 case 2:
@@ -490,7 +490,7 @@ public class Menu {
                     return;
                 }
 
-            case "salesrep":
+            case "salesreps":
                 List<SalesRep> salesRepList = db.getAllSalesRep();
                 if (salesRepList.size() > 0) {
                     List<ArrayList<SalesRep>> listList = new ArrayList<>();
@@ -525,124 +525,70 @@ public class Menu {
     }
 
     // Method to create the menu showing all available Contacts in a List
-    private void showContactsMenu(List<Contact> contactList) {
+    private void showFromListMenu(List<?> list, String objectType) {
+        // List is separated in multiple lists (pages)
         int maxElements = PrinterMenu.getPrintMultipleObjectsMax();
         int currentPage = 0;
         int currentIndex = 0;
         int decision;
-        // List of contacts is separated in multiple lists (pages)
-        List<ArrayList<Contact>> listListContacts = new ArrayList<>();
-        listListContacts.add(new ArrayList<>());
-
-        for (Contact contact : contactList) {
-            if (currentIndex++ < maxElements) {
-                listListContacts.get(currentPage).add(contact);
-            } else {
-                listListContacts.add(new ArrayList<>());
-                listListContacts.get(++currentPage).add(contact);
-            }
-        }
-
-        // Allow user to change between the pages
-        int numPages = listListContacts.size();
-        while (true) {
-            PrinterMenu.showContacts(listListContacts.get(currentPage), currentPage == 0, currentPage + 1 == numPages, true);
-            if (listListContacts.size() > 1) {
-                if (currentPage == 0) {
-                    decision = promptMultipleDecisions("next", "back");
-                    switch (decision) {
-                        case 0:
-                            currentPage++;
-                            break;
-                        case 1:
-                            return;
-                    }
-                } else if (currentPage + 1 == numPages) {
-                    decision = promptMultipleDecisions("previous", "back");
-                    switch (decision) {
-                        case 0:
-                            currentPage--;
-                            break;
-                        case 1:
-                            return;
-                    }
+        int numPages;
+        switch (objectType.toLowerCase().trim()){
+            case "contacts":
+                if (list.size() == 0){
+                    PrinterMenu.showContacts(new ArrayList<>(), true, true, true);
+                    promptDecision("enter");
+                    return;
                 } else {
-                    decision = promptMultipleDecisions("next", "previous", "back");
-                    switch (decision) {
-                        case 0:
-                            currentPage++;
-                            break;
-                        case 1:
-                            currentPage--;
-                        case 2:
-                            return;
+                    List<ArrayList<Contact>> listListContact = new ArrayList<>();
+                    listListContact.add(new ArrayList<>());
+                    try {
+                        for (Object object : list) {
+                            if (currentIndex++ < maxElements) {
+                                listListContact.get(currentPage).add((Contact) object);
+                            } else {
+                                listListContact.add(new ArrayList<>());
+                                listListContact.get(++currentPage).add((Contact) object);
+                            }
+                        }
+                    } catch (ClassCastException e){
+                        PrinterMenu.setWarning("Could not cast Object as Contact");
+                    }
+                    // Allow user to change between the pages
+                    numPages = listListContact.size();
+                    while (true) {
+                        PrinterMenu.showContacts(listListContact.get(currentPage), currentPage == 0, currentPage + 1 == numPages, true);
+                        currentPage = pageHandler(listListContact.size(), currentPage, numPages);
+                        if (currentPage == -1){ return; }
                     }
                 }
-            } else {
-                promptDecision("enter");
-                return;
-            }
-        }
-    }
-
-    // Method to create the menu showing all available Opportunities in a List
-    private void showOpportunitiesMenu(List<Opportunity> opportunityList) {
-        int maxElements = PrinterMenu.getPrintMultipleObjectsMax();
-        int currentPage = 0;
-        int currentIndex = 0;
-        int decision;
-        // List of opportunities is separated in multiple lists (pages)
-        List<ArrayList<Opportunity>> listListOpportunity = new ArrayList<>();
-        listListOpportunity.add(new ArrayList<>());
-
-        for (Opportunity opportunity : opportunityList) {
-            if (currentIndex++ < maxElements) {
-                listListOpportunity.get(currentPage).add(opportunity);
-            } else {
-                listListOpportunity.add(new ArrayList<>());
-                listListOpportunity.get(++currentPage).add(opportunity);
-            }
-        }
-
-        // Allow user to change between the pages
-        int numPages = listListOpportunity.size();
-        while (true) {
-            PrinterMenu.showOpportunities(listListOpportunity.get(currentPage), currentPage == 0, currentPage + 1 == numPages, true);
-            if (listListOpportunity.size() > 1) {
-                if (currentPage == 0) {
-                    decision = promptMultipleDecisions("next", "back");
-                    switch (decision) {
-                        case 0:
-                            currentPage++;
-                            break;
-                        case 1:
-                            return;
-                    }
-                } else if (currentPage + 1 == numPages) {
-                    decision = promptMultipleDecisions("previous", "back");
-                    switch (decision) {
-                        case 0:
-                            currentPage--;
-                            break;
-                        case 1:
-                            return;
-                    }
+            case "opportunities":
+                if (list.size() == 0){
+                    PrinterMenu.showContacts(new ArrayList<>(), true, true, true);
+                    promptDecision("enter");
+                    return;
                 } else {
-                    decision = promptMultipleDecisions("next", "previous", "back");
-                    switch (decision) {
-                        case 0:
-                            currentPage++;
-                            break;
-                        case 1:
-                            currentPage--;
-                        case 2:
-                            return;
+                    List<ArrayList<Opportunity>> listListOpportunity = new ArrayList<>();
+                    listListOpportunity.add(new ArrayList<>());
+                    try {
+                        for (Object object : list) {
+                            if (currentIndex++ < maxElements) {
+                                listListOpportunity.get(currentPage).add((Opportunity) object);
+                            } else {
+                                listListOpportunity.add(new ArrayList<>());
+                                listListOpportunity.get(++currentPage).add((Opportunity) object);
+                            }
+                        }
+                    } catch (ClassCastException e){
+                        PrinterMenu.setWarning("Could not cast Object as Contact");
+                    }
+                    // Allow user to change between the pages
+                    numPages = listListOpportunity.size();
+                    while (true) {
+                        PrinterMenu.showOpportunities(listListOpportunity.get(currentPage), currentPage == 0, currentPage + 1 == numPages, true);
+                        currentPage = pageHandler(listListOpportunity.size(), currentPage, numPages);
+                        if (currentPage == -1){ return; }
                     }
                 }
-            } else {
-                promptDecision("enter");
-                return;
-            }
         }
     }
 

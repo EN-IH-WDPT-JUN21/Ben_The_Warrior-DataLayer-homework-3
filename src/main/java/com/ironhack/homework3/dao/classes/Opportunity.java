@@ -44,9 +44,9 @@ public class Opportunity {
 
     // ============================== CONSTRUCTOR ==============================
     public Opportunity(Product product, int quantity, Status status) {
-        this.product = product;
-        this.quantity = quantity;
-        this.status = status;
+        setProduct(product);
+        setQuantity(quantity);
+        setStatus(status);
     }
 
     public Opportunity(Product product, int quantity, Contact decisionMaker, Status status, Account account, SalesRep salesRep) {
@@ -60,11 +60,18 @@ public class Opportunity {
     }
 
     public Opportunity(Product product, int quantity, Contact decisionMaker, Status status, Account accountOpp) {
-        this.product = product;
-        this.quantity = quantity;
-        this.decisionMaker = decisionMaker;
-        this.status = status;
-        this.accountOpp = accountOpp;
+        setProduct(product);
+        setQuantity(quantity);
+        setDecisionMaker(decisionMaker);
+        setStatus(status);
+        setAccountOpp(accountOpp);
+    }
+
+    public Opportunity(Product product, int quantity, Contact decisionMaker, Status status) {
+        setProduct(product);
+        setQuantity(quantity);
+        setDecisionMaker(decisionMaker);
+        setStatus(status);
     }
 
 
