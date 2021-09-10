@@ -6,20 +6,22 @@ import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.context.TestPropertySource;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)   // Resets DB and id generation (slower)
-//@TestPropertySource(properties = {      // For testing it uses a "datalayer_tests" database and the same user
-//        "spring.datasource.url=jdbc:mysql://localhost:3306/datalayer_tests",
-//        "spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver",
-//        "spring.datasource.username=Ben",
-//        "spring.datasource.password=Password-123",
-//        "spring.jpa.hibernate.ddl-auto=create-drop",
-//        "spring.datasource.initialization-mode=never"   // Doesn't initialize schema.sql
-//})
+@TestPropertySource(properties = {      // For testing it uses a "datalayer_tests" database and the same user
+        "spring.datasource.url=jdbc:mysql://localhost:3306/datalayer_test",
+        "spring.datasource.username=Ben",
+        "spring.datasource.password=Password-123",
+        "spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver",
+        "spring.jpa.hibernate.ddl-auto=create-drop",
+        "spring.jpa.show-sql=true",
+        "spring.datasource.initialization-mode=never"
+})
 class ContactRepositoryTest {
 
     @Autowired

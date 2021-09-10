@@ -66,9 +66,9 @@ public interface AccountRepository extends JpaRepository<Account, Integer> {
 
     // ============================== QUERIES 5 - Reporting Functionality By Industry ==============================
     // 1. Report Opportunity by Industry
-    @Query("SELECT a.industry AS industryComment, COUNT(a.industry) AS industryCount FROM Account a " +
+    @Query("SELECT a.industry AS industryComment, COUNT(o) AS industryCount FROM Account a " +
             "LEFT JOIN a.opportunityList o " +
-            "GROUP BY a.industry ORDER BY COUNT(a.industry) DESC")
+            "GROUP BY a.industry ORDER BY COUNT(o) DESC")
     List<IOpportunityIndustryCount> countByIndustry();
 
     // 2. Report CLOSED-WON by Industry

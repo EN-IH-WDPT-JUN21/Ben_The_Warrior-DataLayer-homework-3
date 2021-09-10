@@ -30,10 +30,10 @@ public class Account{
     private String city;
     private String country;
 
-    @OneToMany(mappedBy = "account", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "account", cascade = {CascadeType.REMOVE})
     private List<Contact> contactList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "accountOpp")
+    @OneToMany(mappedBy = "accountOpp", cascade = {CascadeType.REMOVE})
     private List<Opportunity> opportunityList = new ArrayList<>();
 
 //    private ArrayList<Contact> contactList;
