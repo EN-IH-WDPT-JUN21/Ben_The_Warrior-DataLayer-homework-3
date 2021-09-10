@@ -21,7 +21,6 @@ import java.io.IOException;
 import java.util.*;
 
 @Component
-@Getter
 @Setter
 public class DatabaseUtility {
     @Autowired
@@ -215,8 +214,8 @@ public class DatabaseUtility {
     } TODO ID's are handled by the repo. Method may not be necessary*/
 
     //creating new lead
-    public void addLead(String name, String phoneNumber, String email, String companyName) {
-        Lead newLead = new Lead(name, phoneNumber, email, companyName);
+    public void addLead(String name, String phoneNumber, String email, String companyName, SalesRep salesRep) {
+        Lead newLead = new Lead(name, phoneNumber, email, companyName, salesRep);
         var allLeads = leadRepository.findAll();
         for (var lead : allLeads) {
             if (lead.equals(newLead)) {
@@ -322,8 +321,8 @@ public class DatabaseUtility {
     } TODO ID's are handled by the repo. Method may not be necessary */
 
     //creating new opportunity
-    public Opportunity addOpportunity(Product product, int quantity, Contact decisionMaker, Account account) {
-        Opportunity newOpportunity = new Opportunity(product, quantity, decisionMaker, Status.OPEN, account);
+    public Opportunity addOpportunity(Product product, int quantity, Contact decisionMaker, Account account, SalesRep salesRep) {
+        Opportunity newOpportunity = new Opportunity(product, quantity, decisionMaker, Status.OPEN, account, salesRep);
         opportunityRepository.save(newOpportunity);
         return newOpportunity;
     }
@@ -345,12 +344,14 @@ public class DatabaseUtility {
     // ==================== Converts Lead -> calls: addOpportunity, addAccount, addContact, removeLead====================
     public void convertLead(Integer id, Product product, int quantity, Industry industry, int employeeCount, String city, String country) {
         Account account = addAccount(industry, employeeCount, city, country);
+        SalesRep salesRep = getLeadById(id).getSalesRep();
         try {
             id = addContact(id, account);
             Optional<Contact> decisionMaker = contactRepository.findById(id);
-            if (decisionMaker.isPresent()) {
-                Opportunity newOpportunity = addOpportunity(product, quantity, decisionMaker.get(), account);
-            } else {
+
+            if (decisionMaker.isPresent()){
+                Opportunity newOpportunity = addOpportunity(product, quantity, decisionMaker.get(), account, salesRep);
+            }else {
                 PrinterMenu.setWarning("Something went wrong, Lead converted but Contacted unable to be fetched!");
             }
         } catch (IllegalArgumentException e) {
@@ -361,13 +362,13 @@ public class DatabaseUtility {
     // Convert lead with existing account
     public void convertLead(Integer id, Product product, int quantity, int accountId) {
         Optional<Account> account = accountRepository.findById(accountId);
-        if (account.isPresent()) {
+        SalesRep salesRep = getLeadById(id).getSalesRep();
+        if (account.isPresent()){
             try {
                 id = addContact(id, account.get());
                 Optional<Contact> decisionMaker = contactRepository.findById(id);
-                if (decisionMaker.isPresent()) {
-                    Opportunity newOpportunity = addOpportunity(product, quantity, decisionMaker.get(), account.get());
-
+                if (decisionMaker.isPresent()){
+                    Opportunity newOpportunity = addOpportunity(product, quantity, decisionMaker.get(), account.get(), salesRep);
                 } else {
                     PrinterMenu.setWarning("Something went wrong, Lead converted but Contacted unable to be fetched!");
                 }
@@ -380,9 +381,11 @@ public class DatabaseUtility {
 //        Contact decisionMaker = contactRepository.getById(id);
     }
 
-    public void addSalesRep(String name) {
+
+    public SalesRep addSalesRep(String name){
         SalesRep salesRep = new SalesRep(name);
         salesRepRepository.save(salesRep);
+        return salesRep;
     }
 
     // Method to check if a lead exists with a specific id
@@ -410,11 +413,20 @@ public class DatabaseUtility {
         return salesRepRepository.findById(id).isPresent();
     }
 
+    public Lead getLeadById(int id) {
+        return leadRepository.findById(id).orElse(null);
+    }
+
     public Account getAccountById(int id) {
         return accountRepository.findById(id).orElse(null);
     }
 
-    public List<Lead> getAllLeads() {
+
+    public SalesRep getSalesRepById(int id) {
+        return salesRepRepository.findById(id).orElse(null);
+    }
+
+    public List<Lead> getAllLeads(){
         return leadRepository.findAll();
     }
 

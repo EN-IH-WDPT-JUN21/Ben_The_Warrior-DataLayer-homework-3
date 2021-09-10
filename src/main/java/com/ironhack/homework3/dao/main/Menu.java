@@ -106,7 +106,7 @@ public class Menu {
                     case "opportunities":
                     case "contacts":
                     case "accounts":
-                    case "salesrep":
+                    case "salesreps":
                         showMenu(inputArray[1]);
                         break;
                 }
@@ -395,40 +395,8 @@ public class Menu {
                     numPages = listList.size();
                     while (true) {
                         PrinterMenu.showLeads(listList.get(currentPage), currentPage == 0, currentPage + 1 == numPages);
-                        if (listList.size() > 1) {
-                            if (currentPage == 0) {
-                                decision = promptMultipleDecisions("next", "back");
-                                switch (decision) {
-                                    case 0:
-                                        currentPage++;
-                                        break;
-                                    case 1:
-                                        return;
-                                }
-                            } else if (currentPage + 1 == numPages) {
-                                decision = promptMultipleDecisions("previous", "back");
-                                switch (decision) {
-                                    case 0:
-                                        currentPage--;
-                                        break;
-                                    case 1:
-                                        return;
-                                }
-                            } else {
-                                decision = promptMultipleDecisions("next", "previous", "back");
-                                switch (decision) {
-                                    case 0:
-                                        currentPage++;
-                                        break;
-                                    case 1:
-                                        currentPage--;
-                                        break;
-                                    case 2:
-                                        return;
-                                }
-                            }
-                        } else {
-                            promptDecision("enter");
+                        currentPage = pageHandler(listList.size(), currentPage, numPages);
+                        if (currentPage == -1){
                             return;
                         }
                     }
@@ -455,40 +423,8 @@ public class Menu {
                     numPages = listList.size();
                     while (true) {
                         PrinterMenu.showContacts(listList.get(currentPage), currentPage == 0, currentPage + 1 == numPages, false);
-                        if (listList.size() > 1) {
-                            if (currentPage == 0) {
-                                decision = promptMultipleDecisions("next", "back");
-                                switch (decision) {
-                                    case 0:
-                                        currentPage++;
-                                        break;
-                                    case 1:
-                                        return;
-                                }
-                            } else if (currentPage + 1 == numPages) {
-                                decision = promptMultipleDecisions("previous", "back");
-                                switch (decision) {
-                                    case 0:
-                                        currentPage--;
-                                        break;
-                                    case 1:
-                                        return;
-                                }
-                            } else {
-                                decision = promptMultipleDecisions("next", "previous", "back");
-                                switch (decision) {
-                                    case 0:
-                                        currentPage++;
-                                        break;
-                                    case 1:
-                                        currentPage--;
-                                        break;
-                                    case 2:
-                                        return;
-                                }
-                            }
-                        } else {
-                            promptDecision("enter");
+                        currentPage = pageHandler(listList.size(), currentPage, numPages);
+                        if (currentPage == -1){
                             return;
                         }
                     }
@@ -515,40 +451,8 @@ public class Menu {
                     numPages = listList.size();
                     while (true) {
                         PrinterMenu.showOpportunities(listList.get(currentPage), currentPage == 0, currentPage + 1 == numPages, false);
-                        if (listList.size() > 1) {
-                            if (currentPage == 0) {
-                                decision = promptMultipleDecisions("next", "back");
-                                switch (decision) {
-                                    case 0:
-                                        currentPage++;
-                                        break;
-                                    case 1:
-                                        return;
-                                }
-                            } else if (currentPage + 1 == numPages) {
-                                decision = promptMultipleDecisions("previous", "back");
-                                switch (decision) {
-                                    case 0:
-                                        currentPage--;
-                                        break;
-                                    case 1:
-                                        return;
-                                }
-                            } else {
-                                decision = promptMultipleDecisions("next", "previous", "back");
-                                switch (decision) {
-                                    case 0:
-                                        currentPage++;
-                                        break;
-                                    case 1:
-                                        currentPage--;
-                                        break;
-                                    case 2:
-                                        return;
-                                }
-                            }
-                        } else {
-                            promptDecision("enter");
+                        currentPage = pageHandler(listList.size(), currentPage, numPages);
+                        if (currentPage == -1){
                             return;
                         }
                     }
@@ -575,40 +479,8 @@ public class Menu {
                     numPages = listList.size();
                     while (true) {
                         PrinterMenu.showAccounts(listList.get(currentPage), currentPage == 0, currentPage + 1 == numPages);
-                        if (listList.size() > 1) {
-                            if (currentPage == 0) {
-                                decision = promptMultipleDecisions("next", "back");
-                                switch (decision) {
-                                    case 0:
-                                        currentPage++;
-                                        break;
-                                    case 1:
-                                        return;
-                                }
-                            } else if (currentPage + 1 == numPages) {
-                                decision = promptMultipleDecisions("previous", "back");
-                                switch (decision) {
-                                    case 0:
-                                        currentPage--;
-                                        break;
-                                    case 1:
-                                        return;
-                                }
-                            } else {
-                                decision = promptMultipleDecisions("next", "previous", "back");
-                                switch (decision) {
-                                    case 0:
-                                        currentPage++;
-                                        break;
-                                    case 1:
-                                        currentPage--;
-                                        break;
-                                    case 2:
-                                        return;
-                                }
-                            }
-                        } else {
-                            promptDecision("enter");
+                        currentPage = pageHandler(listList.size(), currentPage, numPages);
+                        if (currentPage == -1) {
                             return;
                         }
                     }
@@ -636,40 +508,8 @@ public class Menu {
                     numPages = listList.size();
                     while (true) {
                         PrinterMenu.showSalesRep(listList.get(currentPage), currentPage == 0, currentPage + 1 == numPages);
-                        if (listList.size() > 1) {
-                            if (currentPage == 0) {
-                                decision = promptMultipleDecisions("next", "back");
-                                switch (decision) {
-                                    case 0:
-                                        currentPage++;
-                                        break;
-                                    case 1:
-                                        return;
-                                }
-                            } else if (currentPage + 1 == numPages) {
-                                decision = promptMultipleDecisions("previous", "back");
-                                switch (decision) {
-                                    case 0:
-                                        currentPage--;
-                                        break;
-                                    case 1:
-                                        return;
-                                }
-                            } else {
-                                decision = promptMultipleDecisions("next", "previous", "back");
-                                switch (decision) {
-                                    case 0:
-                                        currentPage++;
-                                        break;
-                                    case 1:
-                                        currentPage--;
-                                        break;
-                                    case 2:
-                                        return;
-                                }
-                            }
-                        } else {
-                            promptDecision("enter");
+                        currentPage = pageHandler(listList.size(), currentPage, numPages);
+                        if (currentPage == -1){
                             return;
                         }
                     }
@@ -806,28 +646,74 @@ public class Menu {
         }
     }
 
-    private void promptSalesRep() {
+    private int pageHandler(int listSize, int currentPage, int numPages){
+        int decision;
+        if (listSize > 1) {
+            if (currentPage == 0) {
+                decision = promptMultipleDecisions("next", "back");
+                switch (decision) {
+                    case 0:
+                        return ++currentPage;
+                    case 1:
+                        return -1;
+                    default:
+                        throw new IllegalArgumentException("Prompt decision non existent");
+                }
+            } else if (currentPage + 1 == numPages) {
+                decision = promptMultipleDecisions("previous", "back");
+                switch (decision) {
+                    case 0:
+                        return --currentPage;
+                    case 1:
+                        return -1;
+                    default:
+                        throw new IllegalArgumentException("Prompt decision non existent");
+                }
+            } else {
+                decision = promptMultipleDecisions("next", "previous", "back");
+                switch (decision) {
+                    case 0:
+                        return ++currentPage;
+                    case 1:
+                        return --currentPage;
+                    case 2:
+                        return -1;
+                    default:
+                        throw new IllegalArgumentException("Prompt decision non existent");
+                }
+            }
+        } else {
+            promptDecision("enter");
+            return -1;
+        }
+    }
+
+    private SalesRep promptSalesRep(){
         PrinterMenu.printMenu("salesrep");
         String name = promptString("name");
         PrinterMenu.printMenu("salesrep", name);
-        if (promptDecision("enter back")) {
-            db.addSalesRep(name);
+        if (promptDecision("enter back")){
+            return db.addSalesRep(name);
         }
+        return null;
     }
 
     //Method that handles the prompts to convert a lead
     private void promptConvert(int id) {
         // check if Lead exists, if not print error message
         if (db.hasLead(id)) {
-            String contactName = db.getLeadRepository().getById(id).getName();
+            String contactName = db.getLeadById(id).getName();
+            String salesRepName = db.getLeadById(id).getSalesRep().getName();
             //call methods to prompt Opportunity's product and quantity
             PrinterMenu.printMenu("convert");
             Product product = promptProduct();
             PrinterMenu.printMenu("convert", "product", product.toString());
             int quantity = promptPositiveNumber();
             //print also the contact (from the lead's info)
-            PrinterMenu.printMenu("convert", "quantity and contact", Integer.toString(quantity), contactName);
-            if (!promptDecision("enter back")) {
+
+            PrinterMenu.printMenu("convert", "quantity and contact", Integer.toString(quantity), contactName, salesRepName);
+            if (!promptDecision("enter back")){
+
                 return;
             }
             PrinterMenu.printMenu("convert", "account_select", Integer.valueOf(db.getAllAccounts().size()).toString());
@@ -891,9 +777,48 @@ public class Menu {
         String email = promptString("email");
         PrinterMenu.printMenu("lead", "email", email);
         String companyName = promptString("");
-        PrinterMenu.printMenu("lead", "company", companyName);
-        if (promptDecision("enter back")) {
-            db.addLead(name, phoneNumber, email, companyName);
+        PrinterMenu.printMenu("lead", "company", companyName, Integer.valueOf(db.getAllSalesRep().size()).toString());
+        int decision;
+        if (db.getAllSalesRep().size() == 0){
+            if (promptDecision("enter back")){
+                decision = 0;
+            }else {
+                return;
+            }
+        }else {
+            decision = promptMultipleDecisions("y", "n", "back");
+            if (decision == 2){
+                return;
+            }
+        }
+        PrinterMenu.printMenu("lead","salesrep", decision == 0 ? "new" : "old");
+        SalesRep salesRep;
+        switch (decision) {
+            case 0:
+                String salesRepName = promptString("name");
+                PrinterMenu.printMenu("lead", "salesrep_name", salesRepName);
+                if (promptDecision("enter back")){
+                    salesRep = db.addSalesRep(salesRepName);
+                    db.addLead(name, phoneNumber, email, companyName, salesRep);
+                    PrinterMenu.printMenu("lead", "salesrep_id", salesRep.getId().toString());
+                } else {
+                    return;
+                }
+                promptDecision("enter");
+                break;
+            case 1:
+                Integer salesRepId = promptId("salesrep");
+                salesRep = db.getSalesRepById(salesRepId);
+                if (salesRep != null){
+                    PrinterMenu.printMenu("lead","salesrep", salesRepId.toString(),
+                            salesRep.getName());
+                    if (promptDecision("enter back")) {
+                        db.addLead(name, phoneNumber, email, companyName, salesRep);
+                    }
+                }else{
+                    PrinterMenu.setWarning("Error: Account could not be fetched!");
+                }
+                break;
         }
     }
 
@@ -1083,7 +1008,7 @@ public class Menu {
                     id = promptPositiveNumber();
                 }
                 return id;
-            case "salesRep":
+            case "salesrep":
                 id = promptPositiveNumber();
                 while (!db.hasSalesRep(id)) {
                     PrinterMenu.setWarning("Please input the id of an existing SalesRep!");

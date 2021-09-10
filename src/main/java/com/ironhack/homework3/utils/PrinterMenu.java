@@ -156,10 +156,37 @@ public class PrinterMenu extends Printer {
                     setMenuLines(getMenuLine(10) + INSERT_HIGHLIGHT_COLOR + params[1] + ANSI_RESET, 10);
                     setMenuLines(HIGHLIGHT_COLOR + "Insert Lead Company Name: " + HIGHLIGHT_COLOR, 20);
                     break;
-                case "company":
-                    setMenuLines(getMenuLine(12) + INSERT_HIGHLIGHT_COLOR + params[1] + ANSI_RESET, 12);
+                case "salesrep":
+                    setMenuLines(HIGHLIGHT_COLOR + (params[1].equals("new") ?  "Assign SalesRep to Lead" : "Create new SalesRep") + HIGHLIGHT_COLOR, 4);
+                    setMenuLines("SalesRep Id: ", 14);
+                    if (params[1].equals("new")) { setMenuLines("SalesRep Name: ", 16); }
+                    setMenuLines(HIGHLIGHT_COLOR + (params[1].equals("new") ? "Insert SalesRep Name: " : "Insert existing SalesRep Id") + HIGHLIGHT_COLOR , 20);
+                    break;
+                case "salesrep_name":
+                    setMenuLines(getMenuLine(16) + INSERT_HIGHLIGHT_COLOR + params[1] + ANSI_RESET, 16);
+                    setMenuLines(HIGHLIGHT_COLOR + "ENTER " + ANSI_RESET + "- confirm Lead and SalesRep creation | " +
+                            HIGHLIGHT_COLOR + "back " + ANSI_RESET + "- cancel Lead and SalesRep creation", 20);
+                    break;
+                case "salesrep_id":
+                    setMenuLines(getMenuLine(14) + INSERT_HIGHLIGHT_COLOR + params[1] + ANSI_RESET, 14);
+                    setMenuLines(HIGHLIGHT_COLOR + "ENTER " + ANSI_RESET + "- return to the main menu", 20);
+                    break;
+            }
+        } else if (params.length == 3){
+            switch (params[0]){
+                case "salesrep":
+                    setMenuLines(getMenuLine(14) + INSERT_HIGHLIGHT_COLOR + params[1] + ANSI_RESET, 14);
+                    setMenuLines("SalesRep Name: " + INSERT_HIGHLIGHT_COLOR + params[2] + ANSI_RESET, 16);
                     setMenuLines(HIGHLIGHT_COLOR + "ENTER " + ANSI_RESET + "- confirm Lead creation | " +
                             HIGHLIGHT_COLOR + "back " + ANSI_RESET + "- cancel Lead creation", 20);
+                    break;
+                case "company":
+                    setMenuLines(HIGHLIGHT_COLOR + "Do you want to create a new SalesRep?" + HIGHLIGHT_COLOR, 4);
+                    setMenuLines(getMenuLine(12) + INSERT_HIGHLIGHT_COLOR + params[1] + ANSI_RESET, 12);
+                    setMenuLines(params[2].equals("0") ? HIGHLIGHT_COLOR + "ENTER " + ANSI_RESET + "- create new SalesRep | " + HIGHLIGHT_COLOR + "back "
+                            + ANSI_RESET + "- return to the main menu" :
+                            HIGHLIGHT_COLOR + "y " + ANSI_RESET + "- create new SalesRep | " + HIGHLIGHT_COLOR + "n " +
+                                    ANSI_RESET + "- use existing SalesRep | " + HIGHLIGHT_COLOR + "back " + ANSI_RESET + "- return to the main menu" , 20);
                     break;
             }
         } else {
@@ -193,7 +220,7 @@ public class PrinterMenu extends Printer {
                     //Set menu for existing Account
                     setMenuLines(HIGHLIGHT_COLOR + "Associate Existing Account" + HIGHLIGHT_COLOR, 4);
                     setMenuLines("Id: ", 6);
-                    setMenuLines(HIGHLIGHT_COLOR + "Insert Id " + HIGHLIGHT_COLOR, 20);
+                    setMenuLines(HIGHLIGHT_COLOR + "Insert Account Id " + HIGHLIGHT_COLOR, 20);
                     break;
             }
 
@@ -233,10 +260,11 @@ public class PrinterMenu extends Printer {
                     setMenuLines(getMenuLine(6) + INSERT_HIGHLIGHT_COLOR + params[1] + ANSI_RESET, 6);
                     break;
             }
-        } else if (params.length == 3 && params[0].toLowerCase().equals("quantity and contact")) {
+        } else if (params.length == 4 && params[0].toLowerCase().equals("quantity and contact")) {
             setMenuLines(getMenuLine(8) + INSERT_HIGHLIGHT_COLOR + params[1] + ANSI_RESET, 8);
             setMenuLines("Contact Name: " + INSERT_HIGHLIGHT_COLOR + params[2] + ANSI_RESET, 10);
             setMenuLines("Status: " + INSERT_HIGHLIGHT_COLOR + Status.OPEN + ANSI_RESET, 12);
+            setMenuLines("SalesRep Name: " + INSERT_HIGHLIGHT_COLOR + params[3] + ANSI_RESET, 14);
             setMenuLines(HIGHLIGHT_COLOR + "ENTER " + ANSI_RESET + "- confirm Opportunity information | " + HIGHLIGHT_COLOR + "back " + ANSI_RESET + "- return to the main menu", 20);
         } else if (params.length == 6 && params[0].toLowerCase().equals("account_id")) {
             setMenuLines(getMenuLine(6) + INSERT_HIGHLIGHT_COLOR + params[1] + ANSI_RESET, 6);
