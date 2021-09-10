@@ -39,6 +39,7 @@ public class Lead {
         setSalesRep(salesRep);
     }
 
+    // TODO TO DELETE
     public Lead(String name, String phoneNumber, String email, String companyName) {
         this.name = name;
         this.phoneNumber = phoneNumber;
