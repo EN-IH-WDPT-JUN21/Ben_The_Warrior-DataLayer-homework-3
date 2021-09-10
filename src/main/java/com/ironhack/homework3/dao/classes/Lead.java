@@ -29,11 +29,12 @@ public class Lead{
     SalesRep salesRep;
 
     // ============================== CONSTRUCTOR ==============================
-    public Lead(String name, String phoneNumber, String email, String companyName) {
+    public Lead(String name, String phoneNumber, String email, String companyName, SalesRep salesRep) {
         setName(name);
         setPhoneNumber(phoneNumber);
         setEmail(email);
         setCompanyName(companyName);
+        setSalesRep(salesRep);
     }
 
     // ============================== METHODS ==============================

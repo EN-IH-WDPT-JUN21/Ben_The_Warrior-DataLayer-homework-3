@@ -212,8 +212,8 @@ public class DatabaseUtility {
     } TODO ID's are handled by the repo. Method may not be necessary*/
 
     //creating new lead
-    public void addLead(String name, String phoneNumber, String email, String companyName) {
-        Lead newLead = new Lead(name, phoneNumber, email, companyName);
+    public void addLead(String name, String phoneNumber, String email, String companyName, SalesRep salesRep) {
+        Lead newLead = new Lead(name, phoneNumber, email, companyName, salesRep);
         var allLeads = leadRepository.findAll();
         for(var lead : allLeads){
             if(lead.equals(newLead)){
@@ -371,9 +371,10 @@ public class DatabaseUtility {
 //        Contact decisionMaker = contactRepository.getById(id);
     }
 
-    public void addSalesRep(String name){
+    public SalesRep addSalesRep(String name){
         SalesRep salesRep = new SalesRep(name);
         salesRepRepository.save(salesRep);
+        return salesRep;
     }
 
     // Method to check if a lead exists with a specific id
@@ -397,6 +398,10 @@ public class DatabaseUtility {
 
     public Account getAccountById(int id) {
         return accountRepository.findById(id).orElse(null);
+    }
+
+    public SalesRep getSalesRepById(int id) {
+        return salesRepRepository.findById(id).orElse(null);
     }
 
     public List<Lead> getAllLeads(){
