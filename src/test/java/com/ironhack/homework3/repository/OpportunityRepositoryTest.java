@@ -8,18 +8,26 @@ import com.ironhack.homework3.dao.queryInterfaces.IOpportunityIndustryCount;
 import com.ironhack.homework3.enums.Industry;
 import com.ironhack.homework3.enums.Product;
 import com.ironhack.homework3.enums.Status;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Order;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.DirtiesContext;
 
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)   // Resets DB and id generation (slower)
+//@TestPropertySource(properties = {      // For testing it uses a "datalayer_tests" database and the same user
+//        "spring.datasource.url=jdbc:mysql://localhost:3306/datalayer_tests",
+//        "spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver",
+//        "spring.datasource.username=Ben",
+//        "spring.datasource.password=Password-123",
+//        "spring.jpa.hibernate.ddl-auto=create-drop",
+//        "spring.datasource.initialization-mode=never"   // Doesn't initialize schema.sql
+//})
 class OpportunityRepositoryTest {
 
     @Autowired

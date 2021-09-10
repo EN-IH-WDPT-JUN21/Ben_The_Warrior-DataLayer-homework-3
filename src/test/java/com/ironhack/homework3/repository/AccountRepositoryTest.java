@@ -11,6 +11,8 @@ import com.ironhack.homework3.enums.Status;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.context.TestPropertySource;
 
 import java.util.List;
 
@@ -18,6 +20,15 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)   // Resets DB and id generation (slower)
+//@TestPropertySource(properties = {      // For testing it uses a "datalayer_tests" database and the same user
+//        "spring.datasource.url=jdbc:mysql://localhost:3306/datalayer_tests",
+//        "spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver",
+//        "spring.datasource.username=Ben",
+//        "spring.datasource.password=Password-123",
+//        "spring.jpa.hibernate.ddl-auto=create-drop",
+//        "spring.datasource.initialization-mode=never"   // Doesn't initialize schema.sql
+//})
 class AccountRepositoryTest {
 
     @Autowired
@@ -32,9 +43,9 @@ class AccountRepositoryTest {
     @BeforeEach
     void setUp() {
 
-        var a1 = new Account(Industry.PRODUCE, 1000, "London", "UK");
+        var a1 = new Account(Industry.ECOMMERCE, 1000, "London", "UK");
         accountRepository.save(a1);
-        var o = new Opportunity(Product.BOX, 200, Status.CLOSED_WON);
+        var o = new Opportunity(Product.BOX, 200, Status.OPEN);
         o.setAccountOpp(a1);
         opportunityRepository.save(o);
         var c1 = new Contact("Joe", "999999999", "joe@mail.com", "New Company", a1);
