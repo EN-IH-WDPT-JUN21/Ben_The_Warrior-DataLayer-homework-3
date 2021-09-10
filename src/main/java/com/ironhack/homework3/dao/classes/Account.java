@@ -10,7 +10,6 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 
 @Getter
 @Setter
@@ -57,20 +56,7 @@ public class Account{
         this.opportunityList = opportunityList;
     }
 
-/*    public Account(Industry industry, int employeeCount, String city, String country, Contact contact, Opportunity opportunity) {
-        setId(id);
-        setIndustry(industry);
-        setEmployeeCount(employeeCount);
-        setCity(city);
-        setCountry(country);
-        contactList = new ArrayList<>();
-        contactList.add(contact);
-        opportunityList = new ArrayList<>();
-        opportunityList.add(opportunity);
-    }*/
-
     // ============================== METHODS ==============================
-
     @Override
     public String toString() {
         return "Id: " + id + ", Industry: " + industry + ", Number of Employees: " + employeeCount + ", City: " + city +
