@@ -228,10 +228,11 @@ public class PrinterMenu extends Printer {
                     setMenuLines(getMenuLine(6) + INSERT_HIGHLIGHT_COLOR + params[1] + ANSI_RESET, 6);
                     break;
             }
-        } else if (params.length == 3 && params[0].toLowerCase().equals("quantity and contact")) {
+        } else if (params.length == 4 && params[0].toLowerCase().equals("quantity and contact")) {
             setMenuLines(getMenuLine(8) + INSERT_HIGHLIGHT_COLOR + params[1] + ANSI_RESET, 8);
             setMenuLines("Contact Name: " + INSERT_HIGHLIGHT_COLOR + params[2] + ANSI_RESET, 10);
             setMenuLines("Status: " + INSERT_HIGHLIGHT_COLOR + Status.OPEN + ANSI_RESET, 12);
+            setMenuLines("SalesRep Name: " + INSERT_HIGHLIGHT_COLOR + params[3] + ANSI_RESET, 14);
             setMenuLines(HIGHLIGHT_COLOR + "ENTER " + ANSI_RESET + "- confirm Opportunity information | " + HIGHLIGHT_COLOR + "back " + ANSI_RESET + "- return to the main menu", 20);
         } else if (params.length == 6 && params[0].toLowerCase().equals("account_id")) {
             setMenuLines(getMenuLine(6) + INSERT_HIGHLIGHT_COLOR + params[1] + ANSI_RESET, 6);

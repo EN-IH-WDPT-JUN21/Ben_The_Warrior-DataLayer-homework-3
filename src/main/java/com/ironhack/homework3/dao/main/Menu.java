@@ -106,7 +106,7 @@ public class Menu {
                     case "opportunities":
                     case "contacts":
                     case "accounts":
-                    case "salesrep":
+                    case "salesreps":
                         showMenu(inputArray[1]);
                         break;
                 }
@@ -588,14 +588,15 @@ public class Menu {
     private void promptConvert(int id) {
         // check if Lead exists, if not print error message
         if (db.hasLead(id)) {
-            String contactName = db.getLeadRepository().getById(id).getName();
+            String contactName = db.getLeadById(id).getName();
+            String salesRepName = db.getLeadById(id).getSalesRep().getName();
             //call methods to prompt Opportunity's product and quantity
             PrinterMenu.printMenu("convert");
             Product product = promptProduct();
             PrinterMenu.printMenu("convert", "product", product.toString());
             int quantity = promptPositiveNumber();
             //print also the contact (from the lead's info)
-            PrinterMenu.printMenu("convert", "quantity and contact", Integer.toString(quantity), contactName);
+            PrinterMenu.printMenu("convert", "quantity and contact", Integer.toString(quantity), contactName, salesRepName);
             if (!promptDecision("enter back")){
                 return;
             }

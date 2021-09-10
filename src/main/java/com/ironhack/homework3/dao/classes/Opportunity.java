@@ -43,12 +43,13 @@ public class Opportunity{
 
     // ============================== CONSTRUCTOR ==============================
 
-    public Opportunity(Product product, int quantity, Contact decisionMaker, Status status, Account account) {
+    public Opportunity(Product product, int quantity, Contact decisionMaker, Status status, Account account, SalesRep salesRep) {
         setProduct(product);
         setQuantity(quantity);
         setDecisionMaker(decisionMaker);
         setStatus(status);
         setAccountOpp(account);
+        setSalesRep(salesRep);
     }
 
     // ============================== METHODS ==============================

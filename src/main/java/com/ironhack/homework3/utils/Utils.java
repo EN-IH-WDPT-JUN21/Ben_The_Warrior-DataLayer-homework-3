@@ -76,7 +76,7 @@ public class Utils {
                         case "opportunities":
                         case "accounts":
                         case "contacts":
-                        case "salesrep":
+                        case "salesreps":
                             return commandWords.length == 2;
                     }
                     return false;
