@@ -244,44 +244,44 @@ public class Menu {
 
                     // BY COUNTRY
                     case "report opportunity by country":
-                        System.out.println(cleanInput);
+                        System.out.println(db.getCountByCountry());
                         break;
                     case "report closed-won by country":
-                        System.out.println(cleanInput);
+                        System.out.println(db.getCountClosedWonByCountry());
                         break;
                     case "report closed-lost by country":
-                        System.out.println(cleanInput);
+                        System.out.println(db.getCountClosedLostByCountry());
                         break;
                     case "report open by country":
-                        System.out.println(cleanInput);
+                        System.out.println(db.getCountOpenByCountry());
                         break;
 
                     // BY CITY
                     case "report opportunity by city":
-                        System.out.println(cleanInput);
+                        System.out.println(db.getCountByCity());
                         break;
                     case "report closed-won by city":
-                        System.out.println(cleanInput);
+                        System.out.println(db.getCountClosedWonByCity());
                         break;
                     case "report closed-lost by city":
-                        System.out.println(cleanInput);
+                        System.out.println(db.getCountClosedLostByCity());
                         break;
                     case "report open by city":
-                        System.out.println(cleanInput);
+                        System.out.println(db.getCountOpenByCity());
                         break;
 
                     // BY INDUSTRY
                     case "report opportunity by industry":
-                        System.out.println(cleanInput);
+                        System.out.println(db.getCountByIndustry());
                         break;
                     case "report closed-won by industry":
-                        System.out.println(cleanInput);
+                        System.out.println(db.getCountClosedWonByIndustry());
                         break;
                     case "report closed-lost by industry":
-                        System.out.println(cleanInput);
+                        System.out.println(db.getCountClosedLostByIndustry());
                         break;
                     case "report open by industry":
-                        System.out.println(cleanInput);
+                        System.out.println(db.getCountOpenByIndustry());
                         break;
 
                     // EMPLOYEECOUNT STATES

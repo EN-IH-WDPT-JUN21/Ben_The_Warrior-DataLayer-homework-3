@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.ironhack.homework3.dao.classes.*;
 import com.ironhack.homework3.dao.queryInterfaces.IOpportunityCountryOrCityCount;
+import com.ironhack.homework3.dao.queryInterfaces.IOpportunityIndustryCount;
 import com.ironhack.homework3.enums.Industry;
 import com.ironhack.homework3.enums.Product;
 import com.ironhack.homework3.enums.Status;
@@ -433,18 +434,52 @@ public class DatabaseUtility {
         return salesRepRepository.findAll();
     }
 
-    // QUERY METHODS
-
+    // ==================== QUERY METHODS ====================
     // BY SALESREP
 
     // BY PRODUCT
 
     // BY COUNTRY
+    public List<IOpportunityCountryOrCityCount> getCountByCountry() {
+        return accountRepository.countByCountry();
+    }
+    public List<IOpportunityCountryOrCityCount> getCountClosedWonByCountry() {
+        return accountRepository.countClosedWonByCountry();
+    }
+    public List<IOpportunityCountryOrCityCount> getCountClosedLostByCountry() {
+        return accountRepository.countClosedLostByCountry();
+    }
+    public List<IOpportunityCountryOrCityCount> getCountOpenByCountry() {
+        return accountRepository.countOpenByCountry();
+    }
 
     // BY CITY
+    public List<IOpportunityCountryOrCityCount> getCountByCity() {
+        return accountRepository.countByCity();
+    }
+    public List<IOpportunityCountryOrCityCount> getCountClosedWonByCity() {
+        return accountRepository.countClosedWonByCity();
+    }
+    public List<IOpportunityCountryOrCityCount> getCountClosedLostByCity() {
+        return accountRepository.countClosedLostByCity();
+    }
+    public List<IOpportunityCountryOrCityCount> getCountOpenByCity() {
+        return accountRepository.countOpenByCity();
+    }
 
     // BY INDUSTRY
-
+    public List<IOpportunityIndustryCount> getCountByIndustry() {
+            return accountRepository.countByIndustry();
+    }
+    public List<IOpportunityIndustryCount> getCountClosedWonByIndustry() {
+            return accountRepository.countClosedWonByIndustry();
+    }
+    public List<IOpportunityIndustryCount> getCountClosedLostByIndustry() {
+            return accountRepository.countClosedLostByIndustry();
+    }
+    public List<IOpportunityIndustryCount> getCountOpenByIndustry() {
+            return accountRepository.countOpenByIndustry();
+    }
 
     // EMPLOYEECOUNT STATES
     public double getMeanEmployeeCount() {
@@ -455,7 +490,6 @@ public class DatabaseUtility {
             return 0.0;
         }
     }
-
     public double getMedianEmployeeCount() {
         try {
             return Utils.getMedianValue(accountRepository.orderedListOfEmployeeCount());
@@ -464,7 +498,6 @@ public class DatabaseUtility {
             return 0.0;
         }
     }
-
     public int getMaxEmployeeCount() {
         try {
             return accountRepository.maxEmployeeCount();
@@ -473,7 +506,6 @@ public class DatabaseUtility {
             return 0;
         }
     }
-
     public int getMinEmployeeCount() {
         try {
             return accountRepository.minEmployeeCount();
@@ -491,9 +523,7 @@ public class DatabaseUtility {
             PrinterMenu.setWarning("Something went wrong, opportunities might not be present!");
             return 0.0;
         }
-
     }
-
     public double getMedianQuantity() {
         try {
             return Utils.getMedianValue(opportunityRepository.orderedListOfQuantities());
@@ -502,7 +532,6 @@ public class DatabaseUtility {
             return 0.0;
         }
     }
-
     public int getMaxQuantity() {
         try {
             return opportunityRepository.maxQuantity();
@@ -511,7 +540,6 @@ public class DatabaseUtility {
             return 0;
         }
     }
-
     public int getMinQuantity() {
         try {
             return opportunityRepository.minQuantity();
