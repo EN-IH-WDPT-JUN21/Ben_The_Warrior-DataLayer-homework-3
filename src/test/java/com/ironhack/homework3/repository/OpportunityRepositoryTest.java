@@ -3,12 +3,12 @@ package com.ironhack.homework3.repository;
 import com.ironhack.homework3.dao.classes.Account;
 import com.ironhack.homework3.dao.classes.Contact;
 import com.ironhack.homework3.dao.classes.Opportunity;
-import com.ironhack.homework3.dao.queryInterfaces.IOpportunityCountryOrCityCount;
-import com.ironhack.homework3.dao.queryInterfaces.IOpportunityIndustryCount;
+import com.ironhack.homework3.dao.classes.SalesRep;
 import com.ironhack.homework3.enums.Industry;
 import com.ironhack.homework3.enums.Product;
 import com.ironhack.homework3.enums.Status;
 import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.extension.TestInstantiationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
@@ -41,92 +41,164 @@ class OpportunityRepositoryTest {
     @Autowired
     private AccountRepository accountRepository;
 
+    @Autowired
+    private SalesRepRepository salesRepRepository;
+
+    private Contact c;
+
+    private Account a;
+
+    private SalesRep sr;
+
+
     @BeforeEach
     void setUp() {
-        var contact = new Contact("Ben", "123643543", "Ben@BenIndustries.com", "Ben Industries");
-        contactRepository.save(contact);
-        var account = new Account(Industry.ECOMMERCE, 200, "London", "UK");
-        accountRepository.save(account);
-        var opportunity = new Opportunity(Product.HYBRID, 3000, contact, Status.OPEN, account);
-        opportunityRepository.save(opportunity);
+
+        a = new Account(Industry.ECOMMERCE, 200, "London", "UK");
+        accountRepository.save(a);
+        c = new Contact("Joe", "999999999", "joe@mail.com", "New Company", a);
+        contactRepository.save(c);
+        var c1 = new Contact("Ben", "123643543", "Ben@BenIndustries.com", "Ben Industries", a);
+        contactRepository.save(c1);
+        var c2 = new Contact("Joe", "999999999", "joe@mail.com", "New Company", a);
+        contactRepository.save(c2);
+        sr = new SalesRep("Sales Guy");
+        salesRepRepository.save(sr);
+        var o1 = new Opportunity(Product.HYBRID, 3000, c1, Status.OPEN, a, sr);
+        var o2 = new Opportunity(Product.BOX, 200, c2, Status.CLOSED_WON, a, sr);
+        opportunityRepository.saveAll(List.of(o1, o2));
     }
 
     @AfterEach
     void tearDown() {
-        opportunityRepository.deleteAll();
+        accountRepository.deleteAll();
+        salesRepRepository.deleteAll();
         contactRepository.deleteAll();
+        opportunityRepository.deleteAll();
     }
 
 
     // ============================== JAVA Object Testing ==============================
     @Test
+    @Order(1)
     void testToString() {
-        Contact c = new Contact("John Smith", "2460247246", "johnthewarrior@fighters.com", "The smiths");
-        contactRepository.save(c);
-        Opportunity o = new Opportunity(Product.HYBRID, 30000, c, Status.OPEN);
-        opportunityRepository.save(o);
-        assertEquals("Id: 2, Product: HYBRID, Quantity: 30000, Decision Maker: John Smith, Status: OPEN", o.toString());
+        Opportunity o3 = new Opportunity(Product.HYBRID, 30000, c, Status.OPEN, a, sr);
+        opportunityRepository.save(o3);
+        assertEquals("Id: 3, Product: HYBRID, Quantity: 30000, Decision Maker: Joe, Status: OPEN", o3.toString());
     }
 
 
     // ============================== CRUD Testing ==============================
     @Test
-    void saveANewContact() {
-        var OpportunityCountBeforeSave = opportunityRepository.count();
-        var contact = new Contact("Macho Man", "123643543", "Randy@savage.com", "WWF");
-        contactRepository.save(contact);
-        var opportunity = new Opportunity(Product.HYBRID, 30000, contact, Status.CLOSED_WON);
-        opportunityRepository.save(opportunity);
-        var OpportunityCountAfterSave = opportunityRepository.count();
-        assertEquals(1, OpportunityCountAfterSave - OpportunityCountBeforeSave);
+    @Order(2)
+    void count() {
+        assertEquals(2, opportunityRepository.count());
     }
 
+    // ==================== Create ====================
+    @Test
+    @Order(3)
+    void testCreateOpportunity_addNewOpportunity_savedInRepository() {
+        var c1 = new Contact("John Smith", "2460247246", "johnthewarrior@fighters.com", "The smiths", a);
+        contactRepository.save(c1);
+        var initialSize = opportunityRepository.count();
+        opportunityRepository.save(new Opportunity(Product.FLATBED, 11, c, Status.OPEN, a, sr));
+        assertEquals(initialSize + 1, opportunityRepository.count());
+    }
+
+    // ==================== Read ====================
+    @Test
+    @Order(4)
+    void testReadOpportunity_findAll_returnsListOfObjectsNotEmpty() {
+        var allElements = opportunityRepository.findAll();
+        assertFalse(allElements.isEmpty());
+    }
+
+    @Test
+    @Order(4)
+    void testReadOpportunity_findById_returnsObjectsWithId() {
+        var o3 = new Opportunity(Product.HYBRID, 1, c, Status.OPEN, a, sr);
+        opportunityRepository.save(o3);
+        var storedOpportunity = opportunityRepository.findById(3);
+        if (storedOpportunity.isPresent()) {
+            assertEquals(3, storedOpportunity.get().getId());
+        } else throw new TestInstantiationException("Id not found");
+    }
+
+    // ==================== Update ====================
+    @Test
+    @Order(5)
+    void testUpdateOpportunity_changeQuantity_newQuantityEqualsDefinedQuantity() {
+        var o3 = new Opportunity(Product.BOX, 100, Status.OPEN);
+        opportunityRepository.save(o3);
+        var storedOpportunity = opportunityRepository.findById(3);
+        if (storedOpportunity.isPresent()) {
+            storedOpportunity.get().setQuantity(120);
+            opportunityRepository.save(storedOpportunity.get());
+        } else throw new TestInstantiationException("Id not found");
+        var updatedStoredOpportunity = opportunityRepository.findById(3);
+        if (updatedStoredOpportunity.isPresent()) {
+            assertEquals(120, updatedStoredOpportunity.get().getQuantity());
+        } else throw new TestInstantiationException("Id not found");
+    }
+
+    // ==================== Delete ====================
+    @Test
+    @Order(6)
+    void testDeleteOpportunity_deleteOpportunity_deletedFromRepository() {
+        var o3 = new Opportunity(Product.BOX, 2000, Status.CLOSED_LOST);
+        opportunityRepository.save(o3);
+        var initialSize = opportunityRepository.count();
+        opportunityRepository.deleteById(3);
+        assertEquals(initialSize - 1, opportunityRepository.count());
+    }
 
     // ============================== Custom Queries Testing ==============================
     // ==================== 7 - Reporting Functionality Quantity States ====================
     @Test
     void testMeanQuantity() {
+        // o1 = 3000
+        // o2 = 200
         var o2 = new Opportunity(Product.HYBRID, 73, Status.OPEN);
         var o3 = new Opportunity(Product.HYBRID, 386, Status.OPEN);
         var o4 = new Opportunity(Product.HYBRID, 3468, Status.OPEN);
         opportunityRepository.saveAll(List.of(o2, o3, o4));
-//         mean is from the values of setup (3000) and this new account
-        assertEquals(((double) Math.round(((3000 + 73 + 386 + 3468) / 4.0) * 10000d) / 10000d), opportunityRepository.meanQuantity());
+        assertEquals(((double) Math.round(((3000 +200+ 73 + 386 + 3468) / 5.0) * 10000d) / 10000d), opportunityRepository.meanQuantity());
     }
 
     @Test
     void testOrderedListOfQuantities() {
+        // o1 = 3000
+        // o2 = 200
         var o2 = new Opportunity(Product.HYBRID, 386, Status.OPEN);
         var o3 = new Opportunity(Product.HYBRID, 73, Status.OPEN);
         var o4 = new Opportunity(Product.HYBRID, 3468, Status.OPEN);
         opportunityRepository.saveAll(List.of(o2, o3, o4));
-        // mean is from the values of setup (3000) and this new account
-        assertEquals(List.of(73, 386, 3000, 3468), opportunityRepository.orderedListOfQuantities());
+        assertEquals(List.of(73, 200, 386, 3000, 3468), opportunityRepository.orderedListOfQuantities());
     }
 
     @Test
     void testMinQuantity() {
+        // o1 = 3000
+        // o2 = 200
         var o2 = new Opportunity(Product.HYBRID, 73, Status.OPEN);
         var o3 = new Opportunity(Product.HYBRID, 386, Status.OPEN);
         var o4 = new Opportunity(Product.HYBRID, 3468, Status.OPEN);
         opportunityRepository.saveAll(List.of(o2, o3, o4));
-        // min is from the values of setup (3000) and this new account
         assertEquals(73, opportunityRepository.minQuantity());
     }
 
     @Test
     void testMaxQuantity() {
+        // o1 = 3000
+        // o2 = 200
         var o2 = new Opportunity(Product.HYBRID, 73, Status.OPEN);
         var o3 = new Opportunity(Product.HYBRID, 386, Status.OPEN);
         var o4 = new Opportunity(Product.HYBRID, 3468, Status.OPEN);
         opportunityRepository.saveAll(List.of(o2, o3, o4));
         opportunityRepository.save(o3);
-        // max is from the values of setup (3000) and this new account
         assertEquals(3468, opportunityRepository.maxQuantity());
     }
-
-
-    // ====================  ====================
 
 }
 

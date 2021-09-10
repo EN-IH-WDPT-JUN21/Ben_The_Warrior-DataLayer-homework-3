@@ -90,8 +90,8 @@ class ContactRepositoryTest {
     @Test
     @Order(4)
     void testReadContact_findById_returnsObjectsWithId() {
-        var c1 = new Contact("Sara Smith", "395935793579", "sara@fighters.com", "The Smiths", a);
-        contactRepository.save(c1);
+        var c3 = new Contact("Sara Smith", "395935793579", "sara@fighters.com", "The Smiths", a);
+        contactRepository.save(c3);
         var storedContact = contactRepository.findById(3);
         if (storedContact.isPresent()) {
             assertEquals(3, storedContact.get().getId());
@@ -102,8 +102,8 @@ class ContactRepositoryTest {
     @Test
     @Order(5)
     void testUpdateContact_changeEmail_newEmailEqualsDefinedEmail() {
-        var c1 = new Contact("Arthur Smith", "579749679", "arthur@fighters.com", "The Smiths", a);
-        contactRepository.save(c1);
+        var c3 = new Contact("Arthur Smith", "579749679", "arthur@fighters.com", "The Smiths", a);
+        contactRepository.save(c3);
         var storedContact = contactRepository.findById(3);
         if (storedContact.isPresent()) {
             storedContact.get().setEmail("arthur_smith@fighters.com");
@@ -119,8 +119,8 @@ class ContactRepositoryTest {
     @Test
     @Order(6)
     void testDeleteContact_deleteContact_deletedFromRepository() {
-        var c1 = new Contact("Christina Smith", "3333333333", "christina@fighters.com", "The Smiths", a);
-        contactRepository.save(c1);
+        var c3 = new Contact("Christina Smith", "3333333333", "christina@fighters.com", "The Smiths", a);
+        contactRepository.save(c3);
         var initialSize = contactRepository.count();
         contactRepository.deleteById(3);
         assertEquals(initialSize - 1, contactRepository.count());

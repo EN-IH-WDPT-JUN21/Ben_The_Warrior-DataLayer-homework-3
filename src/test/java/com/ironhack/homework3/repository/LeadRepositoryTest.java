@@ -85,8 +85,8 @@ class LeadRepositoryTest {
     @Test
     @Order(4)
     void testReadLead_findById_returnsObjectsWithId() {
-        var l1 = new Lead("Sara Smith", "395935793579", "sara@fighters.com", "The Smiths", sr);
-        leadRepository.save(l1);
+        var l3 = new Lead("Sara Smith", "395935793579", "sara@fighters.com", "The Smiths", sr);
+        leadRepository.save(l3);
         var storedLead = leadRepository.findById(3);
         if (storedLead.isPresent()) {
             assertEquals(3, storedLead.get().getId());
@@ -97,8 +97,8 @@ class LeadRepositoryTest {
     @Test
     @Order(5)
     void testUpdateLead_changePhoneNr_newPhoneNrEqualsDefinedPhoneNr() {
-        var l1 = new Lead("Arthur Smith", "579749679", "arthur@fighters.com", "The Smiths", sr);
-        leadRepository.save(l1);
+        var l3 = new Lead("Arthur Smith", "579749679", "arthur@fighters.com", "The Smiths", sr);
+        leadRepository.save(l3);
         var storedLead = leadRepository.findById(3);
         if (storedLead.isPresent()) {
             storedLead.get().setPhoneNumber("91000000");
@@ -114,8 +114,8 @@ class LeadRepositoryTest {
     @Test
     @Order(6)
     void testDeleteLead_deleteLead_deletedFromRepository() {
-        var l1 = new Lead("Christina Smith", "3333333333", "christina@fighters.com", "The Smiths", sr);
-        leadRepository.save(l1);
+        var l3 = new Lead("Christina Smith", "3333333333", "christina@fighters.com", "The Smiths", sr);
+        leadRepository.save(l3);
         var initialSize = leadRepository.count();
         leadRepository.deleteById(3);
         assertEquals(initialSize - 1, leadRepository.count());
