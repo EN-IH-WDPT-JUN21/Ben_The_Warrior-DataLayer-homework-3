@@ -68,13 +68,12 @@ public class Utils {
 
     // Check for the command syntax in terms of number of parameters and validity of parameters
     public static boolean validCommand(String command) {
-
-        String[] commandWords = command.trim().toLowerCase().split(" ");
+        String cleanCommand = command.trim().toLowerCase();
+        String[] commandWords = cleanCommand.split(" ");
         if (commandWords.length > 1) {
             switch (commandWords[0]) {
-
                 case "new":
-                    switch (commandWords[1]){
+                    switch (commandWords[1]) {
                         case "lead":
                         case "salesrep":
                             return commandWords.length == 2;
@@ -102,6 +101,48 @@ public class Utils {
                         }
                     }
                     return false;
+                case "report":
+                case "mean":
+                case "median":
+                case "max":
+                case "min":
+                    switch (cleanCommand) {
+                        case "report lead by salesrep":
+                        case "report opportunity by salesrep":
+                        case "report closed-won by salesrep":
+                        case "report closed-lost by salesrep":
+                        case "report open by salesrep":
+                        case "report opportunity by product":
+                        case "report closed-won by product":
+                        case "report closed-lost by product":
+                        case "report open by product":
+                        case "report opportunity by country":
+                        case "report closed-won by country":
+                        case "report closed-lost by country":
+                        case "report open by country":
+                        case "report opportunity by city":
+                        case "report closed-won by city":
+                        case "report closed-lost by city":
+                        case "report open by city":
+                        case "report opportunity by industry":
+                        case "report closed-won by industry":
+                        case "report closed-lost by industry":
+                        case "report open by industry":
+                        case "mean employeecount":
+                        case "median employeecount":
+                        case "max employeecount":
+                        case "min employeecount":
+                        case "mean quantity":
+                        case "median quantity":
+                        case "max quantity":
+                        case "min quantity":
+                        case "mean opps per account":
+                        case "median opps per account":
+                        case "max opps per account":
+                        case "min opps per account":
+                            return true;
+                    }
+                    return false;
                 case "convert":
                 case "close-won":
                 case "close-lost":
@@ -126,9 +167,7 @@ public class Utils {
 
     public static double getMedianValue(List<Integer> list) {
         ArrayList<Integer> arrayList = new ArrayList<>(list);
-        System.out.println(arrayList);
         Collections.sort(arrayList);
-        System.out.println(arrayList);
         var length = arrayList.size();
         if (length % 2 == 0) return (double) (arrayList.get(length / 2) + arrayList.get(length / 2 - 1)) / 2.0;
         return (double) arrayList.get(length / 2);

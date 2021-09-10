@@ -12,6 +12,83 @@ import java.util.List;
 @Repository
 public interface AccountRepository extends JpaRepository<Account, Integer> {
 
+    // ============================== QUERIES 3 - Reporting Functionality By Country ==============================
+    // 1. Report Opportunity by Country
+    @Query("SELECT a.country AS countryOrCityComment, COUNT(o) AS countryOrCityCount FROM Account a " +
+            "LEFT JOIN a.opportunityList o " +
+            "GROUP BY a.country ORDER BY COUNT(o) DESC")
+    List<IOpportunityCountryOrCityCount> countByCountry();
+
+    // 2. Report CLOSED-WON by Country
+    @Query("SELECT a.country AS countryOrCityComment, SUM(CASE WHEN o.status = 'CLOSED_WON' THEN 1 ELSE 0  END) AS countryOrCityCount FROM Account a " +
+            "LEFT JOIN a.opportunityList o " +
+            "GROUP BY a.country ORDER BY SUM(CASE WHEN o.status = 'CLOSED_WON' THEN 1 ELSE 0  END) DESC")
+    List<IOpportunityCountryOrCityCount> countClosedWonByCountry();
+
+    // 3. Report CLOSED-LOST by Country
+    @Query("SELECT a.country AS countryOrCityComment, SUM(CASE WHEN o.status = 'CLOSED_LOST' THEN 1 ELSE 0  END) AS countryOrCityCount FROM Account a " +
+            "LEFT JOIN a.opportunityList o " +
+            "GROUP BY a.country ORDER BY SUM(CASE WHEN o.status = 'CLOSED_LOST' THEN 1 ELSE 0  END) DESC")
+    List<IOpportunityCountryOrCityCount> countClosedLostByCountry();
+
+    // 4. Report OPEN by Country
+    @Query("SELECT a.country AS countryOrCityComment, SUM(CASE WHEN o.status = 'OPEN' THEN 1 ELSE 0  END) AS countryOrCityCount FROM Account a " +
+            "LEFT JOIN a.opportunityList o " +
+            "GROUP BY a.country ORDER BY SUM(CASE WHEN o.status = 'OPEN' THEN 1 ELSE 0  END) DESC")
+    List<IOpportunityCountryOrCityCount> countOpenByCountry();
+
+
+    // ============================== QUERIES 4 - Reporting Functionality By City ==============================
+    // 1. Report Opportunity by City
+    @Query("SELECT a.city AS countryOrCityComment, COUNT(o) AS countryOrCityCount FROM Account a " +
+            "LEFT JOIN a.opportunityList o " +
+            "GROUP BY a.city ORDER BY COUNT(o) DESC")
+    List<IOpportunityCountryOrCityCount> countByCity();
+
+    // 2. Report CLOSED-WON by City
+    @Query("SELECT a.city AS countryOrCityComment, SUM(CASE WHEN o.status = 'CLOSED_WON' THEN 1 ELSE 0  END) AS countryOrCityCount FROM Account a " +
+            "LEFT JOIN a.opportunityList o " +
+            "GROUP BY a.city ORDER BY SUM(CASE WHEN o.status = 'CLOSED_WON' THEN 1 ELSE 0  END) DESC")
+    List<IOpportunityCountryOrCityCount> countClosedWonByCity();
+
+    // 3. Report CLOSED-LOST by City
+    @Query("SELECT a.city AS countryOrCityComment, SUM(CASE WHEN o.status = 'CLOSED_LOST' THEN 1 ELSE 0  END) AS countryOrCityCount FROM Account a " +
+            "LEFT JOIN a.opportunityList o " +
+            "GROUP BY a.city ORDER BY SUM(CASE WHEN o.status = 'CLOSED_LOST' THEN 1 ELSE 0  END) DESC")
+    List<IOpportunityCountryOrCityCount> countClosedLostByCity();
+
+    // 4. Report OPEN by City
+    @Query("SELECT a.city AS countryOrCityComment, SUM(CASE WHEN o.status = 'OPEN' THEN 1 ELSE 0  END) AS countryOrCityCount FROM Account a " +
+            "LEFT JOIN a.opportunityList o " +
+            "GROUP BY a.city ORDER BY SUM(CASE WHEN o.status = 'OPEN' THEN 1 ELSE 0  END) DESC")
+    List<IOpportunityCountryOrCityCount> countOpenByCity();
+
+
+    // ============================== QUERIES 5 - Reporting Functionality By Industry ==============================
+    // 1. Report Opportunity by Industry
+    @Query("SELECT a.industry AS industryComment, COUNT(a.industry) AS industryCount FROM Account a " +
+            "LEFT JOIN a.opportunityList o " +
+            "GROUP BY a.industry ORDER BY COUNT(a.industry) DESC")
+    List<IOpportunityIndustryCount> countByIndustry();
+
+    // 2. Report CLOSED-WON by Industry
+    @Query("SELECT a.industry AS industryComment, SUM(CASE WHEN o.status = 'CLOSED_WON' THEN 1 ELSE 0  END) AS industryCount FROM Account a " +
+            "LEFT JOIN a.opportunityList o " +
+            "GROUP BY a.industry ORDER BY SUM(CASE WHEN o.status = 'CLOSED_WON' THEN 1 ELSE 0  END) DESC")
+    List<IOpportunityIndustryCount> countClosedWonByIndustry();
+
+    // 3. Report CLOSED-LOST by Industry
+    @Query("SELECT a.industry AS industryComment, SUM(CASE WHEN o.status = 'CLOSED_LOST' THEN 1 ELSE 0  END) AS industryCount FROM Account a " +
+            "LEFT JOIN a.opportunityList o " +
+            "GROUP BY a.industry ORDER BY SUM(CASE WHEN o.status = 'CLOSED_LOST' THEN 1 ELSE 0  END) DESC")
+    List<IOpportunityIndustryCount> countClosedLostByIndustry();
+
+    // 4. Report OPEN by Industry
+    @Query("SELECT a.industry AS industryComment, SUM(CASE WHEN o.status = 'OPEN' THEN 1 ELSE 0  END) AS industryCount FROM Account a " +
+            "LEFT JOIN a.opportunityList o " +
+            "GROUP BY a.industry ORDER BY SUM(CASE WHEN o.status = 'OPEN' THEN 1 ELSE 0  END) DESC")
+    List<IOpportunityIndustryCount> countOpenByIndustry();
+
 
     // ============================== QUERIES 6 - Reporting Functionality EmployeeCount States ==============================
     // 1. Mean EmployeeCount
@@ -52,64 +129,4 @@ public interface AccountRepository extends JpaRepository<Account, Integer> {
     int maxOpportunities();
 
 
-
-    @Query("SELECT a.country AS countryOrCityComment, COUNT(o) AS countryOrCityCount FROM Account a " +
-            "LEFT JOIN a.opportunityList o " +
-            "GROUP BY a.country ORDER BY COUNT(o) DESC")
-    List<IOpportunityCountryOrCityCount> countByCountry();
-
-    @Query("SELECT a.country AS countryOrCityComment, SUM(CASE WHEN o.status = 'CLOSED_WON' THEN 1 ELSE 0  END) AS countryOrCityCount FROM Account a " +
-            "LEFT JOIN a.opportunityList o " +
-            "GROUP BY a.country ORDER BY SUM(CASE WHEN o.status = 'CLOSED_WON' THEN 1 ELSE 0  END) DESC")
-    List<IOpportunityCountryOrCityCount> countClosedWonByCountry();
-
-    @Query("SELECT a.country AS countryOrCityComment, SUM(CASE WHEN o.status = 'CLOSED_LOST' THEN 1 ELSE 0  END) AS countryOrCityCount FROM Account a " +
-            "LEFT JOIN a.opportunityList o " +
-            "GROUP BY a.country ORDER BY SUM(CASE WHEN o.status = 'CLOSED_LOST' THEN 1 ELSE 0  END) DESC")
-    List<IOpportunityCountryOrCityCount> countClosedLostByCountry();
-
-    @Query("SELECT a.country AS countryOrCityComment, SUM(CASE WHEN o.status = 'OPEN' THEN 1 ELSE 0  END) AS countryOrCityCount FROM Account a " +
-            "LEFT JOIN a.opportunityList o " +
-            "GROUP BY a.country ORDER BY SUM(CASE WHEN o.status = 'OPEN' THEN 1 ELSE 0  END) DESC")
-    List<IOpportunityCountryOrCityCount> countOpenByCountry();
-
-    @Query("SELECT a.city AS countryOrCityComment, COUNT(o) AS countryOrCityCount FROM Account a " +
-            "LEFT JOIN a.opportunityList o " +
-            "GROUP BY a.city ORDER BY COUNT(o) DESC")
-    List<IOpportunityCountryOrCityCount> countByCity();
-
-    @Query("SELECT a.city AS countryOrCityComment, SUM(CASE WHEN o.status = 'CLOSED_WON' THEN 1 ELSE 0  END) AS countryOrCityCount FROM Account a " +
-            "LEFT JOIN a.opportunityList o " +
-            "GROUP BY a.city ORDER BY SUM(CASE WHEN o.status = 'CLOSED_WON' THEN 1 ELSE 0  END) DESC")
-    List<IOpportunityCountryOrCityCount> countClosedWonByCity();
-
-    @Query("SELECT a.city AS countryOrCityComment, SUM(CASE WHEN o.status = 'CLOSED_LOST' THEN 1 ELSE 0  END) AS countryOrCityCount FROM Account a " +
-            "LEFT JOIN a.opportunityList o " +
-            "GROUP BY a.city ORDER BY SUM(CASE WHEN o.status = 'CLOSED_LOST' THEN 1 ELSE 0  END) DESC")
-    List<IOpportunityCountryOrCityCount> countClosedLostByCity();
-
-    @Query("SELECT a.city AS countryOrCityComment, SUM(CASE WHEN o.status = 'OPEN' THEN 1 ELSE 0  END) AS countryOrCityCount FROM Account a " +
-            "LEFT JOIN a.opportunityList o " +
-            "GROUP BY a.city ORDER BY SUM(CASE WHEN o.status = 'OPEN' THEN 1 ELSE 0  END) DESC")
-    List<IOpportunityCountryOrCityCount> countOpenByCity();
-
-    @Query("SELECT a.industry AS industryComment, COUNT(a.industry) AS industryCount FROM Account a " +
-            "LEFT JOIN a.opportunityList o " +
-            "GROUP BY a.industry ORDER BY COUNT(a.industry) DESC")
-    List<IOpportunityIndustryCount> countByIndustry();
-
-    @Query("SELECT a.industry AS industryComment, SUM(CASE WHEN o.status = 'CLOSED_WON' THEN 1 ELSE 0  END) AS industryCount FROM Account a " +
-            "LEFT JOIN a.opportunityList o " +
-            "GROUP BY a.industry ORDER BY SUM(CASE WHEN o.status = 'CLOSED_WON' THEN 1 ELSE 0  END) DESC")
-    List<IOpportunityIndustryCount> countClosedWonByIndustry();
-
-    @Query("SELECT a.industry AS industryComment, SUM(CASE WHEN o.status = 'CLOSED_LOST' THEN 1 ELSE 0  END) AS industryCount FROM Account a " +
-            "LEFT JOIN a.opportunityList o " +
-            "GROUP BY a.industry ORDER BY SUM(CASE WHEN o.status = 'CLOSED_LOST' THEN 1 ELSE 0  END) DESC")
-    List<IOpportunityIndustryCount> countClosedLostByIndustry();
-
-    @Query("SELECT a.industry AS industryComment, SUM(CASE WHEN o.status = 'OPEN' THEN 1 ELSE 0  END) AS industryCount FROM Account a " +
-            "LEFT JOIN a.opportunityList o " +
-            "GROUP BY a.industry ORDER BY SUM(CASE WHEN o.status = 'OPEN' THEN 1 ELSE 0  END) DESC")
-    List<IOpportunityIndustryCount> countOpenByIndustry();
 }
