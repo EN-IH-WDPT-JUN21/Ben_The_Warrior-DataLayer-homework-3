@@ -21,10 +21,10 @@ public class SalesRep {
     private String name;
 
     @OneToMany(mappedBy = "salesRep")
-    List<Lead> leadList;
+    private List<Lead> leadList;
 
     @OneToMany(mappedBy = "salesRep")
-    List<Opportunity> opportunityList;
+    private List<Opportunity> opportunityList;
 
     // ============================== CONSTRUCTOR ==============================
     public SalesRep(String name){

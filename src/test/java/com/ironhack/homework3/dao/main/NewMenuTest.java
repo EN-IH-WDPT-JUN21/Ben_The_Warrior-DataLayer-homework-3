@@ -24,22 +24,22 @@ import static org.junit.jupiter.api.Assertions.*;
 class NewMenuTest {
 
     DatabaseUtility initialDatabase;
-    ByteArrayInputStream input;
+    private ByteArrayInputStream input;
 
     @Autowired
-    Menu menu;
+    private Menu menu;
 
     @Autowired
-    LeadRepository leadRepository;
+    private LeadRepository leadRepository;
 
     @Autowired
-    AccountRepository accountRepository;
+    private AccountRepository accountRepository;
 
     @Autowired
-    OpportunityRepository opportunityRepository;
+    private OpportunityRepository opportunityRepository;
 
     @Autowired
-    ContactRepository contactRepository;
+    private ContactRepository contactRepository;
 
 
     @BeforeEach

@@ -16,7 +16,7 @@ import java.util.Objects;
 
 @Table(name = "leads")
 public class Lead {
-  
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "lead_id")
@@ -28,7 +28,7 @@ public class Lead {
 
     @ManyToOne
     @JoinColumn(name = "sales_rep_id")
-    SalesRep salesRep;
+    private SalesRep salesRep;
 
     // ============================== CONSTRUCTOR ==============================
     public Lead(String name, String phoneNumber, String email, String companyName, SalesRep salesRep) {
@@ -37,6 +37,13 @@ public class Lead {
         setEmail(email);
         setCompanyName(companyName);
         setSalesRep(salesRep);
+    }
+
+    public Lead(String name, String phoneNumber, String email, String companyName) {
+        this.name = name;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
+        this.companyName = companyName;
     }
 
     // ============================== METHODS ==============================

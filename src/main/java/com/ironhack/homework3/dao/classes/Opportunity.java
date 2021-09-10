@@ -1,6 +1,5 @@
 package com.ironhack.homework3.dao.classes;
 
-import com.ironhack.homework3.enums.Industry;
 import com.ironhack.homework3.enums.Product;
 import com.ironhack.homework3.enums.Status;
 import lombok.AllArgsConstructor;
@@ -49,14 +48,11 @@ public class Opportunity {
         this.status = status;
     }
 
-    public Opportunity(Product product, int quantity, Contact decisionMaker, Status status, Account account, SalesRep salesRep) {
-        setProduct(product);
-        setQuantity(quantity);
-        setDecisionMaker(decisionMaker);
-        setStatus(status);
-        setAccountOpp(account);
-        setSalesRep(salesRep);
-
+    public Opportunity(Product product, int quantity, Contact decisionMaker, Status status) {
+        this.product = product;
+        this.quantity = quantity;
+        this.decisionMaker = decisionMaker;
+        this.status = status;
     }
 
     public Opportunity(Product product, int quantity, Contact decisionMaker, Status status, Account accountOpp) {
@@ -65,6 +61,15 @@ public class Opportunity {
         this.decisionMaker = decisionMaker;
         this.status = status;
         this.accountOpp = accountOpp;
+    }
+
+    public Opportunity(Product product, int quantity, Contact decisionMaker, Status status, Account account, SalesRep salesRep) {
+        setProduct(product);
+        setQuantity(quantity);
+        setDecisionMaker(decisionMaker);
+        setStatus(status);
+        setAccountOpp(account);
+        setSalesRep(salesRep);
     }
 
 

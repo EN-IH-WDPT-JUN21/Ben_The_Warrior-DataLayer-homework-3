@@ -37,7 +37,7 @@ class OpportunityRepositoryTest {
     private ContactRepository contactRepository;
 
     @Autowired
-    AccountRepository accountRepository;
+    private AccountRepository accountRepository;
 
     @BeforeEach
     void setUp() {
