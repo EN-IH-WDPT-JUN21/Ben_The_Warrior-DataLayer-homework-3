@@ -13,7 +13,7 @@ public class MainMenuAutowired {
 
 
     @Autowired
-    Menu newMenu;
+    private Menu newMenu;
 
     @Autowired
     public MainMenuAutowired(LeadRepository leadRepository, ContactRepository contactRepository,

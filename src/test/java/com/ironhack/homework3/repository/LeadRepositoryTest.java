@@ -23,10 +23,10 @@ import static org.junit.jupiter.api.Assertions.*;
 class LeadRepositoryTest {
 
     @Autowired
-    LeadRepository leadRepository;
+    private LeadRepository leadRepository;
 
     @Autowired
-    SalesRepRepository salesRepRepository;
+    private SalesRepRepository salesRepRepository;
 
     @BeforeEach
     void setUp() {

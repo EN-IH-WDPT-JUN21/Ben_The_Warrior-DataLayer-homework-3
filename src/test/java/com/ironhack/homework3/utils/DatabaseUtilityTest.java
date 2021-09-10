@@ -26,22 +26,22 @@ class DatabaseUtilityTest {
     private DatabaseUtility initialDatabase;
 
     @Autowired
-    DatabaseUtility databaseUtility;
+    private DatabaseUtility databaseUtility;
 
     @Autowired
-    Menu menu;
+    private Menu menu;
 
     @Autowired
-    LeadRepository leadRepository;
+    private LeadRepository leadRepository;
 
     @Autowired
-    AccountRepository accountRepository;
+    private AccountRepository accountRepository;
 
     @Autowired
-    OpportunityRepository opportunityRepository;
+    private OpportunityRepository opportunityRepository;
 
     @Autowired
-    ContactRepository contactRepository;
+    private ContactRepository contactRepository;
 
     @BeforeEach
     void setUp() throws IOException {
