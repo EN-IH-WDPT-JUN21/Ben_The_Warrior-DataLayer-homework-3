@@ -166,6 +166,7 @@ class AccountRepositoryTest {
     // ============================== Custom Queries Testing ==============================
     // ==================== 3 - Reporting Functionality By Country ====================
     @Test
+    @Order(7)
     void getCountByCountry() {
         var a3 = new Account(Industry.ECOMMERCE, 100, "Barcelona", "Spain");
         var a4 = new Account(Industry.ECOMMERCE, 100, "Toledo", "Spain");
@@ -183,6 +184,7 @@ class AccountRepositoryTest {
     }
 
     @Test
+    @Order(7)
     void getCountByCountry_With_ClosedWonStatus() {
         var a3 = new Account(Industry.ECOMMERCE, 100, "Barcelona", "Spain");
         var a4 = new Account(Industry.ECOMMERCE, 100, "Toledo", "Spain");
@@ -200,6 +202,7 @@ class AccountRepositoryTest {
     }
 
     @Test
+    @Order(7)
     void getCountByCountry_With_ClosedLostStatus() {
         var a3 = new Account(Industry.ECOMMERCE, 100, "Barcelona", "Spain");
         var a4 = new Account(Industry.ECOMMERCE, 100, "Toledo", "Spain");
@@ -217,6 +220,7 @@ class AccountRepositoryTest {
     }
 
     @Test
+    @Order(7)
     void getCountByCountry_With_OpenStatus() {
         var a3 = new Account(Industry.ECOMMERCE, 100, "Barcelona", "Spain");
         var a4 = new Account(Industry.ECOMMERCE, 100, "Toledo", "Spain");
@@ -236,6 +240,7 @@ class AccountRepositoryTest {
 
     // ==================== 4 - Reporting Functionality By City ====================
     @Test
+    @Order(8)
     void getCountByCity() {
         var a3 = new Account(Industry.ECOMMERCE, 100, "Barcelona", "Spain");
         var a4 = new Account(Industry.ECOMMERCE, 200, "Barcelona", "Spain");
@@ -255,6 +260,7 @@ class AccountRepositoryTest {
     }
 
     @Test
+    @Order(8)
     void getCountByCity_With_ClosedWonStatus() {
         var a3 = new Account(Industry.ECOMMERCE, 100, "Barcelona", "Spain");
         var a4 = new Account(Industry.ECOMMERCE, 200, "Barcelona", "Spain");
@@ -274,6 +280,7 @@ class AccountRepositoryTest {
     }
 
     @Test
+    @Order(8)
     void getCountByCity_With_ClosedLostStatus() {
         var a3 = new Account(Industry.ECOMMERCE, 100, "Barcelona", "Spain");
         var a4 = new Account(Industry.ECOMMERCE, 200, "Barcelona", "Spain");
@@ -293,6 +300,7 @@ class AccountRepositoryTest {
     }
 
     @Test
+    @Order(8)
     void getCountByCity_With_OpenStatus() {
         var a3 = new Account(Industry.ECOMMERCE, 100, "Barcelona", "Spain");
         var a4 = new Account(Industry.ECOMMERCE, 200, "Barcelona", "Spain");
@@ -313,6 +321,7 @@ class AccountRepositoryTest {
 
     // ==================== 5 - Reporting Functionality By Industry ====================
     @Test
+    @Order(9)
     void getCountByIndustry() {
         var a3 = new Account(Industry.ECOMMERCE, 100, "Barcelona", "Spain");
         var a4 = new Account(Industry.MEDICAL, 200, "Barcelona", "Spain");
@@ -332,6 +341,7 @@ class AccountRepositoryTest {
     }
 
     @Test
+    @Order(9)
     void getCountByIndustry_With_ClosedWonStatus() {
         var a3 = new Account(Industry.ECOMMERCE, 100, "Barcelona", "Spain");
         var a4 = new Account(Industry.MEDICAL, 200, "Barcelona", "Spain");
@@ -351,6 +361,7 @@ class AccountRepositoryTest {
     }
 
     @Test
+    @Order(9)
     void getCountByIndustry_With_ClosedLostStatus() {
         var a3 = new Account(Industry.ECOMMERCE, 100, "Barcelona", "Spain");
         var a4 = new Account(Industry.MEDICAL, 200, "Barcelona", "Spain");
@@ -370,6 +381,7 @@ class AccountRepositoryTest {
     }
 
     @Test
+    @Order(9)
     void getCountByIndustry_With_OpenStatus() {
         var a3 = new Account(Industry.ECOMMERCE, 100, "Barcelona", "Spain");
         var a4 = new Account(Industry.MEDICAL, 200, "Barcelona", "Spain");
@@ -391,6 +403,7 @@ class AccountRepositoryTest {
 
     // ==================== 6 - Reporting Functionality EmployeeCount States ====================
     @Test
+    @Order(10)
     void testMeanEmployeeCount() {
         // a1 = 1000
         // a2 = 100
@@ -401,6 +414,7 @@ class AccountRepositoryTest {
     }
 
     @Test
+    @Order(10)
     void testOrderedListOfEmployeeCount() {
         // a1 = 1000
         // a2 = 100
@@ -415,6 +429,7 @@ class AccountRepositoryTest {
     }
 
     @Test
+    @Order(10)
     void testMinEmployeeCount() {
         // a1 = 1000
         // a2 = 100
@@ -425,6 +440,7 @@ class AccountRepositoryTest {
     }
 
     @Test
+    @Order(10)
     void testMaxEmployeeCount() {
         // a1 = 1000
         // a2 = 100
@@ -437,6 +453,7 @@ class AccountRepositoryTest {
 
     // ==================== 8 - Reporting Functionality Opportunity States ====================
     @Test
+    @Order(11)
     void testMeanOpportunities() {
         var a3 = new Account(Industry.MEDICAL, 6000, "Rio de Janeiro", "Brazil");
         var a4 = new Account(Industry.MEDICAL, 835, "Rio de Janeiro", "Brazil");
@@ -464,6 +481,7 @@ class AccountRepositoryTest {
     }
 
     @Test
+    @Order(11)
     void testOrderedListOfOpportunities() {
         // a1 = 1
         // a2 = 0 doesn't count
@@ -492,8 +510,8 @@ class AccountRepositoryTest {
         assertEquals(List.of(1, 3, 6, 9, 16), accountRepository.orderListOfOpportunities());
     }
 
-
     @Test
+    @Order(11)
     void testMinOpportunities() {
         var a3 = new Account(Industry.MEDICAL, 6000, "Rio de Janeiro", "Brazil");
         var a4 = new Account(Industry.MEDICAL, 835, "Rio de Janeiro", "Brazil");
@@ -511,6 +529,7 @@ class AccountRepositoryTest {
     }
 
     @Test
+    @Order(11)
     void testMaxOpportunities() {
         var a3 = new Account(Industry.MEDICAL, 6000, "Rio de Janeiro", "Brazil");
         var a4 = new Account(Industry.MEDICAL, 835, "Rio de Janeiro", "Brazil");
