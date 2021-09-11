@@ -90,44 +90,59 @@ properties are defined in each test.
 
 ## Menu
 
-The Menu consists of an interpreter that listens and recognizes keywords that allow the user to create, update or
-delete data. It can also display information to help the user navigate the software. Once a CRM operation has been
-selected, the menu prompts you to enter information about the topic of interest. Once you have finished using the CRM,
-it gives you the option to exit the program and save the entered records.
+The Menu consists of an interpreter that listens and recognizes keywords that allow the user to create, update or delete
+data. It can also display information to help the user navigate the software. Once a CRM operation has been selected,
+the menu prompts you to enter information about the topic of interest. Once you have finished using the CRM, it gives
+you the option to exit the program and save the entered records.
 
 ### How to navigate the menu
 
 In order to navigate through the CRM, the user must enter the corresponding command to execute the action.
 
 ```
-Enter help for a list of valid commands!
+Enter help (-a) for a list of valid commands!
 Enter exit to close the application!
 ```
 
-- If the player wants to see the commands of the CRM, he must input: **help**.
+- If the player wants to see the commands of the CRM, he must input: **help** or **help -a**.
 - If the player wants to exit the program, he must input: **exit**.
 
 ## Help menu
 
-If you typed **help**, the menu with all commands shows up.
+If you typed **help**, the menu with the essential commands shows up.
 
 ```
-“new lead” – to create a new Lead  
-“convert <ID>”– to convert a Lead into an Opportunity    
-“close-won <ID>”– for changing the Opportunity status to Close Won      
-“close-lost <ID>”– for changing the Opportunity status to Close Lost
-“lookup <OBJECT> <ID>”- to search for specific Lead, Opportunity, Account or Contact
-“show <OBJECT PLURAL>” - to list all Leads, Opportunities, Accounts or Contacts
-“help” – to show information that explains usage of available commands (the same as you see)
+“new lead” - Creates a new Lead
+"new salesrep" - Creates a new Sales Representative
+“convert <ID>” - Converts a Lead into an Opportunity
+“close-won <ID>” - Close Won Opportunity
+“close-lost <ID>” - Close Lost Opportunity
+“lookup <OBJECT> <ID>” - Search for specific Lead, Opportunity, Account, Contact or SalesRep
+“show <OBJECT PLURAL>” - List all Leads, Opportunities, Accounts, Contacts or SalesRep
+                                                                                          
+"help (-a)" - Lists essential/all help commands
+"exit" - Exits the program
+```
 
-“save” – to save the changed data   
-“exit” – to save and exit the program
+And **help -a** will show all available commands. Being the ones missing:
 
+```
+"Report Lead by SalesRep" - Reports the number of leads per SalesRep
+"Report Opportunity by <PROPERTY>" - Reports the number of opportunities per <SalesRep>, <Product>, <Country>, <City> or <Industry>
+"Report CLOSED-WON by <PROPERTY>" - Reports the number of closed-won opportunities per <SalesRep>, <Product>, <Country>, <City> or <Industry>
+"Report CLOSED-LOST by <PROPERTY>" - Reports the number of closed-lost opportunities per <SalesRep>, <Product>, <Country>, <City> or <Industry>
+"Report OPEN by <PROPERTY>" - Reports the number of open opportunities per <SalesRep>, <Product>, <Country>, <City> or <Industry>
+"Mean <PROPERTY>" - Reports the mean value of <EmployeeCount>, <Quantity> or <Opps per Account>
+"Median <PROPERTY>" - Reports the median value of <EmployeeCount>, <Quantity> or <Opps per Account>
+"Max <PROPERTY>" - Reports the maximum value of <EmployeeCount>, <Quantity> or <Opps per Account>
+"Min <PROPERTY>" - RReports the minimum value of <EmployeeCount>, <Quantity> or <Opps per Account>
 ```
 
 - where ID is a valid number assigned to one of the Leads/Opportunities in the database
-- where OBJECT is **Lead**, **Opportunity**, **Account** or **Contact**
-- where OBJECT PLURAL is **Leads**, **Opportunities**, **Accounts** or **Contacts**
+- where OBJECT is **Lead**, **Opportunity**, **Account**, **Contact** or **SalesRep**
+- where OBJECT PLURAL is **Leads**, **Opportunities**, **Accounts**, **Contacts** or **SalesReps**
+- where PROPERTY can be **SalesRep**, **Product**, **Country**, **City**, **Industry**, **EmployeeCount**, **Quantity**
+  or **Opps per Account**, depending on the operation.
 
 ## Description of the CRM Components
 
@@ -150,6 +165,11 @@ possible states, these are:
 * OPEN (if the client has not yet decided whether or not to accept the quote)
 * CLOSED_WON (if the client accepted the quote)
 * CLOSED_LOST (if the client did not accept the quote)
+
+### SalesRep
+
+A salesrep or sales representative is the person responsible for negotiating with the client and managing the sales
+process, either on the lead phase or on the opportunity one.
 
 ### Account
 
@@ -489,21 +509,8 @@ Reports for Mean, Median, Max and Min statistics can be accessed in the followin
 [Mean, Median, Max or Min] [EmployeeCount, Quantity or Opps per Account]
 ```
 
-### Save the changed data
 
-Procedure for saving the changed data.
-
-It will show up if you typed:
-
-```
-save
-```
-
-in the Main menu (point 1) or Help menu (point 2).
-
-Then Main menu shows up (back to point 1).
-
-### Save and exit the program
+### Exit the program
 
 Procedure for saving and exiting the program.
 
@@ -515,21 +522,11 @@ exit
 
 in the Main menu (point 1) or Help menu (point 2).
 
-Then the menu shows:
+Then the menu will show:
 
 ```
 Goodbye.
-
-
-Do you want to save before exiting?
-ENTER - save and exit
-exit - exit
 ```
-
-Please hit:
-
-* **ENTER** – to save and exit, or type
-* **exit** – to exit without saving
 
 and the program stops.
 
