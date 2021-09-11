@@ -3,9 +3,9 @@
 ## Table of Contents
 
 1. [**Introduction**](#Introduction)
-    1. [Setup](#Setup)
-2. [**Installation**](#Installation)
     1. [Functions](#Functions)
+2. [**Installation**](#Installation)
+    1. [Setup](#Setup)
 3. [**Menu**](#Menu)
     1. [How to navigate the menu](#How-to-navigate-the-menu)
 4. [**Help menu**](#Help-menu)
