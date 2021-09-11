@@ -134,7 +134,7 @@ public class PrinterMenu extends Printer {
     private static void newLeadLines(String... params) {
         // Set initial menu for the lead creation
         if (params.length == 0) {
-            setMenuLines("", 1, 7, 9, 11, 13, 14, 15, 16, 17, 18, 19, 21);
+            clearAll();
             setMenuLines(HIGHLIGHT_COLOR + "Create New Lead" + HIGHLIGHT_COLOR, 4);
             setMenuLines("Name: ", 6);
             setMenuLines("Phone Number: ", 8);
@@ -199,7 +199,7 @@ public class PrinterMenu extends Printer {
     private static void convertLeadLines(String... params) {
         // Set menu for the new Opportunity creation
         if (params.length == 0) {
-            setMenuLines("", 1, 7, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 21);
+            clearAll();
             setMenuLines(HIGHLIGHT_COLOR + "Create New Opportunity" + HIGHLIGHT_COLOR, 4);
             setMenuLines("Product: ", 6);
             setMenuLines("Quantity: ", 8);
@@ -249,7 +249,7 @@ public class PrinterMenu extends Printer {
                             HIGHLIGHT_COLOR + "back " + ANSI_RESET + "- cancel Lead conversion", 20);
                     break;
                 case "account_select":
-                    setMenuLines("", 1, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 21);
+                    clearAll();
                     setMenuLines(HIGHLIGHT_COLOR + "Do you want to create a new Account?" + HIGHLIGHT_COLOR, 4);
                     setMenuLines(params[1].equals("0") ? HIGHLIGHT_COLOR + "ENTER " + ANSI_RESET + "- create new Account | " + HIGHLIGHT_COLOR + "back "
                             + ANSI_RESET + "- return to the main menu" :
@@ -283,7 +283,7 @@ public class PrinterMenu extends Printer {
         // identify which object to lookup and then set the menu appropriately
         if (Lead.class.equals(object.getClass())) {
             Lead lead = (Lead) object;
-            setMenuLines("", 1, 7, 9, 11, 13, 14, 15, 16, 17, 18, 19, 21);
+            clearAll();
             setMenuLines(HIGHLIGHT_COLOR + "Information of Lead with id " + lead.getId() + HIGHLIGHT_COLOR, 4);
             setMenuLines("Name: " + INSERT_HIGHLIGHT_COLOR + lead.getName() + ANSI_RESET, 6);
             setMenuLines("Phone Number: " + INSERT_HIGHLIGHT_COLOR + lead.getPhoneNumber() + ANSI_RESET, 8);
@@ -293,7 +293,7 @@ public class PrinterMenu extends Printer {
 
         } else if (Contact.class.equals(object.getClass())) {
             Contact contact = (Contact) object;
-            setMenuLines("", 1, 7, 9, 11, 13, 14, 15, 16, 17, 18, 19, 21);
+            clearAll();
             setMenuLines(HIGHLIGHT_COLOR + "Information of Contact with id " + contact.getId() + HIGHLIGHT_COLOR, 4);
             setMenuLines("Name: " + INSERT_HIGHLIGHT_COLOR + contact.getName() + ANSI_RESET, 6);
             setMenuLines("Phone Number: " + INSERT_HIGHLIGHT_COLOR + contact.getPhoneNumber() + ANSI_RESET, 8);
@@ -304,7 +304,7 @@ public class PrinterMenu extends Printer {
         } else if (Opportunity.class.equals(object.getClass())) {
             Opportunity opportunity = (Opportunity) object;
             if (params.length == 0) {
-                setMenuLines("", 1, 7, 9, 11, 13, 14, 15, 16, 17, 18, 19, 21);
+                clearAll();
                 setMenuLines(HIGHLIGHT_COLOR + "Information of Opportunity with id " + opportunity.getId() + HIGHLIGHT_COLOR, 4);
                 setMenuLines("Product: " + INSERT_HIGHLIGHT_COLOR + opportunity.getProduct() + ANSI_RESET, 6);
                 setMenuLines("Quantity: " + INSERT_HIGHLIGHT_COLOR + opportunity.getQuantity() + ANSI_RESET, 8);
@@ -324,7 +324,7 @@ public class PrinterMenu extends Printer {
         } else if (Account.class.equals(object.getClass())) {
             Account account = (Account) object;
             if (params.length == 0) {
-                setMenuLines("", 1, 7, 9, 11, 13, 15, 17, 18, 19, 21);
+                clearAll();
                 setMenuLines(HIGHLIGHT_COLOR + "Information of Account with id " + account.getId() + HIGHLIGHT_COLOR, 4);
                 setMenuLines("Industry: " + INSERT_HIGHLIGHT_COLOR + account.getIndustry() + ANSI_RESET, 6);
                 setMenuLines("Employee Count: " + INSERT_HIGHLIGHT_COLOR + account.getEmployeeCount() + ANSI_RESET, 8);
@@ -347,7 +347,7 @@ public class PrinterMenu extends Printer {
             }
         } else if (SalesRep.class.equals(object.getClass())){
             SalesRep salesRep = (SalesRep) object;
-            setMenuLines("", 1, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 21);
+            clearAll();
             setMenuLines(HIGHLIGHT_COLOR + "Information of SalesRep with id " + salesRep.getId() + HIGHLIGHT_COLOR, 4);
             setMenuLines("Name: " + INSERT_HIGHLIGHT_COLOR + salesRep.getName() + ANSI_RESET, 6);
             setMenuLines(HIGHLIGHT_COLOR + "ENTER " + ANSI_RESET + "- return to the main menu", 20);
@@ -363,7 +363,7 @@ public class PrinterMenu extends Printer {
     private static void newSalesRepLines(String... params){
         // Set initial menu for the SalesRep creation
         if (params.length == 0) {
-            setMenuLines("", 1, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 21);
+            clearAll();
             setMenuLines(HIGHLIGHT_COLOR + "Create New SalesRep" + HIGHLIGHT_COLOR, 4);
             setMenuLines("Name: ", 6);
             setMenuLines(HIGHLIGHT_COLOR + "Insert SalesRep Name: " + HIGHLIGHT_COLOR, 20);
@@ -380,7 +380,7 @@ public class PrinterMenu extends Printer {
 
     // Set the menu String array to show the provided page (List) of leads
     public static void showLeads(ArrayList<Lead> leads, boolean firstPage, boolean lastPage) {
-        setMenuLines("", 1, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 21);
+        clearAll();
         if (leads.size() == 0) {
             setMenuLines(HIGHLIGHT_COLOR + "There are no Leads" + HIGHLIGHT_COLOR, 4);
         } else {
@@ -412,7 +412,7 @@ public class PrinterMenu extends Printer {
 
     // Set the menu String array to show the provided page (List) of opportunities
     public static void showOpportunities(ArrayList<Opportunity> opportunities, boolean firstPage, boolean lastPage, boolean fromAccount) {
-        setMenuLines("", 1, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 21);
+        clearAll();
         if (opportunities.size() == 0) {
             setMenuLines(HIGHLIGHT_COLOR + "There are no Opportunities" + HIGHLIGHT_COLOR, 4);
         } else {
@@ -443,7 +443,7 @@ public class PrinterMenu extends Printer {
 
     // Set the menu String array to show the provided page (List) of contacts
     public static void showContacts(ArrayList<Contact> contacts, boolean firstPage, boolean lastPage, boolean fromAccount) {
-        setMenuLines("", 1, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 21);
+        clearAll();
         if (contacts.size() == 0) {
             setMenuLines(HIGHLIGHT_COLOR + "There are no Contacts" + HIGHLIGHT_COLOR, 4);
         } else {
@@ -474,7 +474,7 @@ public class PrinterMenu extends Printer {
 
     // Set the menu String array to show the provided page (List) of accounts
     public static void showAccounts(ArrayList<Account> accounts, boolean firstPage, boolean lastPage) {
-        setMenuLines("", 1, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 21);
+        clearAll();
         if (accounts.size() == 0) {
             setMenuLines(HIGHLIGHT_COLOR + "There are no Accounts" + HIGHLIGHT_COLOR, 4);
         } else {
@@ -505,7 +505,7 @@ public class PrinterMenu extends Printer {
 
     // Set the menu String array to show the provided page (List) of SalesRep
     public static void showSalesRep(ArrayList<SalesRep> salesReps, boolean firstPage, boolean lastPage) {
-        setMenuLines("", 1, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 21);
+        clearAll();
         if (salesReps.size() == 0) {
             setMenuLines(HIGHLIGHT_COLOR + "There are no SalesRep" + HIGHLIGHT_COLOR, 4);
         } else {
