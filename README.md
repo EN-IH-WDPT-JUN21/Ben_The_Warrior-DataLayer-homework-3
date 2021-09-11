@@ -566,6 +566,10 @@ and the program stops.
 
 ![Class Diagram](https://user-images.githubusercontent.com/84567251/128645939-aa22a449-5c6f-498b-8fa5-702bc6e89c25.png)
 
+## Notes
+
+- Some tests, from PrinterTest, will not pass in Ubuntu or Mac machines due to the different type of linebreak.
+
 ## The Team
 
 by:  
