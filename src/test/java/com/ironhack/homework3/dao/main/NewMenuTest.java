@@ -1,4 +1,4 @@
-/*package com.ironhack.homework3.dao.main;
+package com.ironhack.homework3.dao.main;
 
 import com.ironhack.homework3.dao.classes.Contact;
 import com.ironhack.homework3.enums.Product;
@@ -9,21 +9,20 @@ import com.ironhack.homework3.repository.LeadRepository;
 import com.ironhack.homework3.repository.OpportunityRepository;
 import com.ironhack.homework3.utils.DatabaseUtility;
 import com.ironhack.homework3.utils.PrinterMenu;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.DirtiesContext;
 
 import java.io.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 class NewMenuTest {
 
-    @MockBean
     private MainMenuAutowired mainMenuAutowired;
 
     private DatabaseUtility initialDatabase;
@@ -32,51 +31,15 @@ class NewMenuTest {
     @Autowired
     private Menu menu;
 
-    @Autowired
-    private LeadRepository leadRepository;
-
-    @Autowired
-    private AccountRepository accountRepository;
-
-    @Autowired
-    private OpportunityRepository opportunityRepository;
-
-    @Autowired
-    private ContactRepository contactRepository;
-
 
     @BeforeEach
     void setUp() throws IOException {
-        initialDatabase = new DatabaseUtility(leadRepository, contactRepository, accountRepository, opportunityRepository, "dummy");
-        initialDatabase.load();
 
-        input = new ByteArrayInputStream("new lead\nBen\n123456789\nben@ironhack.com\nIronhack\n \nexit\n ".getBytes());
-
-        menu = new Menu(leadRepository, contactRepository, accountRepository, opportunityRepository, input);
-        menu.mainMenu();
     }
 
 
     @AfterEach
     void tearDown() throws IOException {
-        initialDatabase.save();
-    }
-
-
-    @Test
-    @DisplayName("Start menu with nonexistent database")
-    void mainNewMenu_UnavailableDatabase_OpenEmptyDatabase(){
-        File file = new File("src/main/java/com/ironhack/homework_2/database/dummy.json");
-        boolean fileDeleted = file.delete();
-
-        assertTrue(fileDeleted);
-        menu = new Menu(leadRepository, contactRepository, accountRepository, opportunityRepository);
-
-        DatabaseUtility menuDatabase = menu.getDatabase();
-        assertEquals(0,menuDatabase.getLeadHash().size());
-        assertEquals(0,menuDatabase.getContactHash().size());
-        assertEquals(0,menuDatabase.getOpportunityHash().size());
-        assertEquals(0,menuDatabase.getAccountHash().size());
 
     }
 
@@ -89,7 +52,6 @@ class NewMenuTest {
         System.setOut(new PrintStream(outputStream));
 
         input = new ByteArrayInputStream("help\nexit\nexit".getBytes());
-        menu = new Menu(leadRepository, contactRepository, accountRepository, opportunityRepository, input);
 
         menu.mainMenu();
 
@@ -104,11 +66,32 @@ class NewMenuTest {
     }
 
     @Test
+    @DisplayName("Print help menu when command help")
+    void mainNewMenu_HelpAllCommand_PrintHelpAllNewMenu() {
+
+        PrintStream sysOutBackup = System.out;
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(outputStream));
+
+        input = new ByteArrayInputStream("help -a\nexit\nexit".getBytes());
+
+        menu.mainMenu();
+
+        String output = outputStream.toString();
+        assertTrue(output.contains("new lead"));
+        assertTrue(output.contains("convert <ID>"));
+        assertTrue(output.contains("close-won <ID>"));
+        assertTrue(output.contains("close-lost <ID>"));
+        assertTrue(output.contains("lookup <OBJECT> <ID>"));
+        assertTrue(output.contains("mean employeecount"));
+        assertTrue(output.contains("max quantity"));
+        assertTrue(output.contains("report opportunity by city"));
+        System.setOut(sysOutBackup);
+    }
+
+ /*   @Test
     @DisplayName("Add prompted lead to the database")
     void mainNewMenu_NewLeadCommand_AddNewLead() throws IOException {
-
-        DatabaseUtility databaseBeforeAddingLead = new DatabaseUtility(leadRepository, contactRepository, accountRepository, opportunityRepository, "dummy");
-        databaseBeforeAddingLead.load();
 
         int initialSize = databaseBeforeAddingLead.getLeadHash().size();
 
@@ -368,5 +351,5 @@ class NewMenuTest {
         assertEquals(PrinterMenu.getWarning(), "There is no Opportunity with id 5");
         menu.computeCommand("lookup account 5");
         assertEquals(PrinterMenu.getWarning(), "There is no Account with id 5");
-    }
-}*/
+    }*/
+}
