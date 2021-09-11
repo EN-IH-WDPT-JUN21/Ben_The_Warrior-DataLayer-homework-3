@@ -40,6 +40,7 @@ public class Opportunity {
     @JoinColumn(name = "sales_rep_id")
     private SalesRep salesRep;
 
+
     // ============================== CONSTRUCTOR ==============================
     public Opportunity(Product product, int quantity, Contact decisionMaker, Status status, Account account, SalesRep salesRep) {
         setProduct(product);

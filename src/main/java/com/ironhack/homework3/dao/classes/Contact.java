@@ -18,9 +18,13 @@ public class Contact {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "contact_id")
     private Integer id;
+
     private String name;
+
     private String phoneNumber;
+
     private String email;
+
     private String companyName;
 
     @OneToOne(mappedBy = "decisionMaker")
@@ -30,6 +34,7 @@ public class Contact {
     @JoinColumn(name = "account_id")
     private Account account;
 
+
     // ============================== CONSTRUCTOR ==============================
     public Contact(String name, String phoneNumber, String email, String companyName, Account account) {
         setName(name);
@@ -38,6 +43,7 @@ public class Contact {
         setCompanyName(companyName);
         setAccount(account);
     }
+
 
     // ============================== METHODS ==============================
     @Override

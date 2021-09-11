@@ -13,6 +13,7 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 public class Account {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "account_id")
@@ -22,7 +23,9 @@ public class Account {
     private Industry industry;
 
     private int employeeCount;
+
     private String city;
+
     private String country;
 
     @OneToMany(mappedBy = "account", cascade = {CascadeType.REMOVE})
@@ -40,6 +43,7 @@ public class Account {
         setCity(city);
         setCountry(country);
     }
+
 
     // ============================== METHODS ==============================
     @Override

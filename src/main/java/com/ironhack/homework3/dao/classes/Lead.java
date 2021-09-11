@@ -20,14 +20,19 @@ public class Lead {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "lead_id")
     private Integer id;
+
     private String name;
+
     private String phoneNumber;
+
     private String email;
+
     private String companyName;
 
     @ManyToOne
     @JoinColumn(name = "sales_rep_id")
     private SalesRep salesRep;
+
 
     // ============================== CONSTRUCTOR ==============================
     public Lead(String name, String phoneNumber, String email, String companyName, SalesRep salesRep) {
@@ -37,6 +42,7 @@ public class Lead {
         setCompanyName(companyName);
         setSalesRep(salesRep);
     }
+
 
     // ============================== METHODS ==============================
     @Override
