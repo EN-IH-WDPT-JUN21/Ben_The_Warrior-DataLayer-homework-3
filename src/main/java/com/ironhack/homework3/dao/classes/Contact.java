@@ -6,14 +6,13 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.Objects;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class Contact{
+public class Contact {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,14 +31,6 @@ public class Contact{
     private Account account;
 
     // ============================== CONSTRUCTOR ==============================
-    // TODO TO DELETE
-    public Contact(String name, String phoneNumber, String email, String companyName) {
-        setName(name);
-        setPhoneNumber(phoneNumber);
-        setEmail(email);
-        setCompanyName(companyName);
-    }
-
     public Contact(String name, String phoneNumber, String email, String companyName, Account account) {
         setName(name);
         setPhoneNumber(phoneNumber);
@@ -54,21 +45,4 @@ public class Contact{
         return "Id: " + id + ", Name: " + name + ", Email: " + email + ", Phone: " + phoneNumber + ", Company: " + companyName;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Contact contact = (Contact) o;
-        return Objects.equals(name, contact.name) && Objects.equals(phoneNumber, contact.phoneNumber) &&
-                Objects.equals(email, contact.email) && Objects.equals(companyName, contact.companyName);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(name, phoneNumber, email, companyName);
-    }
-
-    public boolean hasNullValues() {
-        return getName() == null || getPhoneNumber() == null || getEmail() == null || getCompanyName() == null;
-    }
 }

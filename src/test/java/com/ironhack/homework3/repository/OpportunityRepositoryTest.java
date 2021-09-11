@@ -61,7 +61,6 @@ class OpportunityRepositoryTest {
 
     @BeforeEach
     void setUp() {
-
         a = new Account(Industry.ECOMMERCE, 200, "London", "UK");
         accountRepository.save(a);
         c = new Contact("Joe", "999999999", "joe@mail.com", "New Company", a);
@@ -73,7 +72,7 @@ class OpportunityRepositoryTest {
         sr = new SalesRep("Sales Guy");
         salesRepRepository.save(sr);
         var o1 = new Opportunity(Product.HYBRID, 3000, c1, Status.OPEN, a, sr);
-        var o2 = new Opportunity(Product.BOX, 200, c2, Status.CLOSED_WON, a, sr);
+        var o2 = new Opportunity(Product.BOX, 200, c2, Status.CLOSED_LOST, a, sr);
         opportunityRepository.saveAll(List.of(o1, o2));
     }
 
@@ -93,15 +92,6 @@ class OpportunityRepositoryTest {
         Opportunity o3 = new Opportunity(Product.HYBRID, 30000, c, Status.OPEN, a, sr);
         opportunityRepository.save(o3);
         assertEquals("Id: 3, Product: HYBRID, Quantity: 30000, Decision Maker: Joe, Status: OPEN", o3.toString());
-
-//         var account = new Account(Industry.ECOMMERCE, 200, "London", "UK");
-//         accountRepository.save(account);
-//         Contact c = new Contact("John Smith", "2460247246", "johnthewarrior@fighters.com", "The smiths");
-//         contactRepository.save(c);
-//         Opportunity o = new Opportunity(Product.HYBRID, 30000, c, Status.OPEN, account);
-//         opportunityRepository.save(o);
-//         assertEquals("Id: 2, Product: HYBRID, Quantity: 30000, Decision Maker: John Smith, Status: OPEN", o.toString());
-
     }
 
 
@@ -121,17 +111,6 @@ class OpportunityRepositoryTest {
         var initialSize = opportunityRepository.count();
         opportunityRepository.save(new Opportunity(Product.FLATBED, 11, c, Status.OPEN, a, sr));
         assertEquals(initialSize + 1, opportunityRepository.count());
-
-//         var account = new Account(Industry.ECOMMERCE, 200, "London", "UK");
-//         accountRepository.save(account);
-//         var OpportunityCountBeforeSave = opportunityRepository.count();
-//         var contact = new Contact("Macho Man", "123643543", "Randy@savage.com", "WWF");
-//         contactRepository.save(contact);
-//         var opportunity = new Opportunity(Product.HYBRID, 30000, contact, Status.CLOSED_WON, account);
-//         opportunityRepository.save(opportunity);
-//         var OpportunityCountAfterSave = opportunityRepository.count();
-//         assertEquals(1, OpportunityCountAfterSave - OpportunityCountBeforeSave);
-
     }
 
     // ==================== Read ====================
@@ -157,7 +136,7 @@ class OpportunityRepositoryTest {
     @Test
     @Order(5)
     void testUpdateOpportunity_changeQuantity_newQuantityEqualsDefinedQuantity() {
-        var o3 = new Opportunity(Product.BOX, 100, Status.OPEN);
+        var o3 = new Opportunity(Product.BOX, 100, c, Status.OPEN, a, sr);
         opportunityRepository.save(o3);
         var storedOpportunity = opportunityRepository.findById(3);
         if (storedOpportunity.isPresent()) {
@@ -174,20 +153,20 @@ class OpportunityRepositoryTest {
     @Test
     @Order(6)
     void testDeleteOpportunity_deleteOpportunity_deletedFromRepository() {
-        var o3 = new Opportunity(Product.BOX, 2000, Status.CLOSED_LOST);
+        var o3 = new Opportunity(Product.BOX, 2000, c, Status.CLOSED_LOST, a, sr);
         opportunityRepository.save(o3);
         var initialSize = opportunityRepository.count();
         opportunityRepository.deleteById(3);
         assertEquals(initialSize - 1, opportunityRepository.count());
     }
 
+
     // ============================== Custom Queries Testing ==============================
-
     // ==================== 2 - Reporting Functionality By Product ====================
-
     // ====================  Report Opportunity by the product ====================
     @Test
-    void getCountByProduct(){
+    @Order(7)
+    void getCountByProduct() {
         List<IOpportunityProduct> productsCounts = opportunityRepository.countOpportunitiesByProduct();
         assertEquals(Product.HYBRID, productsCounts.get(0).getProductComment());
         assertEquals(1, productsCounts.get(0).getProductCount());
@@ -195,12 +174,13 @@ class OpportunityRepositoryTest {
 
     // ====================  Report Opportunity by the product with CLOSED_WON status ====================
     @Test
-    void getCountByProduct_With_ClosedWonStatus(){
-        var contact = new Contact("Mapi", "123643543", "mapi@gm.com", "GM");
-        contactRepository.save(contact);
+    @Order(7)
+    void getCountByProduct_With_ClosedWonStatus() {
         var account = new Account(Industry.ECOMMERCE, 20, "Santiago", "Chile");
+        var contact = new Contact("Mapi", "123643543", "mapi@gm.com", "GM", account);
+        contactRepository.save(contact);
         accountRepository.save(account);
-        var opportunity = new Opportunity(Product.BOX, 300, contact, Status.CLOSED_WON, account);
+        var opportunity = new Opportunity(Product.BOX, 300, contact, Status.CLOSED_WON, account, sr);
         opportunityRepository.save(opportunity);
         List<IOpportunityProduct> productsCounts = opportunityRepository.countOpportunitiesClosedWonByProduct();
         assertEquals(1, productsCounts.get(0).getProductCount());
@@ -208,12 +188,13 @@ class OpportunityRepositoryTest {
 
     // ====================  Report Opportunity by the product with CLOSED_LOST status ====================
     @Test
-    void getCountByProduct_With_ClosedLostStatus(){
-        var contact = new Contact("Mapi", "123643543", "mapi@gm.com", "GM");
-        contactRepository.save(contact);
+    @Order(7)
+    void getCountByProduct_With_ClosedLostStatus() {
         var account = new Account(Industry.ECOMMERCE, 20, "Santiago", "Chile");
         accountRepository.save(account);
-        var opportunity = new Opportunity(Product.BOX, 300, contact, Status.CLOSED_LOST, account);
+        var contact = new Contact("Mapi", "123643543", "mapi@gm.com", "GM", account);
+        contactRepository.save(contact);
+        var opportunity = new Opportunity(Product.BOX, 300, contact, Status.CLOSED_LOST, account, sr);
         opportunityRepository.save(opportunity);
         List<IOpportunityProduct> productsCounts = opportunityRepository.countOpportunitiesClosedLostByProduct();
         assertEquals(Product.BOX, productsCounts.get(0).getProductComment());
@@ -221,63 +202,67 @@ class OpportunityRepositoryTest {
 
     // ====================  Report Opportunity by the product with OPEN status ====================
     @Test
-    void getCountByProduct_With_OpenStatus(){
-        var contact = new Contact("Mapi", "123643543", "mapi@gm.com", "GM");
-        contactRepository.save(contact);
+    @Order(7)
+    void getCountByProduct_With_OpenStatus() {
         var account = new Account(Industry.ECOMMERCE, 20, "Santiago", "Chile");
         accountRepository.save(account);
-        var opportunity = new Opportunity(Product.HYBRID, 300, contact, Status.OPEN, account);
+        var contact = new Contact("Mapi", "123643543", "mapi@gm.com", "GM", account);
+        contactRepository.save(contact);
+        var opportunity = new Opportunity(Product.HYBRID, 300, contact, Status.OPEN, account, sr);
         opportunityRepository.save(opportunity);
         List<IOpportunityProduct> productsCounts = opportunityRepository.countOpportunitiesOpenByProduct();
         assertEquals(2, productsCounts.get(0).getProductCount());
-
     }
+
 
     // ==================== 7 - Reporting Functionality Quantity States ====================
     @Test
+    @Order(8)
     void testMeanQuantity() {
         // o1 = 3000
         // o2 = 200
-        var o2 = new Opportunity(Product.HYBRID, 73, Status.OPEN);
-        var o3 = new Opportunity(Product.HYBRID, 386, Status.OPEN);
-        var o4 = new Opportunity(Product.HYBRID, 3468, Status.OPEN);
+        var o2 = new Opportunity(Product.HYBRID, 73, c, Status.OPEN, a, sr);
+        var o3 = new Opportunity(Product.HYBRID, 386, c, Status.OPEN, a, sr);
+        var o4 = new Opportunity(Product.HYBRID, 3468, c, Status.OPEN, a, sr);
         opportunityRepository.saveAll(List.of(o2, o3, o4));
-        assertEquals(((double) Math.round(((3000 +200+ 73 + 386 + 3468) / 5.0) * 10000d) / 10000d), opportunityRepository.meanQuantity());
+        assertEquals(((double) Math.round(((3000 + 200 + 73 + 386 + 3468) / 5.0) * 10000d) / 10000d), opportunityRepository.meanQuantity());
     }
 
     @Test
+    @Order(8)
     void testOrderedListOfQuantities() {
         // o1 = 3000
         // o2 = 200
-        var o2 = new Opportunity(Product.HYBRID, 386, Status.OPEN);
-        var o3 = new Opportunity(Product.HYBRID, 73, Status.OPEN);
-        var o4 = new Opportunity(Product.HYBRID, 3468, Status.OPEN);
+        var o2 = new Opportunity(Product.HYBRID, 386, c, Status.OPEN, a, sr);
+        var o3 = new Opportunity(Product.HYBRID, 73, c, Status.OPEN, a, sr);
+        var o4 = new Opportunity(Product.HYBRID, 3468, c, Status.OPEN, a, sr);
         opportunityRepository.saveAll(List.of(o2, o3, o4));
         assertEquals(List.of(73, 200, 386, 3000, 3468), opportunityRepository.orderedListOfQuantities());
     }
 
     @Test
+    @Order(8)
     void testMinQuantity() {
         // o1 = 3000
         // o2 = 200
-        var o2 = new Opportunity(Product.HYBRID, 73, Status.OPEN);
-        var o3 = new Opportunity(Product.HYBRID, 386, Status.OPEN);
-        var o4 = new Opportunity(Product.HYBRID, 3468, Status.OPEN);
+        var o2 = new Opportunity(Product.HYBRID, 73, c, Status.OPEN, a, sr);
+        var o3 = new Opportunity(Product.HYBRID, 386, c, Status.OPEN, a, sr);
+        var o4 = new Opportunity(Product.HYBRID, 3468, c, Status.OPEN, a, sr);
         opportunityRepository.saveAll(List.of(o2, o3, o4));
         assertEquals(73, opportunityRepository.minQuantity());
     }
 
     @Test
+    @Order(8)
     void testMaxQuantity() {
         // o1 = 3000
         // o2 = 200
-        var o2 = new Opportunity(Product.HYBRID, 73, Status.OPEN);
-        var o3 = new Opportunity(Product.HYBRID, 386, Status.OPEN);
-        var o4 = new Opportunity(Product.HYBRID, 3468, Status.OPEN);
+        var o2 = new Opportunity(Product.HYBRID, 73, c, Status.OPEN, a, sr);
+        var o3 = new Opportunity(Product.HYBRID, 386, c, Status.OPEN, a, sr);
+        var o4 = new Opportunity(Product.HYBRID, 3468, c, Status.OPEN, a, sr);
         opportunityRepository.saveAll(List.of(o2, o3, o4));
         opportunityRepository.save(o3);
         assertEquals(3468, opportunityRepository.maxQuantity());
     }
 
 }
-

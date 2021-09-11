@@ -116,7 +116,7 @@ public interface AccountRepository extends JpaRepository<Account, Integer> {
     // 2. Median Opps per Account - returns all the opportunitiesCount ordered and uses an util method to calculate Median
     @Query(value = "SELECT count(*) AS nrOpp FROM opportunity " +
             "GROUP BY account_id " +
-            "HAVING account_id IS NOT NULL" +
+            "HAVING account_id IS NOT NULL " +
             "ORDER BY nrOpp", nativeQuery = true)
     List<Integer> orderListOfOpportunities();
 

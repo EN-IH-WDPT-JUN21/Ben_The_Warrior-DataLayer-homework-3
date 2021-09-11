@@ -1,6 +1,5 @@
 package com.ironhack.homework3.dao.classes;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

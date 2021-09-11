@@ -444,23 +444,19 @@ class AccountRepositoryTest {
         var a6 = new Account(Industry.MEDICAL, 273, "Rio de Janeiro", "Brazil");
         accountRepository.saveAll(List.of(a3, a4, a5, a6));
         for (int i = 0; i < 3; i++) { //3
-            o = new Opportunity(Product.HYBRID, 1, Status.OPEN);
-            o.setAccountOpp(a3);
+            o = new Opportunity(Product.HYBRID, 1, c, Status.OPEN, a3, sr);
             opportunityRepository.save(o);
         }
         for (int i = 0; i < 6; i++) { //6
-            o = new Opportunity(Product.HYBRID, 1, Status.OPEN);
-            o.setAccountOpp(a4);
+            o = new Opportunity(Product.HYBRID, 1, c, Status.OPEN, a4, sr);
             opportunityRepository.save(o);
         }
         for (int i = 0; i < 9; i++) { //9
-            o = new Opportunity(Product.HYBRID, 1, Status.OPEN);
-            o.setAccountOpp(a5);
+            o = new Opportunity(Product.HYBRID, 1, c, Status.OPEN, a5, sr);
             opportunityRepository.save(o);
         }
         for (int i = 0; i < 16; i++) { //16
-            o = new Opportunity(Product.HYBRID, 1, Status.OPEN);
-            o.setAccountOpp(a6);
+            o = new Opportunity(Product.HYBRID, 1, c, Status.OPEN, a6, sr);
             opportunityRepository.save(o);
         }
         // mean is from the values of setup and these new opportunity (only for opportunity with accounts)
@@ -468,18 +464,46 @@ class AccountRepositoryTest {
     }
 
     @Test
+    void testOrderedListOfOpportunities() {
+        // a1 = 1
+        // a2 = 0 doesn't count
+        var a3 = new Account(Industry.MEDICAL, 6000, "Rio de Janeiro", "Brazil");
+        var a4 = new Account(Industry.MEDICAL, 835, "Rio de Janeiro", "Brazil");
+        var a5 = new Account(Industry.MEDICAL, 6000, "Rio de Janeiro", "Brazil");
+        var a6 = new Account(Industry.MEDICAL, 273, "Rio de Janeiro", "Brazil");
+        accountRepository.saveAll(List.of(a3, a4, a5, a6));
+        for (int i = 0; i < 3; i++) { //3
+            o = new Opportunity(Product.HYBRID, 1, c, Status.OPEN, a3, sr);
+            opportunityRepository.save(o);
+        }
+        for (int i = 0; i < 6; i++) { //6
+            o = new Opportunity(Product.HYBRID, 1, c, Status.OPEN, a4, sr);
+            opportunityRepository.save(o);
+        }
+        for (int i = 0; i < 9; i++) { //9
+            o = new Opportunity(Product.HYBRID, 1, c, Status.OPEN, a5, sr);
+            opportunityRepository.save(o);
+        }
+        for (int i = 0; i < 16; i++) { //16
+            o = new Opportunity(Product.HYBRID, 1, c, Status.OPEN, a6, sr);
+            opportunityRepository.save(o);
+        }
+        accountRepository.saveAll(List.of(a3, a4, a5, a6));
+        assertEquals(List.of(1, 3, 6, 9, 16), accountRepository.orderListOfOpportunities());
+    }
+
+
+    @Test
     void testMinOpportunities() {
         var a3 = new Account(Industry.MEDICAL, 6000, "Rio de Janeiro", "Brazil");
         var a4 = new Account(Industry.MEDICAL, 835, "Rio de Janeiro", "Brazil");
         accountRepository.saveAll(List.of(a3, a4));
         for (int i = 0; i < 3; i++) { //3
-            o = new Opportunity(Product.HYBRID, 1, Status.OPEN);
-            o.setAccountOpp(a3);
+            o = new Opportunity(Product.HYBRID, 1, c, Status.OPEN, a3, sr);
             opportunityRepository.save(o);
         }
         for (int i = 0; i < 6; i++) { //6
-            o = new Opportunity(Product.HYBRID, 1, Status.OPEN);
-            o.setAccountOpp(a4);
+            o = new Opportunity(Product.HYBRID, 1, c, Status.OPEN, a4, sr);
             opportunityRepository.save(o);
         }
         // min is from the values of setup and these new opportunity (only for opportunity with accounts)
@@ -492,13 +516,11 @@ class AccountRepositoryTest {
         var a4 = new Account(Industry.MEDICAL, 835, "Rio de Janeiro", "Brazil");
         accountRepository.saveAll(List.of(a3, a4));
         for (int i = 0; i < 6; i++) { //6
-            o = new Opportunity(Product.HYBRID, 1, Status.OPEN);
-            o.setAccountOpp(a3);
+            o = new Opportunity(Product.HYBRID, 1, c, Status.OPEN, a3, sr);
             opportunityRepository.save(o);
         }
         for (int i = 0; i < 9; i++) { //9
-            o = new Opportunity(Product.HYBRID, 1, Status.OPEN);
-            o.setAccountOpp(a4);
+            o = new Opportunity(Product.HYBRID, 1, c, Status.OPEN, a4, sr);
             opportunityRepository.save(o);
         }
         // max is from the values of setup and these new opportunity (only for opportunity with accounts)

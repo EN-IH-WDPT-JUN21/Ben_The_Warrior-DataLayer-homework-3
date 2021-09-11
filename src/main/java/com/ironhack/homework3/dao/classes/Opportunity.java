@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.Objects;
 
 @Getter
 @Setter
@@ -42,34 +41,6 @@ public class Opportunity {
     private SalesRep salesRep;
 
     // ============================== CONSTRUCTOR ==============================
-    public Opportunity(Product product, int quantity, Status status) {
-        setProduct(product);
-        setQuantity(quantity);
-        setStatus(status);
-    }
-
-    public Opportunity(Product product, int quantity, Contact decisionMaker, Status status) {
-        this.product = product;
-        this.quantity = quantity;
-        this.decisionMaker = decisionMaker;
-        this.status = status;
-    }
-
-    public Opportunity(Product product, int quantity, Contact decisionMaker, Status status, Account accountOpp) {
-        setProduct(product);
-        setQuantity(quantity);
-        setDecisionMaker(decisionMaker);
-        setStatus(status);
-        setAccountOpp(accountOpp);
-    }
-
-    public Opportunity(Product product, int quantity, Contact decisionMaker, Status status) {
-        setProduct(product);
-        setQuantity(quantity);
-        setDecisionMaker(decisionMaker);
-        setStatus(status);
-    }
-
     public Opportunity(Product product, int quantity, Contact decisionMaker, Status status, Account account, SalesRep salesRep) {
         setProduct(product);
         setQuantity(quantity);
@@ -84,24 +55,7 @@ public class Opportunity {
     @Override
     public String toString() {
         return "Id: " + id + ", Product: " + product + ", Quantity: " + quantity + ", Decision Maker: " +
-                decisionMaker.getName() + ", Status: " + status;
+                decisionMaker.getName() + ", Status: " + status + ", Sales Representative: " + salesRep.getName();
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Opportunity that = (Opportunity) o;
-        return quantity == that.quantity && product == that.product &&
-                Objects.equals(decisionMaker, that.decisionMaker) && status == that.status;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(product, quantity, decisionMaker, status);
-    }
-
-    public boolean hasNullValues() {
-        return getProduct() == null || getStatus() == null || getDecisionMaker().hasNullValues();
-    }
 }
