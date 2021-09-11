@@ -540,7 +540,7 @@ public class PrinterMenu extends Printer {
         if (stringList.size() != longList.size()){
             throw new IllegalArgumentException("The lists have different sizes!");
         }
-        setMenuLines("", 1, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 21);
+        clearAll();
         setMenuLines(HIGHLIGHT_COLOR + query + HIGHLIGHT_COLOR, 4);
 
         // String is built with the current page of SalesRep and then the corresponding menu String lines are set
@@ -568,7 +568,7 @@ public class PrinterMenu extends Printer {
     }
 
     public static void printQueryStat(String query, Number stat){
-        setMenuLines("", 1, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21);
+        clearAll();
         setMenuLines(HIGHLIGHT_COLOR + query + ANSI_RESET, 4);
         setMenuLines(query.split(" ")[0] + ": " + stat,8);
         setMenuLines(HIGHLIGHT_COLOR + "ENTER " + ANSI_RESET + "- return to the main menu", 20);
