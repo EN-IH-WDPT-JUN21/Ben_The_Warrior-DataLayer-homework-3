@@ -2,7 +2,6 @@ package com.ironhack.homework3.dao.main;
 
 import com.ironhack.homework3.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.mock.mockito.MockBeans;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -11,7 +10,6 @@ public class MainMenuAutowired {
     final ContactRepository contactRepository;
     final AccountRepository accountRepository;
     final OpportunityRepository opportunityRepository;
-
 
     @Autowired
     private Menu newMenu;
