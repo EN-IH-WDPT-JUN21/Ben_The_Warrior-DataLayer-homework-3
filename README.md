@@ -429,7 +429,7 @@ Id: 1, Product: HYBRID, Quantity: 10, Decision Maker: Jose, Status: CLOSED_LOST
 
 ### Search for specific Lead, Opportunity, Account or Contact
 
-Menu for searching for specific Lead, Opportunity, Account or Contact.
+Menu for searching for specific Lead, Opportunity, Account. Contact or SalesRep.
 
 It will show up if you typed:
 
@@ -440,7 +440,7 @@ lookup <OBJECT> <ID>
 in the Main menu (point 1) or Help menu (point 2)
 
 * where ID is a valid number assigned to one of the Leads/Opportunities in the database,
-* where OBJECT is “Lead”, “Opportunity”, “Account” or “Contact”
+* where OBJECT is “Lead”, “Opportunity”, “Account”, “Contact” or "SalesRep"
 
 (for example type “lookup Lead 2”).
 
@@ -466,8 +466,8 @@ Please hit ENTER to return to the main menu.
 
 Then Main menu shows up (back to point 1).
 
-If there is no Lead/Opportunity/Account/Contact with given ID, then you will see warning for example “There is no Lead
-with id 1” and go back to the Main menu.
+If there is no Lead/Opportunity/Account/Contact/SalesRep with given ID, then you will see warning for example “There is
+no Lead with id 1” and go back to the Main menu.
 
 ```
 There is no Lead with id 1 
@@ -475,7 +475,7 @@ There is no Lead with id 1
 
 ### List all Leads, Opportunities, Accounts or Contacts
 
-Procedure for listing all Leads, Opportunities, Accounts or Contacts.
+Procedure for listing all Leads, Opportunities, Accounts, Contacts or SalesReps.
 
 It will show up if you typed:
 
@@ -485,7 +485,7 @@ show <OBJECT PLURAL>
 
 in the Main menu (point 1) or Help menu (point 2),
 
-* where OBJECT PLURAL is “Leads”, “Opportunities”, “Accounts” or “Contacts”
+* where OBJECT PLURAL is “Leads”, “Opportunities”, “Accounts”, “Contacts” or "SalesRep"
 
 (for example type “show Leads”).
 
