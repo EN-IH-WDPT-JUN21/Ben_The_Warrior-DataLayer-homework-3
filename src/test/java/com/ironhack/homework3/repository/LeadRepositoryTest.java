@@ -60,7 +60,7 @@ class LeadRepositoryTest {
     void testToString() {
         Lead l3 = new Lead("John Smith", "2460247246", "johnthewarrior@fighters.com", "The Smiths", sr);
         leadRepository.save(l3);
-        assertEquals("Id: 3, Name: John Smith, Email: johnthewarrior@fighters.com, Phone: 2460247246, Company: The Smiths", l3.toString());
+        assertEquals("Id: 3, Name: John Smith, Email: johnthewarrior@fighters.com, Phone: 2460247246, Company: The Smiths, Sales Representative: Sales Guy", l3.toString());
     }
 
     // ============================== CRUD Testing ==============================

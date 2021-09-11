@@ -91,7 +91,7 @@ class OpportunityRepositoryTest {
     void testToString() {
         Opportunity o3 = new Opportunity(Product.HYBRID, 30000, c, Status.OPEN, a, sr);
         opportunityRepository.save(o3);
-        assertEquals("Id: 3, Product: HYBRID, Quantity: 30000, Decision Maker: Joe, Status: OPEN", o3.toString());
+        assertEquals("Id: 3, Product: HYBRID, Quantity: 30000, Decision Maker: Joe, Status: OPEN, Sales Representative: Sales Guy", o3.toString());
     }
 
 
@@ -177,9 +177,9 @@ class OpportunityRepositoryTest {
     @Order(7)
     void getCountByProduct_With_ClosedWonStatus() {
         var account = new Account(Industry.ECOMMERCE, 20, "Santiago", "Chile");
+        accountRepository.save(account);
         var contact = new Contact("Mapi", "123643543", "mapi@gm.com", "GM", account);
         contactRepository.save(contact);
-        accountRepository.save(account);
         var opportunity = new Opportunity(Product.BOX, 300, contact, Status.CLOSED_WON, account, sr);
         opportunityRepository.save(opportunity);
         List<IOpportunityProduct> productsCounts = opportunityRepository.countOpportunitiesClosedWonByProduct();
@@ -261,7 +261,6 @@ class OpportunityRepositoryTest {
         var o3 = new Opportunity(Product.HYBRID, 386, c, Status.OPEN, a, sr);
         var o4 = new Opportunity(Product.HYBRID, 3468, c, Status.OPEN, a, sr);
         opportunityRepository.saveAll(List.of(o2, o3, o4));
-        opportunityRepository.save(o3);
         assertEquals(3468, opportunityRepository.maxQuantity());
     }
 
