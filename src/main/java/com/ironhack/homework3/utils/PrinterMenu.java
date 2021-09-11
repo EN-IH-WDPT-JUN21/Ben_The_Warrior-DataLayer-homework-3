@@ -4,6 +4,7 @@ import com.ironhack.homework3.dao.classes.*;
 import com.ironhack.homework3.enums.Status;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class PrinterMenu extends Printer {
     private static final String ANSI_RESET = getAnsiReset();
@@ -532,6 +533,45 @@ public class PrinterMenu extends Printer {
                     "previous " + ANSI_RESET + "- return to the previous page | " + HIGHLIGHT_COLOR +
                     "back " + ANSI_RESET + "- return to the main menu", 20);
         }
+        PrinterMenu.printMenu("");
+    }
+
+    public static void printQueryCount(String query, List<String> stringList, List<Long> longList, boolean firstPage, boolean lastPage){
+        if (stringList.size() != longList.size()){
+            throw new IllegalArgumentException("The lists have different sizes!");
+        }
+        setMenuLines("", 1, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 21);
+        setMenuLines(HIGHLIGHT_COLOR + query + HIGHLIGHT_COLOR, 4);
+
+        // String is built with the current page of SalesRep and then the corresponding menu String lines are set
+        int initialLine = 6;
+        StringBuilder completeString = new StringBuilder("");
+        for (int i = 0; i < stringList.size(); i++) {
+            completeString.append(stringList.get(i)).append(": ").append(longList.get(i).toString()).append("\n");
+        }
+        setLinesFromConcatString(completeString.toString(), initialLine);
+
+        if (firstPage && lastPage) {
+            setMenuLines(HIGHLIGHT_COLOR + "ENTER " + ANSI_RESET + "- return to the main menu", 20);
+        } else if (firstPage) {
+            setMenuLines(HIGHLIGHT_COLOR + "next " + ANSI_RESET + "- go to the next page |" + HIGHLIGHT_COLOR +
+                    " back " + ANSI_RESET + "- return to the main menu", 20);
+        } else if (lastPage) {
+            setMenuLines(HIGHLIGHT_COLOR + "previous " + ANSI_RESET + "- return to the previous page | " + HIGHLIGHT_COLOR +
+                    "back " + ANSI_RESET + " - return to the main menu", 20);
+        } else {
+            setMenuLines(HIGHLIGHT_COLOR + "next" + ANSI_RESET + "- go to the next page | " + HIGHLIGHT_COLOR +
+                    "previous " + ANSI_RESET + "- return to the previous page | " + HIGHLIGHT_COLOR +
+                    "back " + ANSI_RESET + "- return to the main menu", 20);
+        }
+        PrinterMenu.printMenu("");
+    }
+
+    public static void printQueryStat(String query, Number stat){
+        setMenuLines("", 1, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21);
+        setMenuLines(HIGHLIGHT_COLOR + query + ANSI_RESET, 4);
+        setMenuLines(query.split(" ")[0] + ": " + stat,8);
+        setMenuLines(HIGHLIGHT_COLOR + "ENTER " + ANSI_RESET + "- return to the main menu", 20);
         PrinterMenu.printMenu("");
     }
 
