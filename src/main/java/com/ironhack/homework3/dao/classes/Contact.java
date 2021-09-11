@@ -40,11 +40,11 @@ public class Contact{
     }
 
     public Contact(String name, String phoneNumber, String email, String companyName, Account account) {
-        this.name = name;
-        this.phoneNumber = phoneNumber;
-        this.email = email;
-        this.companyName = companyName;
-        this.account = account;
+        setName(name);
+        setPhoneNumber(phoneNumber);
+        setEmail(email);
+        setCompanyName(companyName);
+        setAccount(account);
     }
 
     // ============================== METHODS ==============================
