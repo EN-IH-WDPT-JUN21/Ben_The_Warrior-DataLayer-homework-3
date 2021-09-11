@@ -23,7 +23,10 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 class NewMenuTest {
 
-    DatabaseUtility initialDatabase;
+    @MockBean
+    private MainMenuAutowired mainMenuAutowired;
+
+    private DatabaseUtility initialDatabase;
     private ByteArrayInputStream input;
 
     @Autowired

@@ -1,5 +1,6 @@
 package com.ironhack.homework3.utils;
 
+import com.ironhack.homework3.dao.main.MainMenuAutowired;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -8,6 +9,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
@@ -18,6 +20,10 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class PrinterTest {
+
+    @MockBean
+    private MainMenuAutowired mainMenuAutowired;
+
     private final static String RED = "\u001B[31m";
     private final static String RESET = "\u001B[0m";
     private final static String BRIGHT_GREEN = "\u001B[92m";

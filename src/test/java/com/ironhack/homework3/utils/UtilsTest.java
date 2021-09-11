@@ -1,5 +1,6 @@
 package com.ironhack.homework3.utils;
 
+import com.ironhack.homework3.dao.main.MainMenuAutowired;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -7,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.util.List;
 
@@ -14,6 +16,10 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class UtilsTest {
+
+    @MockBean
+    private MainMenuAutowired mainMenuAutowired;
+
     @ParameterizedTest
     @ValueSource(strings = {"0", "1", "8", "41", "100", "9999"})
     @DisplayName("Valid positive number identified")

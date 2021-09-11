@@ -4,6 +4,7 @@ import com.ironhack.homework3.dao.classes.Account;
 import com.ironhack.homework3.dao.classes.Contact;
 import com.ironhack.homework3.dao.classes.Opportunity;
 import com.ironhack.homework3.dao.classes.SalesRep;
+import com.ironhack.homework3.dao.main.MainMenuAutowired;
 import com.ironhack.homework3.dao.queryInterfaces.IOpportunityCountryOrCityCount;
 import com.ironhack.homework3.dao.queryInterfaces.IOpportunityIndustryCount;
 import com.ironhack.homework3.enums.Industry;
@@ -13,6 +14,7 @@ import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.TestInstantiationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.TestPropertySource;
 
@@ -33,6 +35,9 @@ import static org.junit.jupiter.api.Assertions.*;
         "spring.datasource.initialization-mode=never"
 })
 class AccountRepositoryTest {
+
+    @MockBean
+    private MainMenuAutowired mainMenuAutowired;
 
     @Autowired
     private AccountRepository accountRepository;
