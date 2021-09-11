@@ -228,13 +228,42 @@ Next you will see all the data you typed, please hit:
 
 * **back** to cancel Lead creation.
 
-Then Main menu shows up (back to point 1).
+The program will then ask you to associate a SalesRep to the lead. If there is no SalesRep available, it will start the
+creation of one. Otherwise, the following will show up:
 
-### Convert a Lead into an Opportunity
+```
+y - create new SalesRep | n - use existing SalesRep | back - return to the main menu
+```
 
-The command for converting a Lead into an Opportunity is shown below.
+If you select to create a new SalesRep, the application will show a new lead menu. Using an existing SalesRep the
+application will ask for the SalesRep id.
 
-You have to type
+In the end, the program will display all the information and prompt confirmation for the creation of the data, and
+return to the main menu.
+
+### Create New SalesRep
+
+The creation of a lead can be done by typing:
+
+```
+new  salesrep
+```
+
+or after creating a Lead.
+
+The creation of the SalesRep will only prompt for the name:
+
+```
+Create New SalesRep
+
+Name:
+```
+
+After creating a SalesRep, a confirmation will appear, and then, it will return to the main menu.
+
+### Convert Lead into an Opportunity
+
+The command for converting a Lead into an Opportunity is:
 
 ```
 convert <ID>
@@ -508,7 +537,6 @@ Reports for Mean, Median, Max and Min statistics can be accessed in the followin
 ```
 [Mean, Median, Max or Min] [EmployeeCount, Quantity or Opps per Account]
 ```
-
 
 ### Exit the program
 
