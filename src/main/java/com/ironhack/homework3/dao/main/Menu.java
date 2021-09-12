@@ -235,19 +235,19 @@ public class Menu {
                         break;
 
                     // BY PRODUCT
-                    case "report opportunity by the product":
+                    case "report opportunity by product":
                         showFromInterface("Count of Opportunities by Product", db.getCountByProduct());
                         promptDecision("enter");
                         break;
-                    case "report closed-won by the product":
+                    case "report closed-won by product":
                         showFromInterface("Count of CLOSED-WON Opportunities by Product", db.getCountByProduct_With_ClosedWonStatus());
                         promptDecision("enter");
                         break;
-                    case "report closed-lost by the product":
+                    case "report closed-lost by product":
                         showFromInterface("Count of CLOSED-LOST Opportunities by Product", db.getCountByProduct_With_ClosedLostStatus());
                         promptDecision("enter");
                         break;
-                    case "report open by the product":
+                    case "report open by product":
                         showFromInterface("Count of OPEN Opportunities by Product", db.getCountByProduct_With_OpenStatus());
                         promptDecision("enter");
                         break;
