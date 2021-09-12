@@ -15,6 +15,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestPropertySource;
 
 import javax.annotation.PostConstruct;
 import java.io.*;
@@ -26,15 +27,27 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
+@TestPropertySource(properties = {      // For testing it uses a "datalayer_tests" database and the same user
+        "spring.datasource.url=jdbc:mysql://localhost:3306/datalayer_test",
+        "spring.datasource.username=Ben",
+        "spring.datasource.password=Password-123",
+        "spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver",
+        "spring.jpa.hibernate.ddl-auto=create-drop",
+        "spring.jpa.show-sql=true",
+        "spring.datasource.initialization-mode=never"
+})
 class NewMenuTest {
 
-    private MainMenuAutowired mainMenuAutowired;
-
-    private DatabaseUtility initialDatabase;
     private ByteArrayInputStream input;
 
     @Autowired
     private Menu menu;
+
+    @Autowired
+    SalesRepRepository salesRepRepository;
+
+    @Autowired
+    LeadRepository leadRepository;
 
     @Autowired
     ContactRepository contactRepository;
@@ -44,9 +57,6 @@ class NewMenuTest {
 
     @Autowired
     AccountRepository accountRepository;
-
-    @Autowired
-    private Menu menu;
 
     @BeforeEach
     void setUp() {
