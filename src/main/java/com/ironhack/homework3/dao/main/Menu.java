@@ -24,7 +24,7 @@ import static com.ironhack.homework3.utils.Utils.validLocation;
 @Setter
 public class Menu {
 
-    private final Scanner scanner;
+    private Scanner scanner;
 
     @Autowired
     private DatabaseUtility db;
@@ -52,14 +52,6 @@ public class Menu {
         var allLeads = leadRepository.findAll();
         for (var c : allLeads) System.out.println("Our menu includes: " + c.getName());
     }*/
-
-    public Menu(InputStream inputStream) {
-        scanner = new Scanner(inputStream);
-        db = new DatabaseUtility();
-        setShowHelp(false);
-        setShowAllHelp(false);
-    }
-
 
     // Core method of the application. This method is running while the app is running and only returns when closing the app
     public void mainMenu() {
@@ -189,8 +181,7 @@ public class Menu {
                 try {
                     // If there is no opportunity an error is thrown
                     // Otherwise the command can be correctly computed and the warning messages can be cleared
-                    Opportunity opportunity = db.lookupOpportunityId(Integer.parseInt(inputArray[1]));
-                    opportunity.setStatus(Status.CLOSED_WON);
+                    db.setOpportunityStatus(Integer.parseInt(inputArray[1]), Status.CLOSED_WON);
                 } catch (IllegalArgumentException e) {
                     PrinterMenu.setWarning(e.getMessage());
                 }
@@ -199,8 +190,7 @@ public class Menu {
                 try {
                     // If there is no opportunity an error is thrown
                     // Otherwise the command can be correctly computed and the warning messages can be cleared
-                    Opportunity opportunity = db.lookupOpportunityId(Integer.parseInt(inputArray[1]));
-                    opportunity.setStatus(Status.CLOSED_LOST);
+                    db.setOpportunityStatus(Integer.parseInt(inputArray[1]), Status.CLOSED_LOST);
                 } catch (IllegalArgumentException e) {
                     PrinterMenu.setWarning(e.getMessage());
                 }
@@ -255,55 +245,43 @@ public class Menu {
                     // BY COUNTRY
                     case "report opportunity by country":
                         showFromInterface("Count of Opportunities by Country", db.getCountByCountry());
-                        promptDecision("enter");
                         break;
                     case "report closed-won by country":
                         showFromInterface("Count of CLOSED_WON Opportunities by Country", db.getCountClosedWonByCountry());
-                        promptDecision("enter");
                         break;
                     case "report closed-lost by country":
                         showFromInterface("Count of CLOSED_LOST Opportunities by Country", db.getCountClosedLostByCountry());
-                        promptDecision("enter");
                         break;
                     case "report open by country":
                         showFromInterface("Count of OPEN Opportunities by Country", db.getCountOpenByCountry());
-                        promptDecision("enter");
                         break;
 
                     // BY CITY
                     case "report opportunity by city":
                         showFromInterface("Count of Opportunities by City", db.getCountByCity());
-                        promptDecision("enter");
                         break;
                     case "report closed-won by city":
                         showFromInterface("Count of CLOSED_WON Opportunities by City", db.getCountClosedWonByCity());
-                        promptDecision("enter");
                         break;
                     case "report closed-lost by city":
                         showFromInterface("Count of CLOSED_LOST Opportunities by City", db.getCountClosedLostByCity());
-                        promptDecision("enter");
                         break;
                     case "report open by city":
                         showFromInterface("Count of OPEN Opportunities by City", db.getCountOpenByCity());
-                        promptDecision("enter");
                         break;
 
                     // BY INDUSTRY
                     case "report opportunity by industry":
                         showFromInterface("Count of Opportunities by Industry", db.getCountByIndustry());
-                        promptDecision("enter");
                         break;
                     case "report closed-won by industry":
                         showFromInterface("Count of CLOSED_WON Opportunities by Industry", db.getCountClosedWonByIndustry());
-                        promptDecision("enter");
                         break;
                     case "report closed-lost by industry":
                         showFromInterface("Count of CLOSED_LOST Opportunities by Industry", db.getCountClosedLostByIndustry());
-                        promptDecision("enter");
                         break;
                     case "report open by industry":
                         showFromInterface("Count of OPEN Opportunities by Industry", db.getCountOpenByIndustry());
-                        promptDecision("enter");
                         break;
 
                     // EMPLOYEECOUNT STATES
@@ -348,22 +326,22 @@ public class Menu {
                     // OPPORTUNITY STATES
                     case "mean opps per account":
                         System.out.println(db.getMeanOppsPerAccount());
-                        PrinterMenu.printQueryStat("Mean Opps per Account", db.getMeanOppsPerAccount());
+                        PrinterMenu.printQueryStat("Mean Opportunities per Account", db.getMeanOppsPerAccount());
                         promptDecision("enter");
                         break;
                     case "median opps per account":
                         System.out.println(db.getMedianOppsPerAccount());
-                        PrinterMenu.printQueryStat("Median Opps per Account", db.getMedianOppsPerAccount());
+                        PrinterMenu.printQueryStat("Median Opportunities per Account", db.getMedianOppsPerAccount());
                         promptDecision("enter");
                         break;
                     case "max opps per account":
                         System.out.println(db.getMaxOppsPerAccount());
-                        PrinterMenu.printQueryStat("Max Opps per Account", db.getMaxOppsPerAccount());
+                        PrinterMenu.printQueryStat("Max Opportunities per Account", db.getMaxOppsPerAccount());
                         promptDecision("enter");
                         break;
                     case "min opps per account":
                         System.out.println(db.getMinOppsPerAccount());
-                        PrinterMenu.printQueryStat("Min Opps per Account", db.getMinOppsPerAccount());
+                        PrinterMenu.printQueryStat("Min Opportunities per Account", db.getMinOppsPerAccount());
                         promptDecision("enter");
 
                         break;

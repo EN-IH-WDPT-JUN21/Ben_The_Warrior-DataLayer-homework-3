@@ -420,6 +420,7 @@ public class DatabaseUtility {
         return accountRepository.findById(id).orElse(null);
     }
 
+    public Opportunity getOpportunityById(int id) { return opportunityRepository.findById(id).orElse(null); }
 
     public SalesRep getSalesRepById(int id) {
         return salesRepRepository.findById(id).orElse(null);
@@ -627,6 +628,15 @@ public class DatabaseUtility {
     }
 
 
+    public void setOpportunityStatus(int id, Status status) {
+        Optional<Opportunity> opportunity = opportunityRepository.findById(id);
+        if (opportunity.isPresent()){
+            opportunity.get().setStatus(status);
+            opportunityRepository.save(opportunity.get());
+        } else {
+            throw new IllegalArgumentException("There is no Opportunity with id " + id);
+        }
+    }
 }
 
 
