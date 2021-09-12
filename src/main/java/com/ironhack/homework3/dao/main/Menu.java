@@ -1094,7 +1094,7 @@ public class Menu {
     }
 
     //prompt id
-    private Integer promptId(String condition) {
+    public Integer promptId(String condition) {
         int id;
         switch (condition) {
             case "account":

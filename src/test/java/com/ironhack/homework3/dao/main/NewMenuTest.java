@@ -18,6 +18,7 @@ import org.springframework.test.context.ContextConfiguration;
 
 import javax.annotation.PostConstruct;
 import java.io.*;
+import java.util.Arrays;
 import java.util.Scanner;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -298,6 +299,29 @@ class NewMenuTest {
         assertTrue(output.contains("Bob Vance") && output.contains("123123123") &&
                 output.contains("bob@vance_refrigeration.com") && output.contains("Vance Refrigeration"));
         assertTrue(output.contains("BOX") && output.contains("13") && output.contains("OPEN"));
+        System.setOut(sysOutBackup);
+    }
+
+    @Test
+    @DisplayName("Display Account's List of Contacts and Opportunities")
+    void mainNewMenu_LookupAccount_ValidLookup() {
+
+        PrintStream sysOutBackup = System.out;
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(outputStream));
+
+        input = new ByteArrayInputStream(("lookup account 1\ncontacts\n \nopportunities\n \nback\nexit").getBytes());
+
+        menu.setScanner(new Scanner(input));
+        menu.mainMenu();
+
+        String output = outputStream.toString();
+        assertTrue(output.contains("Michael Scott"));
+        assertTrue(output.contains("Bob Vance") && output.contains("123123123") &&
+                output.contains("bob@vance_refrigeration.com") && output.contains("Vance Refrigeration"));
+        assertTrue(output.contains("BOX") && output.contains("13") && output.contains("OPEN"));
+        assertTrue(output.contains("PRODUCE") && output.contains("5") &&
+                output.contains("Scranton") && output.contains("United States"));
         System.setOut(sysOutBackup);
     }
 
@@ -963,6 +987,127 @@ class NewMenuTest {
     @Test
     @DisplayName("Show objects")
     void mainNewMenu_ShowObjects_ShowExistingObjects() {
+        SalesRep salesRep1 = new SalesRep("SalesRep 1");
+        SalesRep salesRep2 = new SalesRep("SalesRep 2");
+        SalesRep salesRep3 = new SalesRep("SalesRep 3");
+        SalesRep salesRep4 = new SalesRep("SalesRep 4");
+        SalesRep salesRep5 = new SalesRep("SalesRep 5");
+        SalesRep salesRep6 = new SalesRep("SalesRep 6");
+        SalesRep salesRep7 = new SalesRep("SalesRep 7");
+        SalesRep salesRep8 = new SalesRep("SalesRep 8");
+        SalesRep salesRep9 = new SalesRep("SalesRep 9");
+        SalesRep salesRep10 = new SalesRep("SalesRep 10");
+        SalesRep salesRep11 = new SalesRep("SalesRep 11");
+        SalesRep salesRep12 = new SalesRep("SalesRep 12");
+        SalesRep salesRep13 = new SalesRep("SalesRep 13");
+
+        Lead lead1 = new Lead("Lead 1", "111111111", "lead@abc.com", "Leads", salesRep1);
+        Lead lead2 = new Lead("Lead 2", "111111111", "lead@abc.com", "Leads", salesRep2);
+        Lead lead3 = new Lead("Lead 3", "111111111", "lead@abc.com", "Leads", salesRep3);
+        Lead lead4 = new Lead("Lead 4", "111111111", "lead@abc.com", "Leads", salesRep4);
+        Lead lead5 = new Lead("Lead 5", "111111111", "lead@abc.com", "Leads", salesRep5);
+        Lead lead6 = new Lead("Lead 6", "111111111", "lead@abc.com", "Leads", salesRep6);
+        Lead lead7 = new Lead("Lead 7", "111111111", "lead@abc.com", "Leads", salesRep7);
+        Lead lead8 = new Lead("Lead 8", "111111111", "lead@abc.com", "Leads", salesRep8);
+        Lead lead9 = new Lead("Lead 9", "111111111", "lead@abc.com", "Leads", salesRep9);
+        Lead lead10 = new Lead("Lead 10", "111111111", "lead@abc.com", "Leads", salesRep10);
+        Lead lead11 = new Lead("Lead 11", "111111111", "lead@abc.com", "Leads", salesRep11);
+        Lead lead12 = new Lead("Lead 12", "111111111", "lead@abc.com", "Leads", salesRep12);
+        Lead lead13 = new Lead("Lead 13", "111111111", "lead@abc.com", "Leads", salesRep13);
+
+        Account account1 = new Account(Industry.PRODUCE, 5, "City 1", "Country 1");
+        Account account2 = new Account(Industry.PRODUCE, 5, "City 2", "Country 2");
+        Account account3 = new Account(Industry.PRODUCE, 5, "City 3", "Country 3");
+        Account account4 = new Account(Industry.PRODUCE, 5, "City 4", "Country 4");
+        Account account5 = new Account(Industry.PRODUCE, 5, "City 5", "Country 5");
+        Account account6 = new Account(Industry.PRODUCE, 5, "City 6", "Country 6");
+        Account account7 = new Account(Industry.PRODUCE, 5, "City 7", "Country 7");
+        Account account8 = new Account(Industry.PRODUCE, 5, "City 8", "Country 8");
+        Account account9 = new Account(Industry.PRODUCE, 5, "City 9", "Country 8");
+        Account account10 = new Account(Industry.PRODUCE, 5, "City 10", "Country 10");
+        Account account11 = new Account(Industry.PRODUCE, 5, "City 11", "Country 11");
+        Account account12 = new Account(Industry.PRODUCE, 5, "City 12", "Country 12");
+        Account account13 = new Account(Industry.PRODUCE, 5, "City 13", "Country 13");
+
+        Contact contact1 = new Contact("Contact 1", "222222222", "contacts@abc.com", "Contacts", account1);
+        Contact contact2 = new Contact("Contact 2", "222222222", "contacts@abc.com", "Contacts", account2);
+        Contact contact3 = new Contact("Contact 3", "222222222", "contacts@abc.com", "Contacts", account3);
+        Contact contact4 = new Contact("Contact 4", "222222222", "contacts@abc.com", "Contacts", account4);
+        Contact contact5 = new Contact("Contact 5", "222222222", "contacts@abc.com", "Contacts", account5);
+        Contact contact6 = new Contact("Contact 6", "222222222", "contacts@abc.com", "Contacts", account6);
+        Contact contact7 = new Contact("Contact 7", "222222222", "contacts@abc.com", "Contacts", account7);
+        Contact contact8 = new Contact("Contact 8", "222222222", "contacts@abc.com", "Contacts", account8);
+        Contact contact9 = new Contact("Contact 9", "222222222", "contacts@abc.com", "Contacts", account9);
+        Contact contact10 = new Contact("Contact 10", "222222222", "contacts@abc.com", "Contacts", account10);
+        Contact contact11 = new Contact("Contact 11", "222222222", "contacts@abc.com", "Contacts", account11);
+        Contact contact12 = new Contact("Contact 12", "222222222", "contacts@abc.com", "Contacts", account12);
+        Contact contact13 = new Contact("Contact 13", "222222222", "contacts@abc.com", "Contacts", account13);
+
+        Opportunity opportunity1 = new Opportunity(Product.BOX, 13, contact1, Status.OPEN, account1, salesRep1);
+        Opportunity opportunity2 = new Opportunity(Product.BOX, 13, contact2, Status.OPEN, account2, salesRep1);
+        Opportunity opportunity3 = new Opportunity(Product.BOX, 13, contact3, Status.OPEN, account3, salesRep1);
+        Opportunity opportunity4 = new Opportunity(Product.BOX, 13, contact4, Status.OPEN, account4, salesRep1);
+        Opportunity opportunity5 = new Opportunity(Product.BOX, 13, contact5, Status.OPEN, account5, salesRep1);
+        Opportunity opportunity6 = new Opportunity(Product.BOX, 13, contact6, Status.OPEN, account6, salesRep1);
+        Opportunity opportunity7 = new Opportunity(Product.BOX, 13, contact7, Status.OPEN, account7, salesRep1);
+        Opportunity opportunity8 = new Opportunity(Product.BOX, 13, contact8, Status.OPEN, account8, salesRep1);
+        Opportunity opportunity9 = new Opportunity(Product.BOX, 13, contact9, Status.OPEN, account9, salesRep1);
+        Opportunity opportunity10 = new Opportunity(Product.BOX, 13, contact10, Status.OPEN, account10, salesRep1);
+        Opportunity opportunity11 = new Opportunity(Product.BOX, 13, contact11, Status.OPEN, account11, salesRep1);
+        Opportunity opportunity12 = new Opportunity(Product.BOX, 13, contact12, Status.OPEN, account12, salesRep1);
+        Opportunity opportunity13 = new Opportunity(Product.BOX, 13, contact13, Status.OPEN, account13, salesRep1);
+
+        salesRepRepository.saveAll(Arrays.asList(salesRep1, salesRep2, salesRep3, salesRep4, salesRep5, salesRep6, salesRep7,
+                salesRep8, salesRep9, salesRep10, salesRep11, salesRep12, salesRep13));
+        leadRepository.saveAll(Arrays.asList(lead1, lead2, lead3, lead4, lead5, lead6, lead7,  lead8, lead9, lead10, lead11,
+                lead12, lead13));
+        accountRepository.saveAll(Arrays.asList(account1, account2, account3, account4, account5, account6, account7,  account8,
+                account9, account10, account11, account12, account13));
+        contactRepository.saveAll(Arrays.asList(contact1, contact2, contact3, contact4, contact5, contact6, contact7,  contact8,
+                contact9, contact10, contact11, contact12, contact13));
+        opportunityRepository.saveAll(Arrays.asList(opportunity1, opportunity2, opportunity3, opportunity4, opportunity5, opportunity6,
+                opportunity7,  opportunity8, opportunity9, opportunity10, opportunity11, opportunity12, opportunity13));
+
+        menu.getDb().setSalesRepRepository(salesRepRepository);
+        menu.getDb().setLeadRepository(leadRepository);
+        menu.getDb().setAccountRepository(accountRepository);
+        menu.getDb().setContactRepository(contactRepository);
+        menu.getDb().setOpportunityRepository(opportunityRepository);
+
+        PrintStream sysOutBackup = System.out;
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(outputStream));
+
+        input = new ByteArrayInputStream(("show salesreps\nnext\nnext\nprevious\nback\nshow leads\nnext\nnext\nprevious" +
+                "\nback\nshow contacts\nnext\nnext\nprevious\nback\nshow opportunities\nnext\nnext\nprevious\nback" +
+                "\nshow accounts\nnext\nnext\nprevious\nback\nexit").getBytes());
+
+        menu.setScanner(new Scanner(input));
+        menu.mainMenu();
+
+        String output = outputStream.toString();
+        assertTrue(output.contains("SalesRep 1") && output.contains("SalesRep 2") && output.contains("SalesRep 3") && output.contains("SalesRep 4")
+                && output.contains("SalesRep 5") && output.contains("SalesRep 6") && output.contains("SalesRep 7") && output.contains("SalesRep 8")
+                && output.contains("SalesRep 9") && output.contains("SalesRep 10") && output.contains("SalesRep 11") && output.contains("SalesRep 12")
+                && output.contains("SalesRep 13"));
+        assertTrue(output.contains("Lead 1") && output.contains("Lead 2") && output.contains("Lead 3") && output.contains("Lead 4")
+                && output.contains("Lead 5") && output.contains("Lead 6") && output.contains("Lead 7") && output.contains("Lead 8")
+                && output.contains("Lead 9") && output.contains("Lead 10") && output.contains("Lead 11") && output.contains("Lead 12")
+                && output.contains("Lead 13"));
+        assertTrue(output.contains("City 1") && output.contains("City 2") && output.contains("City 3") && output.contains("City 4")
+                && output.contains("City 5") && output.contains("City 6") && output.contains("City 7") && output.contains("City 8")
+                && output.contains("City 9") && output.contains("City 10") && output.contains("City 11") && output.contains("City 12")
+                && output.contains("City 13"));
+        assertTrue(output.contains("Contact 1") && output.contains("Contact 2") && output.contains("Contact 3") && output.contains("Contact 4")
+                && output.contains("Contact 5") && output.contains("Contact 6") && output.contains("Contact 7") && output.contains("Contact 8")
+                && output.contains("Contact 9") && output.contains("Contact 10") && output.contains("Contact 11") && output.contains("Contact 12")
+                && output.contains("Contact 13"));
+        System.setOut(sysOutBackup);
+    }
+
+    @Test
+    @DisplayName("Show objects with multiple pages")
+    void mainNewMenu_ShowObjectsMultiplePages_ShowExistingObjects() {
 
         PrintStream sysOutBackup = System.out;
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
@@ -1101,5 +1246,24 @@ class NewMenuTest {
         assertEquals(PrinterMenu.getWarning(), "There is no Opportunity with id 5");
         menu.computeCommand("lookup account 5");
         assertEquals(PrinterMenu.getWarning(), "There is no Account with id 5");
+    }
+
+    @Test
+    @DisplayName("Prompt id for existing objects")
+    void promptId_Validate() {
+
+        input = new ByteArrayInputStream("5\n6\n-5\n1\n5\n6\n-5\n1\n5\n6\n-5\n1\n5\n6\n-5\n1\n5\n6\n-5\n1\n".getBytes());
+        menu.setScanner(new Scanner(input));
+        int salesrep = menu.promptId("salesrep");
+        int lead = menu.promptId("lead");
+        int contact = menu.promptId("contact");
+        int opportunity = menu.promptId("opportunity");
+        int account = menu.promptId("account");
+
+        assertEquals(1, salesrep);
+        assertEquals(1, lead);
+        assertEquals(1, contact);
+        assertEquals(1, opportunity);
+        assertEquals(1, account);
     }
 }
