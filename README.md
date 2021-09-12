@@ -560,11 +560,12 @@ and the program stops.
 
 ## Use Case Diagram
 
-![Use Case Diagram](https://user-images.githubusercontent.com/84567251/128645874-090c8890-2091-489b-ba51-d1bf88a2222e.png)
+![Use Case Diagram](https://user-images.githubusercontent.com/66126956/133005492-c50e2d46-3ceb-482f-8f9d-9accfb914a5d.png)
 
 ## Class Diagram
 
-![Class Diagram](https://user-images.githubusercontent.com/84567251/128645939-aa22a449-5c6f-498b-8fa5-702bc6e89c25.png)
+![use case diagram](https://user-images.githubusercontent.com/66126956/133005493-d86adb38-76d9-4151-8355-6e1dfa7322cd.png)
+
 
 ## Notes
 
