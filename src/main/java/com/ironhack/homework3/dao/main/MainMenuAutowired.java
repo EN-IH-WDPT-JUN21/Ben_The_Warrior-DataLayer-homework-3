@@ -11,7 +11,6 @@ public class MainMenuAutowired {
     final AccountRepository accountRepository;
     final OpportunityRepository opportunityRepository;
 
-
     @Autowired
     private Menu newMenu;
 

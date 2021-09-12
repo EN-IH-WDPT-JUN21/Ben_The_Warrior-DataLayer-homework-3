@@ -25,6 +25,9 @@ class DatabaseUtilityTest {
 //    private JsonDatabaseUtility jsonDatabaseUtility;
     private DatabaseUtility initialDatabase;
 
+    @MockBean
+    private MainMenuAutowired mainMenuAutowired;
+
     @Autowired
     private DatabaseUtility databaseUtility;
 

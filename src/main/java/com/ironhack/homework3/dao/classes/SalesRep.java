@@ -1,6 +1,5 @@
 package com.ironhack.homework3.dao.classes;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,6 +17,7 @@ public class SalesRep {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
     private String name;
 
     @OneToMany(mappedBy = "salesRep")
@@ -26,10 +26,12 @@ public class SalesRep {
     @OneToMany(mappedBy = "salesRep")
     private List<Opportunity> opportunityList;
 
+
     // ============================== CONSTRUCTOR ==============================
-    public SalesRep(String name){
+    public SalesRep(String name) {
         setName(name);
     }
+
 
     // ============================== METHODS ==============================
     @Override
