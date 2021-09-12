@@ -3,8 +3,7 @@ package com.ironhack.homework3.utils;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.ironhack.homework3.dao.classes.*;
-import com.ironhack.homework3.dao.queryInterfaces.IOpportunityCountryOrCityCount;
-import com.ironhack.homework3.dao.queryInterfaces.IOpportunityIndustryCount;
+import com.ironhack.homework3.dao.queryInterfaces.*;
 import com.ironhack.homework3.enums.Industry;
 import com.ironhack.homework3.enums.Product;
 import com.ironhack.homework3.enums.Status;
@@ -449,7 +448,36 @@ public class DatabaseUtility {
     // ==================== QUERY METHODS ====================
     // BY SALESREP
 
+    public List<ILeadsCountBySalesRep> getLeadsCountBySalesRep(){
+        return salesRepRepository.countLeadsBySalesRep();
+    }
+    public List<IOpportunityCountBySalesRep> getOpportunitiesCountBySalesRep(){
+        return salesRepRepository.countOpportunitiesBySalesRep();
+    }
+    public List<IOpportunityCountBySalesRep> getOpportunitiesCountBySalesRep_With_ClosedWonStatus(){
+        return salesRepRepository.countOpportunitiesByClosedWonBySalesRep();
+    }
+    public List<IOpportunityCountBySalesRep> getOpportunitiesCountBySalesRep_With_ClosedLostStatus(){
+        return salesRepRepository.countOpportunitiesByClosedLostBySalesRep();
+    }
+    public List<IOpportunityCountBySalesRep> getOpportunitiesCountBySalesRep_With_OpenStatus(){
+        return salesRepRepository.countOpportunitiesByOpenBySalesRep();
+    }
+
     // BY PRODUCT
+
+    public List<IOpportunityProduct>  getCountByProduct(){
+        return opportunityRepository.countOpportunitiesByProduct();
+    }
+    public List<IOpportunityProduct> getCountByProduct_With_ClosedWonStatus(){
+        return opportunityRepository.countOpportunitiesClosedWonByProduct();
+    }
+    public List<IOpportunityProduct> getCountByProduct_With_ClosedLostStatus(){
+        return opportunityRepository.countOpportunitiesClosedLostByProduct();
+    }
+    public List<IOpportunityProduct> getCountByProduct_With_OpenStatus(){
+        return opportunityRepository.countOpportunitiesOpenByProduct();
+    }
 
     // BY COUNTRY
     public List<IOpportunityCountryOrCityCount> getCountByCountry() {
