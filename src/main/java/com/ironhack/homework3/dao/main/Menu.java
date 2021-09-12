@@ -1,8 +1,7 @@
 package com.ironhack.homework3.dao.main;
 
 import com.ironhack.homework3.dao.classes.*;
-import com.ironhack.homework3.dao.queryInterfaces.IOpportunityCountryOrCityCount;
-import com.ironhack.homework3.dao.queryInterfaces.IOpportunityIndustryCount;
+import com.ironhack.homework3.dao.queryInterfaces.*;
 import com.ironhack.homework3.enums.Industry;
 import com.ironhack.homework3.enums.Product;
 import com.ironhack.homework3.enums.Status;
@@ -215,33 +214,42 @@ public class Menu {
                 switch (cleanInput) {
                     // BY SALESREP
                     case "report lead by salesrep":
-                        System.out.println(cleanInput);
+                        showFromInterface("Count of Leads by SalesRep", db.getLeadsCountBySalesRep());
+                        promptDecision("enter");
                         break;
                     case "report opportunity by salesrep":
-                        System.out.println(cleanInput);
+                        showFromInterface("Count of Opportunities by SalesRep", db.getOpportunitiesCountBySalesRep());
+                        promptDecision("enter");
                         break;
                     case "report closed-won by salesrep":
-                        System.out.println(cleanInput);
+                        showFromInterface("Count of CLOSED-WON Opportunities by SalesRep", db.getOpportunitiesCountBySalesRep_With_ClosedWonStatus());
+                        promptDecision("enter");
                         break;
                     case "report closed-lost by salesrep":
-                        System.out.println(cleanInput);
+                        showFromInterface("Count of CLOSED-LOST Opportunities by SalesRep", db.getOpportunitiesCountBySalesRep_With_ClosedLostStatus());
+                        promptDecision("enter");
                         break;
                     case "report open by salesrep":
-                        System.out.println(cleanInput);
+                        showFromInterface("Count of OPEN Opportunities by SalesRep", db.getOpportunitiesCountBySalesRep_With_OpenStatus());
+                        promptDecision("enter");
                         break;
 
                     // BY PRODUCT
-                    case "report opportunity by product":
-                        System.out.println(cleanInput);
+                    case "report opportunity by the product":
+                        showFromInterface("Count of Opportunities by Product", db.getCountByProduct());
+                        promptDecision("enter");
                         break;
-                    case "report closed-won by product":
-                        System.out.println(cleanInput);
+                    case "report closed-won by the product":
+                        showFromInterface("Count of CLOSED-WON Opportunities by Product", db.getCountByProduct_With_ClosedWonStatus());
+                        promptDecision("enter");
                         break;
-                    case "report closed-lost by product":
-                        System.out.println(cleanInput);
+                    case "report closed-lost by the product":
+                        showFromInterface("Count of CLOSED-LOST Opportunities by Product", db.getCountByProduct_With_ClosedLostStatus());
+                        promptDecision("enter");
                         break;
-                    case "report open by product":
-                        System.out.println(cleanInput);
+                    case "report open by the product":
+                        showFromInterface("Count of OPEN Opportunities by Product", db.getCountByProduct_With_OpenStatus());
+                        promptDecision("enter");
                         break;
 
                     // BY COUNTRY
@@ -680,6 +688,96 @@ public class Menu {
                     }
                 } catch (ClassCastException e) {
                     PrinterMenu.setWarning("Could not cast Object as IOpportunityCountryOrCityCount");
+                }
+                // Allow user to change between the pages
+                numPages = listListString.size();
+                while (true) {
+                    PrinterMenu.printQueryCount(query, listListString.get(currentPage), listListCount.get(currentPage), currentPage == 0, currentPage + 1 == numPages);
+                    currentPage = pageHandler(currentPage, numPages);
+                    if (currentPage == -1) {
+                        return;
+                    }
+                }
+            } else if(query.toLowerCase().contains("lead")){
+                List<ArrayList<String>> listListString = new ArrayList<>();
+                List<ArrayList<Long>> listListCount = new ArrayList<>();
+                listListString.add(new ArrayList<>());
+                listListCount.add(new ArrayList<>());
+                try {
+                    for (Object object : objectList) {
+                        ILeadsCountBySalesRep leadsCount = (ILeadsCountBySalesRep) object;
+                        if (currentIndex++ < maxElements) {
+                            listListString.get(currentPage).add(leadsCount.getSalesRepName());
+                            listListCount.get(currentPage).add(leadsCount.getLeadsCount());
+                        } else {
+                            listListString.add(new ArrayList<>());
+                            listListCount.add(new ArrayList<>());
+                            listListString.get(++currentPage).add(leadsCount.getSalesRepName());
+                            listListCount.get(++currentPage).add(leadsCount.getLeadsCount());
+                        }
+                    }
+                } catch (ClassCastException e) {
+                    PrinterMenu.setWarning("Could not cast Object as ILeadsCountBySalesRep");
+                }
+                // Allow user to change between the pages
+                numPages = listListString.size();
+                while (true) {
+                    PrinterMenu.printQueryCount(query, listListString.get(currentPage), listListCount.get(currentPage), currentPage == 0, currentPage + 1 == numPages);
+                    currentPage = pageHandler(currentPage, numPages);
+                    if (currentPage == -1) {
+                        return;
+                    }
+                }
+            } else if(query.toLowerCase().contains("opportunities by salesrep")){
+                List<ArrayList<String>> listListString = new ArrayList<>();
+                List<ArrayList<Long>> listListCount = new ArrayList<>();
+                listListString.add(new ArrayList<>());
+                listListCount.add(new ArrayList<>());
+                try {
+                    for (Object object : objectList) {
+                        IOpportunityCountBySalesRep opportunityCountBySalesRep = (IOpportunityCountBySalesRep) object;
+                        if (currentIndex++ < maxElements) {
+                            listListString.get(currentPage).add(opportunityCountBySalesRep.getSalesRepName());
+                            listListCount.get(currentPage).add(opportunityCountBySalesRep.getOpportunitiesCount());
+                        } else {
+                            listListString.add(new ArrayList<>());
+                            listListCount.add(new ArrayList<>());
+                            listListString.get(++currentPage).add(opportunityCountBySalesRep.getSalesRepName());
+                            listListCount.get(++currentPage).add(opportunityCountBySalesRep.getOpportunitiesCount());
+                        }
+                    }
+                } catch (ClassCastException e) {
+                    PrinterMenu.setWarning("Could not cast Object as IOpportunityCountBySalesRep");
+                }
+                // Allow user to change between the pages
+                numPages = listListString.size();
+                while (true) {
+                    PrinterMenu.printQueryCount(query, listListString.get(currentPage), listListCount.get(currentPage), currentPage == 0, currentPage + 1 == numPages);
+                    currentPage = pageHandler(currentPage, numPages);
+                    if (currentPage == -1) {
+                        return;
+                    }
+                }
+            } else if(query.toLowerCase().contains("product")){
+                List<ArrayList<String>> listListString = new ArrayList<>();
+                List<ArrayList<Long>> listListCount = new ArrayList<>();
+                listListString.add(new ArrayList<>());
+                listListCount.add(new ArrayList<>());
+                try {
+                    for (Object object : objectList) {
+                        IOpportunityProduct opportunityProduct = (IOpportunityProduct) object;
+                        if (currentIndex++ < maxElements) {
+                            listListString.get(currentPage).add(opportunityProduct.getProductComment().toString());
+                            listListCount.get(currentPage).add(opportunityProduct.getProductCount());
+                        } else {
+                            listListString.add(new ArrayList<>());
+                            listListCount.add(new ArrayList<>());
+                            listListString.get(++currentPage).add(opportunityProduct.getProductComment().toString());
+                            listListCount.get(++currentPage).add(opportunityProduct.getProductCount());
+                        }
+                    }
+                } catch (ClassCastException e) {
+                    PrinterMenu.setWarning("Could not cast Object as IOpportunityProduct");
                 }
                 // Allow user to change between the pages
                 numPages = listListString.size();
