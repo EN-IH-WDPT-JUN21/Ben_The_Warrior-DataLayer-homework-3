@@ -24,7 +24,7 @@ public interface SalesRepRepository extends JpaRepository<SalesRep, Integer> {
     @Query("SELECT s.name AS salesRepName, COUNT(o) AS count FROM Opportunity o "+
             "LEFT JOIN o.salesRep s "+
             "GROUP BY s " +
-            "ORDER BY opportunitiesCount DESC")
+            "ORDER BY SUM(CASE WHEN o.id != null THEN 1 ELSE 0  END) DESC")
     List<ICountBySalesRep> countOpportunitiesBySalesRep();
 
     //    3. Report Opportunities that are CLOSED_WON status by SalesRep
