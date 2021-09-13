@@ -19,21 +19,18 @@ public interface OpportunityRepository extends JpaRepository<Opportunity, Intege
     List<IOpportunityProduct> countOpportunitiesByProduct();
 
     // 2. Report CLOSED_WON Opportunity by Product
-    @Query("SELECT o.product AS productComment, COUNT(o.product) AS productCount FROM Opportunity o "+
-            "WHERE o.status = 'CLOSED_WON'" +
-            "GROUP BY o.product ORDER BY COUNT(o.product) DESC")
+    @Query("SELECT o.product AS productComment, SUM(CASE WHEN o.status = 'CLOSED_WON' THEN 1 ELSE 0  END) AS productCount FROM Opportunity o "+
+            "GROUP BY o.product ORDER BY SUM(CASE WHEN o.status = 'CLOSED_WON' THEN 1 ELSE 0  END) DESC")
     List<IOpportunityProduct> countOpportunitiesClosedWonByProduct();
 
     // 3. Report CLOSED_LOST Opportunity by Product
-    @Query("SELECT o.product AS productComment, COUNT(o.product) AS productCount FROM Opportunity o "+
-            "WHERE o.status = 'CLOSED_LOST'" +
-            "GROUP BY o.product ORDER BY COUNT(o.product) DESC")
+    @Query("SELECT o.product AS productComment, SUM(CASE WHEN o.status = 'CLOSED_LOST' THEN 1 ELSE 0  END) AS productCount FROM Opportunity o "+
+            "GROUP BY o.product ORDER BY SUM(CASE WHEN o.status = 'CLOSED_LOST' THEN 1 ELSE 0  END) DESC")
     List<IOpportunityProduct> countOpportunitiesClosedLostByProduct();
 
     // 4. Report OPEN Opportunity by Product
-    @Query("SELECT o.product AS productComment, COUNT(o.product) AS productCount FROM Opportunity o "+
-            "WHERE o.status = 'OPEN'" +
-            "GROUP BY o.product ORDER BY COUNT(o.product) DESC")
+    @Query("SELECT o.product AS productComment, SUM(CASE WHEN o.status = 'OPEN' THEN 1 ELSE 0  END) AS productCount FROM Opportunity o "+
+            "GROUP BY o.product ORDER BY SUM(CASE WHEN o.status = 'OPEN' THEN 1 ELSE 0  END) DESC")
     List<IOpportunityProduct> countOpportunitiesOpenByProduct();
 
 

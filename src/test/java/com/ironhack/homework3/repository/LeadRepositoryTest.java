@@ -40,7 +40,7 @@ class LeadRepositoryTest {
 
     @BeforeEach
     void setUp() {
-        sr = new SalesRep("Sales Guy");
+        var sr = new SalesRep("Sales Guy");
         salesRepRepository.save(sr);
         var l1 = new Lead("Joe", "999999999", "joe@mail.com", "New Company", sr);
         leadRepository.save(l1);
