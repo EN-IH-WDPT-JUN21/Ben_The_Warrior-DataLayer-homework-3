@@ -34,7 +34,8 @@ import static org.junit.jupiter.api.Assertions.*;
         "spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver",
         "spring.jpa.hibernate.ddl-auto=create-drop",
         "spring.jpa.show-sql=true",
-        "spring.datasource.initialization-mode=never"
+        "spring.datasource.initialization-mode=never",
+        "application.test=true"
 })
 class NewMenuTest {
 

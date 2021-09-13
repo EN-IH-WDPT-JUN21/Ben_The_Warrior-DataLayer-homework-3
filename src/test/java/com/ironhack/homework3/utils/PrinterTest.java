@@ -1,6 +1,5 @@
 package com.ironhack.homework3.utils;
 
-import com.ironhack.homework3.dao.main.MainMenuAutowired;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -20,9 +19,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class PrinterTest {
-
-    @MockBean
-    private MainMenuAutowired mainMenuAutowired;
 
     private final static String RED = "\u001B[31m";
     private final static String RESET = "\u001B[0m";

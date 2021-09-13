@@ -4,7 +4,6 @@ import com.ironhack.homework3.dao.classes.Account;
 import com.ironhack.homework3.dao.classes.Contact;
 import com.ironhack.homework3.dao.classes.Opportunity;
 import com.ironhack.homework3.dao.classes.SalesRep;
-import com.ironhack.homework3.dao.main.MainMenuAutowired;
 import com.ironhack.homework3.dao.queryInterfaces.IOpportunityCountryOrCityCount;
 import com.ironhack.homework3.dao.queryInterfaces.IOpportunityIndustryCount;
 import com.ironhack.homework3.enums.Industry;
@@ -35,9 +34,6 @@ import static org.junit.jupiter.api.Assertions.*;
         "spring.datasource.initialization-mode=never"
 })
 class AccountRepositoryTest {
-
-    @MockBean
-    private MainMenuAutowired mainMenuAutowired;
 
     @Autowired
     private AccountRepository accountRepository;

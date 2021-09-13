@@ -1,9 +1,7 @@
 package com.ironhack.homework3.repository;
 
 import com.ironhack.homework3.dao.classes.*;
-import com.ironhack.homework3.dao.main.MainMenuAutowired;
 import com.ironhack.homework3.dao.queryInterfaces.ICountBySalesRep;
-import com.ironhack.homework3.dao.queryInterfaces.IOpportunityCountBySalesRep;
 import com.ironhack.homework3.enums.Industry;
 import com.ironhack.homework3.enums.Product;
 import com.ironhack.homework3.enums.Status;
@@ -32,10 +30,6 @@ import static org.junit.jupiter.api.Assertions.*;
         "spring.datasource.initialization-mode=never"
 })
 class SalesRepRepositoryTest {
-
-    @MockBean
-    private MainMenuAutowired mainMenuAutowired;
-
     @Autowired
     private SalesRepRepository salesRepRepository;
 
