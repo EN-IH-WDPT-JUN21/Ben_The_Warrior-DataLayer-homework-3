@@ -27,7 +27,6 @@ public class Menu {
 
     @Autowired
     private DatabaseUtility db;
-    //private final JsonDatabaseUtility db; TODO remove if not necessary
 
     // Variable to check if the user asked for the available commands
     private boolean showHelp;
