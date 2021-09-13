@@ -1,5 +1,6 @@
 package com.ironhack.homework3.utils;
 
+import com.ironhack.homework3.dao.main.Menu;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -15,6 +16,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class UtilsTest {
+    @MockBean
+    private Menu menu;
 
     @ParameterizedTest
     @ValueSource(strings = {"0", "1", "8", "41", "100", "9999"})

@@ -1,6 +1,7 @@
 package com.ironhack.homework3.repository;
 
 import com.ironhack.homework3.dao.classes.*;
+import com.ironhack.homework3.dao.main.Menu;
 import com.ironhack.homework3.dao.queryInterfaces.ICountBySalesRep;
 import com.ironhack.homework3.enums.Industry;
 import com.ironhack.homework3.enums.Product;
@@ -30,6 +31,9 @@ import static org.junit.jupiter.api.Assertions.*;
         "spring.datasource.initialization-mode=never"
 })
 class SalesRepRepositoryTest {
+    @MockBean
+    private Menu menu;
+
     @Autowired
     private SalesRepRepository salesRepRepository;
 
