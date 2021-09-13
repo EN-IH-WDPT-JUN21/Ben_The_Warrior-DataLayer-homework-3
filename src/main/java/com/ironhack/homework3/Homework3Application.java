@@ -1,34 +1,28 @@
 package com.ironhack.homework3;
 
-import com.ironhack.homework3.dao.main.MainMenuAutowired;
+import com.ironhack.homework3.dao.main.Menu;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 public class Homework3Application implements CommandLineRunner {
-	@Autowired
-	MainMenuAutowired mainMenuAutowired;
+    @Autowired
+	Menu menu;
 
-	public static void main(String[] args) {
-		SpringApplication.run(Homework3Application.class, args);
-	}
+    @Value("#{new Boolean('${application.test}')}")
+    private Boolean applicationTest;
 
-	@Override
-	public void run(String... args) {
+    public static void main(String[] args) {
+        SpringApplication.run(Homework3Application.class, args);
+    }
 
-//        version with the use of spring components, the better one!
-		mainMenuAutowired.printMenu();
-	}
+    @Override
+    public void run(String... args) {
+		if (!applicationTest){
+            menu.mainMenu();
+        }
+    }
 }
-
-// to run test comment above & use this one as otherwise the application runs and tests are blocked:
-/*public class Homework3Application {
-
-
-	public static void main(String[] args) {
-		SpringApplication.run(Homework3Application.class, args);
-	}
-
-}*/

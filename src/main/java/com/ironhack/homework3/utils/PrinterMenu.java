@@ -1,12 +1,10 @@
 package com.ironhack.homework3.utils;
 
-import com.ironhack.homework3.dao.classes.Account;
-import com.ironhack.homework3.dao.classes.Contact;
-import com.ironhack.homework3.dao.classes.Lead;
-import com.ironhack.homework3.dao.classes.Opportunity;
+import com.ironhack.homework3.dao.classes.*;
 import com.ironhack.homework3.enums.Status;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class PrinterMenu extends Printer {
     private static final String ANSI_RESET = getAnsiReset();
@@ -16,6 +14,10 @@ public class PrinterMenu extends Printer {
     private static final int ERROR_LINE = 23;
     // String array to print the menu
     private static final String[] menuLine = {"", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""};
+
+    private static void clearAll() {
+        setMenuLines("", 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21);
+    }
 
     // Set one or multiple lines of the menu String array to the String passed in
     public static void setMenuLines(String str, int... lines) {
@@ -48,6 +50,9 @@ public class PrinterMenu extends Printer {
             case "help":
                 helpMenuLines();
                 break;
+            case "help -a":
+                helpAllLines();
+                break;
             case "exit":
                 saveBeforeQuit();
                 break;
@@ -56,6 +61,9 @@ public class PrinterMenu extends Printer {
                 break;
             case "convert":
                 convertLeadLines(params);
+                break;
+            case "salesrep":
+                newSalesRepLines(params);
                 break;
         }
         clearCommandLine();
@@ -67,42 +75,67 @@ public class PrinterMenu extends Printer {
     }
 
     // Set the menu String array for the main menu
-    private static void mainMenuLines(){
-        setMenuLines("",4,6,7,8,9,10,11,12,13,14,15,16,17,18,19);
-        setMenuLines("Welcome to Ben's CRM program.",1);
-        setMenuLines("Enter " + HIGHLIGHT_COLOR + "help" + ANSI_RESET + " for a list of valid commands!",20);
-        setMenuLines("Enter " + HIGHLIGHT_COLOR + "exit" + ANSI_RESET + " to close the application!",21);
+    private static void mainMenuLines() {
+        clearAll();
+        setMenuLines("Welcome to Ben's CRM program.", 1);
+        setMenuLines("Enter " + HIGHLIGHT_COLOR + "help (-a)" + ANSI_RESET + " for a list of valid commands!", 20);
+        setMenuLines("Enter " + HIGHLIGHT_COLOR + "exit" + ANSI_RESET + " to close the application!", 21);
     }
 
-    private static void saveBeforeQuit(){
-        setMenuLines("",4,6,7,8,9,10,11,12,13,14,15,16,17,18,19);
-        setMenuLines("Goodbye.",1);
-        setMenuLines("Do you want to save before exiting?", 19);
-        setMenuLines(HIGHLIGHT_COLOR + "ENTER " + ANSI_RESET + "- save and exit",20);
-        setMenuLines(HIGHLIGHT_COLOR + "exit " + ANSI_RESET + "- exit",21);
+    private static void saveBeforeQuit() {
+        clearAll();
+        setMenuLines("Goodbye.", 1);
     }
 
     // Set the menu String array for the help menu with a list of available commands
-    private static void helpMenuLines(){
-        setMenuLines("",7,9,11,13,15,16,18,20);
-        setMenuLines("Welcome to Ben's CRM program. Here are the main commands:",1);
-        setMenuLines(HIGHLIGHT_COLOR + "new lead" + ANSI_RESET + " - Creates a new Lead",4);
-        setMenuLines(HIGHLIGHT_COLOR + "convert <ID>" + ANSI_RESET + " - Converts a Lead into an Opportunity",6);
-        setMenuLines(HIGHLIGHT_COLOR + "close-won <ID>" + ANSI_RESET + " - Close Won Opportunity",8);
-        setMenuLines(HIGHLIGHT_COLOR + "close-lost <ID>" + ANSI_RESET + " - Close Lost Opportunity",10);
-        setMenuLines(HIGHLIGHT_COLOR + "lookup <OBJECT> <ID>" + ANSI_RESET + " - Search for specific Lead, Opportunity, Account or Contact",12);
-        setMenuLines(HIGHLIGHT_COLOR + "show <OBJECT PLURAL>" + ANSI_RESET + " - List all Leads, Opportunities, Accounts or Contacts",14);
-        setMenuLines(HIGHLIGHT_COLOR + "help" + ANSI_RESET + " - Explains usage of available commands",17);
-        setMenuLines(HIGHLIGHT_COLOR + "save" + ANSI_RESET + " - Saves the changed data",19);
-        setMenuLines(HIGHLIGHT_COLOR + "exit" + ANSI_RESET + " - Saves and exits the program",21);
+    private static void helpMenuLines() {
+        clearAll();
+        setMenuLines("Welcome to Ben's CRM program. Here are the main commands:", 1);
+        setMenuLines(HIGHLIGHT_COLOR + "new lead" + ANSI_RESET + " - Creates a new Lead", 4);
+        setMenuLines(HIGHLIGHT_COLOR + "new salesrep" + ANSI_RESET + " - Creates a new Sales Representative", 6);
+        setMenuLines(HIGHLIGHT_COLOR + "convert <ID>" + ANSI_RESET + " - Converts a Lead into an Opportunity", 8);
+        setMenuLines(HIGHLIGHT_COLOR + "close-won <ID>" + ANSI_RESET + " - Close Won Opportunity", 10);
+        setMenuLines(HIGHLIGHT_COLOR + "close-lost <ID>" + ANSI_RESET + " - Close Lost Opportunity", 12);
+        setMenuLines(HIGHLIGHT_COLOR + "lookup <OBJECT> <ID>" + ANSI_RESET + " - Search for specific Lead, Opportunity, Account, Contact or SalesRep", 14);
+        setMenuLines(HIGHLIGHT_COLOR + "show <OBJECT PLURAL>" + ANSI_RESET + " - List all Leads, Opportunities, Accounts, Contacts or SalesRep", 16);
+        setMenuLines(HIGHLIGHT_COLOR + "help (-a)" + ANSI_RESET + " - Lists essential/all help commands", 20);
+        setMenuLines(HIGHLIGHT_COLOR + "exit" + ANSI_RESET + " - Exits the program", 21);
     }
+
+    // Set the menu String array for the help menu with a list of available commands
+    private static void helpAllLines() {
+        clearAll();
+        setMenuLines("Welcome to Ben's CRM program. Here are all the commands:", 1);
+        setMenuLines(HIGHLIGHT_COLOR + "new lead" + ANSI_RESET + " - Creates a new Lead", 2);
+        setMenuLines(HIGHLIGHT_COLOR + "new salesrep" + ANSI_RESET + " - Creates a new Sales Representative", 3);
+        setMenuLines(HIGHLIGHT_COLOR + "convert <ID>" + ANSI_RESET + " - Converts a Lead into an Opportunity", 4);
+        setMenuLines(HIGHLIGHT_COLOR + "close-won <ID>" + ANSI_RESET + " - Close Won Opportunity", 5);
+        setMenuLines(HIGHLIGHT_COLOR + "close-lost <ID>" + ANSI_RESET + " - Close Lost Opportunity", 6);
+        setMenuLines(HIGHLIGHT_COLOR + "lookup <OBJECT> <ID>" + ANSI_RESET + " - Search for specific <Lead>, <Opportunity>, <Account> or <Contact>", 7);
+        setMenuLines(HIGHLIGHT_COLOR + "show <OBJECT PLURAL>" + ANSI_RESET + " - List all <Leads>, <Opportunities>, <Accounts> or <Contacts>", 8);
+
+        setMenuLines(HIGHLIGHT_COLOR + "report lead by salesrep" + ANSI_RESET + " - Reports the number of leads per SalesRep", 10);
+        setMenuLines(HIGHLIGHT_COLOR + "report opportunity by <PROPERTY>" + ANSI_RESET + " - Reports the number of opportunities per <SalesRep>, <Product>, <Country>, <City> or <Industry>", 11);
+        setMenuLines(HIGHLIGHT_COLOR + "report closed-won by <PROPERTY>" + ANSI_RESET + " - Reports the number of closed-won opportunities per <SalesRep>, <Product>, <Country>, <City> or <Industry>", 12);
+        setMenuLines(HIGHLIGHT_COLOR + "report closed-lost by <PROPERTY>" + ANSI_RESET + " - Reports the number of closed-lost opportunities per <SalesRep>, <Product>, <Country>, <City> or <Industry>", 13);
+        setMenuLines(HIGHLIGHT_COLOR + "report open by <PROPERTY>" + ANSI_RESET + " - Reports the number of open opportunities per <SalesRep>, <Product>, <Country>, <City> or <Industry>", 14);
+
+        setMenuLines(HIGHLIGHT_COLOR + "mean <PROPERTY>" + ANSI_RESET + " - Reports the mean value of <EmployeeCount>, <Quantity> or <Opps per Account>", 15);
+        setMenuLines(HIGHLIGHT_COLOR + "median <PROPERTY>" + ANSI_RESET + " - Reports the median value of <EmployeeCount>, <Quantity> or <Opps per Account>", 16);
+        setMenuLines(HIGHLIGHT_COLOR + "max <PROPERTY>" + ANSI_RESET + " - Reports the maximum value of <EmployeeCount>, <Quantity> or <Opps per Account>", 17);
+        setMenuLines(HIGHLIGHT_COLOR + "min <PROPERTY>" + ANSI_RESET + " - RReports the minimum value of <EmployeeCount>, <Quantity> or <Opps per Account>", 18);
+
+        setMenuLines(HIGHLIGHT_COLOR + "help (-a)" + ANSI_RESET + " - Lists essential/all help commands", 20);
+        setMenuLines(HIGHLIGHT_COLOR + "exit" + ANSI_RESET + " - Exits the program", 21);
+    }
+
 
     // ======================================== 3.1 NEW LEAD MENU ========================================
     // Set the menu String array for the lead creation menu
     private static void newLeadLines(String... params) {
         // Set initial menu for the lead creation
         if (params.length == 0) {
-            setMenuLines("", 1, 7, 9, 11, 13, 14, 15, 16, 17, 18, 19, 21);
+            clearAll();
             setMenuLines(HIGHLIGHT_COLOR + "Create New Lead" + HIGHLIGHT_COLOR, 4);
             setMenuLines("Name: ", 6);
             setMenuLines("Phone Number: ", 8);
@@ -124,10 +157,37 @@ public class PrinterMenu extends Printer {
                     setMenuLines(getMenuLine(10) + INSERT_HIGHLIGHT_COLOR + params[1] + ANSI_RESET, 10);
                     setMenuLines(HIGHLIGHT_COLOR + "Insert Lead Company Name: " + HIGHLIGHT_COLOR, 20);
                     break;
-                case "company":
-                    setMenuLines(getMenuLine(12) + INSERT_HIGHLIGHT_COLOR + params[1] + ANSI_RESET, 12);
+                case "salesrep":
+                    setMenuLines(HIGHLIGHT_COLOR + (params[1].equals("new") ?  "Assign SalesRep to Lead" : "Create new SalesRep") + HIGHLIGHT_COLOR, 4);
+                    setMenuLines("SalesRep Id: ", 14);
+                    if (params[1].equals("new")) { setMenuLines("SalesRep Name: ", 16); }
+                    setMenuLines(HIGHLIGHT_COLOR + (params[1].equals("new") ? "Insert SalesRep Name: " : "Insert existing SalesRep Id") + HIGHLIGHT_COLOR , 20);
+                    break;
+                case "salesrep_name":
+                    setMenuLines(getMenuLine(16) + INSERT_HIGHLIGHT_COLOR + params[1] + ANSI_RESET, 16);
+                    setMenuLines(HIGHLIGHT_COLOR + "ENTER " + ANSI_RESET + "- confirm Lead and SalesRep creation | " +
+                            HIGHLIGHT_COLOR + "back " + ANSI_RESET + "- cancel Lead and SalesRep creation", 20);
+                    break;
+                case "salesrep_id":
+                    setMenuLines(getMenuLine(14) + INSERT_HIGHLIGHT_COLOR + params[1] + ANSI_RESET, 14);
+                    setMenuLines(HIGHLIGHT_COLOR + "ENTER " + ANSI_RESET + "- return to the main menu", 20);
+                    break;
+            }
+        } else if (params.length == 3){
+            switch (params[0]){
+                case "salesrep":
+                    setMenuLines(getMenuLine(14) + INSERT_HIGHLIGHT_COLOR + params[1] + ANSI_RESET, 14);
+                    setMenuLines("SalesRep Name: " + INSERT_HIGHLIGHT_COLOR + params[2] + ANSI_RESET, 16);
                     setMenuLines(HIGHLIGHT_COLOR + "ENTER " + ANSI_RESET + "- confirm Lead creation | " +
                             HIGHLIGHT_COLOR + "back " + ANSI_RESET + "- cancel Lead creation", 20);
+                    break;
+                case "company":
+                    setMenuLines(HIGHLIGHT_COLOR + "Do you want to create a new SalesRep?" + HIGHLIGHT_COLOR, 4);
+                    setMenuLines(getMenuLine(12) + INSERT_HIGHLIGHT_COLOR + params[1] + ANSI_RESET, 12);
+                    setMenuLines(params[2].equals("0") ? HIGHLIGHT_COLOR + "ENTER " + ANSI_RESET + "- create new SalesRep | " + HIGHLIGHT_COLOR + "back "
+                            + ANSI_RESET + "- return to the main menu" :
+                            HIGHLIGHT_COLOR + "y " + ANSI_RESET + "- create new SalesRep | " + HIGHLIGHT_COLOR + "n " +
+                                    ANSI_RESET + "- use existing SalesRep | " + HIGHLIGHT_COLOR + "back " + ANSI_RESET + "- return to the main menu" , 20);
                     break;
             }
         } else {
@@ -140,13 +200,33 @@ public class PrinterMenu extends Printer {
     private static void convertLeadLines(String... params) {
         // Set menu for the new Opportunity creation
         if (params.length == 0) {
-            setMenuLines("", 1, 7, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 21);
+            clearAll();
             setMenuLines(HIGHLIGHT_COLOR + "Create New Opportunity" + HIGHLIGHT_COLOR, 4);
             setMenuLines("Product: ", 6);
             setMenuLines("Quantity: ", 8);
             setMenuLines(HIGHLIGHT_COLOR + "Insert Product type [HYBRID, FLATBED or BOX]: " + HIGHLIGHT_COLOR, 20);
-            // Update the menu for the lead conversion
+        } else if (params.length == 1) {
+            switch (params[0].toLowerCase()) {
+                case "account":
+                    //Set menu for the new Account creation
+                    setMenuLines("", 1, 7, 9, 11, 13, 14, 15, 16, 17, 18, 19, 21);
+                    setMenuLines(HIGHLIGHT_COLOR + "Create New Account" + HIGHLIGHT_COLOR, 4);
+                    setMenuLines("Industry: ", 6);
+                    setMenuLines("Number of Employees: ", 8);
+                    setMenuLines("City: ", 10);
+                    setMenuLines("Country: ", 12);
+                    setMenuLines(HIGHLIGHT_COLOR + "Insert Industry [PRODUCE, ECOMMERCE, MANUFACTURING, MEDICAL, or OTHER]: " + HIGHLIGHT_COLOR, 20);
+                    break;
+                case "account_id":
+                    //Set menu for existing Account
+                    setMenuLines(HIGHLIGHT_COLOR + "Associate Existing Account" + HIGHLIGHT_COLOR, 4);
+                    setMenuLines("Id: ", 6);
+                    setMenuLines(HIGHLIGHT_COLOR + "Insert Account Id " + HIGHLIGHT_COLOR, 20);
+                    break;
+            }
+
         } else if (params.length == 2) {
+            // Update the menu for the lead conversion
             switch (params[0].toLowerCase()) {
                 case "product":
                     setMenuLines(getMenuLine(6) + INSERT_HIGHLIGHT_COLOR + params[1] + ANSI_RESET, 6);
@@ -169,21 +249,32 @@ public class PrinterMenu extends Printer {
                     setMenuLines(HIGHLIGHT_COLOR + "ENTER " + ANSI_RESET + "- delete Lead and create Contact, Opportunity and Account | " +
                             HIGHLIGHT_COLOR + "back " + ANSI_RESET + "- cancel Lead conversion", 20);
                     break;
+                case "account_select":
+                    clearAll();
+                    setMenuLines(HIGHLIGHT_COLOR + "Do you want to create a new Account?" + HIGHLIGHT_COLOR, 4);
+                    setMenuLines(params[1].equals("0") ? HIGHLIGHT_COLOR + "ENTER " + ANSI_RESET + "- create new Account | " + HIGHLIGHT_COLOR + "back "
+                            + ANSI_RESET + "- return to the main menu" :
+                            HIGHLIGHT_COLOR + "y " + ANSI_RESET + "- create new Account | " + HIGHLIGHT_COLOR + "n " +
+                                    ANSI_RESET + "- use existing Account | " + HIGHLIGHT_COLOR + "back " + ANSI_RESET + "- return to the main menu" , 20);
+                    break;
+                case "account_id":
+                    setMenuLines(getMenuLine(6) + INSERT_HIGHLIGHT_COLOR + params[1] + ANSI_RESET, 6);
+                    break;
             }
-        } else if (params.length == 3 && params[0].toLowerCase().equals("quantity and contact")) {
+        } else if (params.length == 4 && params[0].toLowerCase().equals("quantity and contact")) {
             setMenuLines(getMenuLine(8) + INSERT_HIGHLIGHT_COLOR + params[1] + ANSI_RESET, 8);
             setMenuLines("Contact Name: " + INSERT_HIGHLIGHT_COLOR + params[2] + ANSI_RESET, 10);
             setMenuLines("Status: " + INSERT_HIGHLIGHT_COLOR + Status.OPEN + ANSI_RESET, 12);
+            setMenuLines("SalesRep Name: " + INSERT_HIGHLIGHT_COLOR + params[3] + ANSI_RESET, 14);
             setMenuLines(HIGHLIGHT_COLOR + "ENTER " + ANSI_RESET + "- confirm Opportunity information | " + HIGHLIGHT_COLOR + "back " + ANSI_RESET + "- return to the main menu", 20);
-            //Set menu for the new Account creation
-        } else if (params.length == 1 && params[0].toLowerCase().equals("account")) {
-            setMenuLines("", 1, 7, 9, 11, 13, 14, 15, 16, 17, 18, 19, 21);
-            setMenuLines(HIGHLIGHT_COLOR + "Create New Account" + HIGHLIGHT_COLOR, 4);
-            setMenuLines("Industry: ", 6);
-            setMenuLines("Number of Employees: ", 8);
-            setMenuLines("City: ", 10);
-            setMenuLines("Country: ", 12);
-            setMenuLines(HIGHLIGHT_COLOR + "Insert Industry [PRODUCE, ECOMMERCE, MANUFACTURING, MEDICAL, or OTHER]: " + HIGHLIGHT_COLOR, 20);
+        } else if (params.length == 6 && params[0].toLowerCase().equals("account_id")) {
+            setMenuLines(getMenuLine(6) + INSERT_HIGHLIGHT_COLOR + params[1] + ANSI_RESET, 6);
+            setMenuLines("Industry: " + INSERT_HIGHLIGHT_COLOR + params[2] + ANSI_RESET, 8);
+            setMenuLines("Number of Employees: " + INSERT_HIGHLIGHT_COLOR + params[3] + ANSI_RESET, 10);
+            setMenuLines("City: " + INSERT_HIGHLIGHT_COLOR + params[4] + ANSI_RESET, 12);
+            setMenuLines("Country: " + INSERT_HIGHLIGHT_COLOR + params[5] + ANSI_RESET, 12);
+            setMenuLines(HIGHLIGHT_COLOR + "ENTER " + ANSI_RESET + "- delete Lead and create Contact, Opportunity and Account | " +
+                    HIGHLIGHT_COLOR + "back " + ANSI_RESET + "- return to the main menu", 20);
         }
     }
 
@@ -193,7 +284,7 @@ public class PrinterMenu extends Printer {
         // identify which object to lookup and then set the menu appropriately
         if (Lead.class.equals(object.getClass())) {
             Lead lead = (Lead) object;
-            setMenuLines("", 1, 7, 9, 11, 13, 14, 15, 16, 17, 18, 19, 21);
+            clearAll();
             setMenuLines(HIGHLIGHT_COLOR + "Information of Lead with id " + lead.getId() + HIGHLIGHT_COLOR, 4);
             setMenuLines("Name: " + INSERT_HIGHLIGHT_COLOR + lead.getName() + ANSI_RESET, 6);
             setMenuLines("Phone Number: " + INSERT_HIGHLIGHT_COLOR + lead.getPhoneNumber() + ANSI_RESET, 8);
@@ -203,7 +294,7 @@ public class PrinterMenu extends Printer {
 
         } else if (Contact.class.equals(object.getClass())) {
             Contact contact = (Contact) object;
-            setMenuLines("", 1, 7, 9, 11, 13, 14, 15, 16, 17, 18, 19, 21);
+            clearAll();
             setMenuLines(HIGHLIGHT_COLOR + "Information of Contact with id " + contact.getId() + HIGHLIGHT_COLOR, 4);
             setMenuLines("Name: " + INSERT_HIGHLIGHT_COLOR + contact.getName() + ANSI_RESET, 6);
             setMenuLines("Phone Number: " + INSERT_HIGHLIGHT_COLOR + contact.getPhoneNumber() + ANSI_RESET, 8);
@@ -214,7 +305,7 @@ public class PrinterMenu extends Printer {
         } else if (Opportunity.class.equals(object.getClass())) {
             Opportunity opportunity = (Opportunity) object;
             if (params.length == 0) {
-                setMenuLines("", 1, 7, 9, 11, 13, 14, 15, 16, 17, 18, 19, 21);
+                clearAll();
                 setMenuLines(HIGHLIGHT_COLOR + "Information of Opportunity with id " + opportunity.getId() + HIGHLIGHT_COLOR, 4);
                 setMenuLines("Product: " + INSERT_HIGHLIGHT_COLOR + opportunity.getProduct() + ANSI_RESET, 6);
                 setMenuLines("Quantity: " + INSERT_HIGHLIGHT_COLOR + opportunity.getQuantity() + ANSI_RESET, 8);
@@ -234,7 +325,7 @@ public class PrinterMenu extends Printer {
         } else if (Account.class.equals(object.getClass())) {
             Account account = (Account) object;
             if (params.length == 0) {
-                setMenuLines("", 1, 7, 9, 11, 13, 15, 17, 18, 19, 21);
+                clearAll();
                 setMenuLines(HIGHLIGHT_COLOR + "Information of Account with id " + account.getId() + HIGHLIGHT_COLOR, 4);
                 setMenuLines("Industry: " + INSERT_HIGHLIGHT_COLOR + account.getIndustry() + ANSI_RESET, 6);
                 setMenuLines("Employee Count: " + INSERT_HIGHLIGHT_COLOR + account.getEmployeeCount() + ANSI_RESET, 8);
@@ -255,15 +346,42 @@ public class PrinterMenu extends Printer {
                         break;
                 }
             }
+        } else if (SalesRep.class.equals(object.getClass())){
+            SalesRep salesRep = (SalesRep) object;
+            clearAll();
+            setMenuLines(HIGHLIGHT_COLOR + "Information of SalesRep with id " + salesRep.getId() + HIGHLIGHT_COLOR, 4);
+            setMenuLines("Name: " + INSERT_HIGHLIGHT_COLOR + salesRep.getName() + ANSI_RESET, 6);
+            setMenuLines(HIGHLIGHT_COLOR + "ENTER " + ANSI_RESET + "- return to the main menu", 20);
         } else {
             throw new IllegalArgumentException("There is no class " + object.getClass());
         }
 
         PrinterMenu.printMenu("");
     }
+
+    // ======================================== 4. NEW SALES REP LINES ========================================
+    // Set the menu String array to add a new SalesRep
+    private static void newSalesRepLines(String... params){
+        // Set initial menu for the SalesRep creation
+        if (params.length == 0) {
+            clearAll();
+            setMenuLines(HIGHLIGHT_COLOR + "Create New SalesRep" + HIGHLIGHT_COLOR, 4);
+            setMenuLines("Name: ", 6);
+            setMenuLines(HIGHLIGHT_COLOR + "Insert SalesRep Name: " + HIGHLIGHT_COLOR, 20);
+        } else if (params.length == 1) {
+            // Update the menu with SalesRep name
+            setMenuLines(getMenuLine(6) + INSERT_HIGHLIGHT_COLOR + params[0] + ANSI_RESET, 6);
+            setMenuLines(HIGHLIGHT_COLOR + "ENTER " + ANSI_RESET + "- confirm SalesRep creation | " +
+                    HIGHLIGHT_COLOR + "back " + ANSI_RESET + "- cancel SalesRep creation", 20);
+        } else {
+            throw new IllegalArgumentException("Incorrect number of parameters");
+        }
+    }
+
+
     // Set the menu String array to show the provided page (List) of leads
     public static void showLeads(ArrayList<Lead> leads, boolean firstPage, boolean lastPage) {
-        setMenuLines("", 1, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 21);
+        clearAll();
         if (leads.size() == 0) {
             setMenuLines(HIGHLIGHT_COLOR + "There are no Leads" + HIGHLIGHT_COLOR, 4);
         } else {
@@ -292,9 +410,10 @@ public class PrinterMenu extends Printer {
         }
         PrinterMenu.printMenu("");
     }
+
     // Set the menu String array to show the provided page (List) of opportunities
     public static void showOpportunities(ArrayList<Opportunity> opportunities, boolean firstPage, boolean lastPage, boolean fromAccount) {
-        setMenuLines("", 1, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 21);
+        clearAll();
         if (opportunities.size() == 0) {
             setMenuLines(HIGHLIGHT_COLOR + "There are no Opportunities" + HIGHLIGHT_COLOR, 4);
         } else {
@@ -322,9 +441,10 @@ public class PrinterMenu extends Printer {
         }
         PrinterMenu.printMenu("");
     }
+
     // Set the menu String array to show the provided page (List) of contacts
     public static void showContacts(ArrayList<Contact> contacts, boolean firstPage, boolean lastPage, boolean fromAccount) {
-        setMenuLines("", 1, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 21);
+        clearAll();
         if (contacts.size() == 0) {
             setMenuLines(HIGHLIGHT_COLOR + "There are no Contacts" + HIGHLIGHT_COLOR, 4);
         } else {
@@ -352,9 +472,10 @@ public class PrinterMenu extends Printer {
         }
         PrinterMenu.printMenu("");
     }
+
     // Set the menu String array to show the provided page (List) of accounts
     public static void showAccounts(ArrayList<Account> accounts, boolean firstPage, boolean lastPage) {
-        setMenuLines("", 1, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 21);
+        clearAll();
         if (accounts.size() == 0) {
             setMenuLines(HIGHLIGHT_COLOR + "There are no Accounts" + HIGHLIGHT_COLOR, 4);
         } else {
@@ -383,13 +504,84 @@ public class PrinterMenu extends Printer {
         PrinterMenu.printMenu("");
     }
 
+    // Set the menu String array to show the provided page (List) of SalesRep
+    public static void showSalesRep(ArrayList<SalesRep> salesReps, boolean firstPage, boolean lastPage) {
+        clearAll();
+        if (salesReps.size() == 0) {
+            setMenuLines(HIGHLIGHT_COLOR + "There are no SalesReps" + HIGHLIGHT_COLOR, 4);
+        } else {
+            setMenuLines(HIGHLIGHT_COLOR + "Available SalesReps" + HIGHLIGHT_COLOR, 4);
+        }
+        // String is built with the current page of SalesRep and then the corresponding menu String lines are set
+        int initialLine = 6;
+        StringBuilder leadString = new StringBuilder("");
+        for (SalesRep salesRep : salesReps) {
+            leadString.append(salesRep.toString()).append("\n");
+        }
+        setLinesFromConcatString(leadString.toString(), initialLine);
+
+        if (firstPage && lastPage) {
+            setMenuLines(HIGHLIGHT_COLOR + "ENTER " + ANSI_RESET + "- return to the main menu", 20);
+        } else if (firstPage) {
+            setMenuLines(HIGHLIGHT_COLOR + "next " + ANSI_RESET + "- go to the next page |" + HIGHLIGHT_COLOR +
+                    " back " + ANSI_RESET + "- return to the main menu", 20);
+        } else if (lastPage) {
+            setMenuLines(HIGHLIGHT_COLOR + "previous " + ANSI_RESET + "- return to the previous page | " + HIGHLIGHT_COLOR +
+                    "back " + ANSI_RESET + " - return to the main menu", 20);
+        } else {
+            setMenuLines(HIGHLIGHT_COLOR + "next" + ANSI_RESET + "- go to the next page | " + HIGHLIGHT_COLOR +
+                    "previous " + ANSI_RESET + "- return to the previous page | " + HIGHLIGHT_COLOR +
+                    "back " + ANSI_RESET + "- return to the main menu", 20);
+        }
+        PrinterMenu.printMenu("");
+    }
+
+    public static void printQueryCount(String query, List<String> stringList, List<Long> longList, boolean firstPage, boolean lastPage){
+        if (stringList.size() != longList.size()){
+            throw new IllegalArgumentException("The lists have different sizes!");
+        }
+        clearAll();
+        setMenuLines(HIGHLIGHT_COLOR + query + HIGHLIGHT_COLOR, 4);
+
+        // String is built with the current page of SalesRep and then the corresponding menu String lines are set
+        int initialLine = 6;
+        StringBuilder completeString = new StringBuilder("");
+        for (int i = 0; i < stringList.size(); i++) {
+            completeString.append(stringList.get(i)).append(": ").append(longList.get(i).toString()).append("\n");
+        }
+        setLinesFromConcatString(completeString.toString(), initialLine);
+
+        if (firstPage && lastPage) {
+            setMenuLines(HIGHLIGHT_COLOR + "ENTER " + ANSI_RESET + "- return to the main menu", 20);
+        } else if (firstPage) {
+            setMenuLines(HIGHLIGHT_COLOR + "next " + ANSI_RESET + "- go to the next page |" + HIGHLIGHT_COLOR +
+                    " back " + ANSI_RESET + "- return to the main menu", 20);
+        } else if (lastPage) {
+            setMenuLines(HIGHLIGHT_COLOR + "previous " + ANSI_RESET + "- return to the previous page | " + HIGHLIGHT_COLOR +
+                    "back " + ANSI_RESET + " - return to the main menu", 20);
+        } else {
+            setMenuLines(HIGHLIGHT_COLOR + "next" + ANSI_RESET + "- go to the next page | " + HIGHLIGHT_COLOR +
+                    "previous " + ANSI_RESET + "- return to the previous page | " + HIGHLIGHT_COLOR +
+                    "back " + ANSI_RESET + "- return to the main menu", 20);
+        }
+        PrinterMenu.printMenu("");
+    }
+
+    public static void printQueryStat(String query, Number stat){
+        clearAll();
+        setMenuLines(HIGHLIGHT_COLOR + query + ANSI_RESET, 4);
+        setMenuLines(query.split(" ")[0] + ": " + stat,8);
+        setMenuLines(HIGHLIGHT_COLOR + "ENTER " + ANSI_RESET + "- return to the main menu", 20);
+        PrinterMenu.printMenu("");
+    }
+
     // Set menu lines from a concatenated String starting from the index passed in
-    public static void setLinesFromConcatString(String str, int index){
+    public static void setLinesFromConcatString(String str, int index) {
         String[] stringArr = str.split("\n");
-        for (String singleString : stringArr){
+        for (String singleString : stringArr) {
             String[] dividedString = divideText(singleString);
             setMenuLines(dividedString[0], index++);
-            while (!dividedString[1].equals("")){
+            while (!dividedString[1].equals("")) {
                 dividedString = divideText(dividedString[1]);
                 setMenuLines(dividedString[0], index++);
             }
@@ -400,8 +592,12 @@ public class PrinterMenu extends Printer {
     public static void setWarning(String message) {
         setMenuLines(ANSI_BRIGHT_RED + message + ANSI_RESET, ERROR_LINE);
     }
-    public static String getWarning() { return getMenuLine(ERROR_LINE).replace(ANSI_BRIGHT_RED,"").replace(ANSI_RESET,""); }
+
+    public static String getWarning() {
+        return getMenuLine(ERROR_LINE).replace(ANSI_BRIGHT_RED, "").replace(ANSI_RESET, "");
+    }
+
     public static void clearWarning() {
-        setMenuLines("",ERROR_LINE);
+        setMenuLines("", ERROR_LINE);
     }
 }

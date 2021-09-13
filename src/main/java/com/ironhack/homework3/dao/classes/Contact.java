@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.Objects;
 
 @Getter
 @Setter
@@ -16,28 +15,35 @@ import java.util.Objects;
 public class Contact {
 
     @Id
-    @Column(name="contact_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "contact_id")
     private Integer id;
+
     private String name;
+
     private String phoneNumber;
+
     private String email;
+
     private String companyName;
 
     @OneToOne(mappedBy = "decisionMaker")
     private Opportunity opportunity;
 
     @ManyToOne
-    @JoinColumn(name="account_id")
+    @JoinColumn(name = "account_id")
     private Account account;
 
-    // ============================== CONSTRUCTOR ==============================
 
-    public Contact(String name, String phoneNumber, String email, String companyName) {
+    // ============================== CONSTRUCTOR ==============================
+    public Contact(String name, String phoneNumber, String email, String companyName, Account account) {
         setName(name);
         setPhoneNumber(phoneNumber);
         setEmail(email);
         setCompanyName(companyName);
+        setAccount(account);
     }
+
 
     // ============================== METHODS ==============================
     @Override
@@ -45,21 +51,4 @@ public class Contact {
         return "Id: " + id + ", Name: " + name + ", Email: " + email + ", Phone: " + phoneNumber + ", Company: " + companyName;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Contact contact = (Contact) o;
-        return Objects.equals(name, contact.name) && Objects.equals(phoneNumber, contact.phoneNumber) &&
-                Objects.equals(email, contact.email) && Objects.equals(companyName, contact.companyName);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(name, phoneNumber, email, companyName);
-    }
-
-    public boolean hasNullValues(){
-        return getName() == null || getPhoneNumber() == null || getEmail() == null || getCompanyName() == null;
-    }
 }
