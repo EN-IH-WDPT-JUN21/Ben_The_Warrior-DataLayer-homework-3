@@ -1,6 +1,6 @@
 package com.ironhack.homework3.dao.queryInterfaces;
 
-public interface ILeadsCountBySalesRep {
+public interface ICountBySalesRep {
     String getSalesRepName();
-    Long getLeadsCount();
+    Long getCount();
 }

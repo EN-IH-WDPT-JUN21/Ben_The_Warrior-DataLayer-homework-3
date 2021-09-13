@@ -2,7 +2,7 @@ package com.ironhack.homework3.repository;
 
 import com.ironhack.homework3.dao.classes.*;
 import com.ironhack.homework3.dao.main.MainMenuAutowired;
-import com.ironhack.homework3.dao.queryInterfaces.ILeadsCountBySalesRep;
+import com.ironhack.homework3.dao.queryInterfaces.ICountBySalesRep;
 import com.ironhack.homework3.dao.queryInterfaces.IOpportunityCountBySalesRep;
 import com.ironhack.homework3.enums.Industry;
 import com.ironhack.homework3.enums.Product;
@@ -160,20 +160,20 @@ class SalesRepRepositoryTest {
     @Test
     @Order(7)
     void getLeadsCountBySalesRep() {
-        List<ILeadsCountBySalesRep> leadsCounts = salesRepRepository.countLeadsBySalesRep();
+        List<ICountBySalesRep> leadsCounts = salesRepRepository.countLeadsBySalesRep();
         assertEquals(2, (leadsCounts.size()));
         assertEquals("Sam", leadsCounts.get(0).getSalesRepName());
-        assertEquals(2, leadsCounts.get(0).getLeadsCount());
+        assertEquals(2, leadsCounts.get(0).getCount());
         assertEquals("Person 1", leadsCounts.get(1).getSalesRepName());
-        assertEquals(1, leadsCounts.get(1).getLeadsCount());
+        assertEquals(1, leadsCounts.get(1).getCount());
     }
 
     // ==================== 2 - Reporting Opportunities By SalesRep ====================
     @Test
     @Order(7)
     void getOpportunitiesCountBySalesRep() {
-        List<IOpportunityCountBySalesRep> opportunitiesCounts = salesRepRepository.countOpportunitiesBySalesRep();
-        assertEquals(1, opportunitiesCounts.get(0).getOpportunitiesCount());
+        List<ICountBySalesRep> opportunitiesCounts = salesRepRepository.countOpportunitiesBySalesRep();
+        assertEquals(1, opportunitiesCounts.get(0).getCount());
         assertEquals("Person 1", opportunitiesCounts.get(0).getSalesRepName());
     }
 
@@ -190,8 +190,8 @@ class SalesRepRepositoryTest {
         var opportunity1 = new Opportunity(Product.HYBRID, 3000, contact1, Status.CLOSED_WON, account1, salesRep);
         opportunityRepository.save(opportunity1);
 
-        List<IOpportunityCountBySalesRep> opportunitiesCounts = salesRepRepository.countOpportunitiesByClosedWonBySalesRep();
-        assertEquals(1, opportunitiesCounts.get(0).getOpportunitiesCount());
+        List<ICountBySalesRep> opportunitiesCounts = salesRepRepository.countOpportunitiesByClosedWonBySalesRep();
+        assertEquals(1, opportunitiesCounts.get(0).getCount());
         assertEquals("person", opportunitiesCounts.get(0).getSalesRepName());
     }
 
@@ -208,8 +208,8 @@ class SalesRepRepositoryTest {
         var opportunity1 = new Opportunity(Product.HYBRID, 3, contact1, Status.CLOSED_LOST, account1, salesRep);
         opportunityRepository.save(opportunity1);
 
-        List<IOpportunityCountBySalesRep> opportunitiesCount = salesRepRepository.countOpportunitiesByClosedLostBySalesRep();
-        assertEquals(1, opportunitiesCount.get(0).getOpportunitiesCount());
+        List<ICountBySalesRep> opportunitiesCount = salesRepRepository.countOpportunitiesByClosedLostBySalesRep();
+        assertEquals(1, opportunitiesCount.get(0).getCount());
         assertEquals("Humano", opportunitiesCount.get(0).getSalesRepName());
     }
 
@@ -225,8 +225,8 @@ class SalesRepRepositoryTest {
         accountRepository.save(account1);
         var opportunity1 = new Opportunity(Product.HYBRID, 3, contact1, Status.OPEN, account1, salesRep);
         opportunityRepository.save(opportunity1);
-        List<IOpportunityCountBySalesRep> opportunitiesCount = salesRepRepository.countOpportunitiesByOpenBySalesRep();
-        assertEquals(1, opportunitiesCount.get(0).getOpportunitiesCount());
+        List<ICountBySalesRep> opportunitiesCount = salesRepRepository.countOpportunitiesByOpenBySalesRep();
+        assertEquals(1, opportunitiesCount.get(0).getCount());
         assertEquals("Person 1", opportunitiesCount.get(0).getSalesRepName());
         assertEquals(2, opportunitiesCount.size());
     }

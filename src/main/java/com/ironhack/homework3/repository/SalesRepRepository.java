@@ -1,7 +1,7 @@
 package com.ironhack.homework3.repository;
 
 import com.ironhack.homework3.dao.classes.SalesRep;
-import com.ironhack.homework3.dao.queryInterfaces.ILeadsCountBySalesRep;
+import com.ironhack.homework3.dao.queryInterfaces.ICountBySalesRep;
 import com.ironhack.homework3.dao.queryInterfaces.IOpportunityCountBySalesRep;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -18,7 +18,7 @@ public interface SalesRepRepository extends JpaRepository<SalesRep, Integer> {
             "LEFT JOIN l.salesRep s "+
             "GROUP BY s " +
             "ORDER BY SUM(CASE WHEN l.id != null THEN 1 ELSE 0  END) DESC")
-    List<ILeadsCountBySalesRep> countLeadsBySalesRep();
+    List<ICountBySalesRep> countLeadsBySalesRep();
 
     //     2. Report Opportunities by SalesRep
     @Query("SELECT s.name AS salesRepName, COUNT(o) AS opportunitiesCount FROM Opportunity o "+

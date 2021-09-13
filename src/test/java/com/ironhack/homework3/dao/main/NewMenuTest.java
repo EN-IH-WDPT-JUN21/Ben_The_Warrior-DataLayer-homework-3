@@ -391,7 +391,7 @@ class NewMenuTest {
 
         String output = outputStream.toString();
         assertTrue(output.contains("Count of CLOSED_WON Opportunities by SalesRep"));
-        assertTrue(output.contains("Michael Scott: 1"));
+        assertTrue(output.contains("Michael Scott: 0"));
         System.setOut(sysOutBackup);
     }
 
@@ -411,7 +411,7 @@ class NewMenuTest {
 
         String output = outputStream.toString();
         assertTrue(output.contains("Count of CLOSED_LOST Opportunities by SalesRep"));
-        assertTrue(output.contains("Michael Scott: 1"));
+        assertTrue(output.contains("Michael Scott: 0"));
         System.setOut(sysOutBackup);
     }
 
@@ -471,7 +471,7 @@ class NewMenuTest {
 
         String output = outputStream.toString();
         assertTrue(output.contains("Count of CLOSED_WON Opportunities by Product"));
-        assertTrue(output.contains("BOX: 1"));
+        assertTrue(output.contains("BOX: 0"));
         System.setOut(sysOutBackup);
     }
 
@@ -491,7 +491,7 @@ class NewMenuTest {
 
         String output = outputStream.toString();
         assertTrue(output.contains("Count of CLOSED_LOST Opportunities by SalesRep"));
-        assertTrue(output.contains("BOX: 1"));
+        assertTrue(output.contains("BOX: 0"));
         System.setOut(sysOutBackup);
     }
 
