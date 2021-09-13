@@ -114,16 +114,16 @@ public class PrinterMenu extends Printer {
         setMenuLines(HIGHLIGHT_COLOR + "lookup <OBJECT> <ID>" + ANSI_RESET + " - Search for specific <Lead>, <Opportunity>, <Account> or <Contact>", 7);
         setMenuLines(HIGHLIGHT_COLOR + "show <OBJECT PLURAL>" + ANSI_RESET + " - List all <Leads>, <Opportunities>, <Accounts> or <Contacts>", 8);
 
-        setMenuLines(HIGHLIGHT_COLOR + "Report Lead by SalesRep" + ANSI_RESET + " - Reports the number of leads per SalesRep", 10);
-        setMenuLines(HIGHLIGHT_COLOR + "Report Opportunity by <PROPERTY>" + ANSI_RESET + " - Reports the number of opportunities per <SalesRep>, <Product>, <Country>, <City> or <Industry>", 11);
-        setMenuLines(HIGHLIGHT_COLOR + "Report CLOSED-WON by <PROPERTY>" + ANSI_RESET + " - Reports the number of closed-won opportunities per <SalesRep>, <Product>, <Country>, <City> or <Industry>", 12);
-        setMenuLines(HIGHLIGHT_COLOR + "Report CLOSED-LOST by <PROPERTY>" + ANSI_RESET + " - Reports the number of closed-lost opportunities per <SalesRep>, <Product>, <Country>, <City> or <Industry>", 13);
-        setMenuLines(HIGHLIGHT_COLOR + "Report OPEN by <PROPERTY>" + ANSI_RESET + " - Reports the number of open opportunities per <SalesRep>, <Product>, <Country>, <City> or <Industry>", 14);
+        setMenuLines(HIGHLIGHT_COLOR + "report lead by salesrep" + ANSI_RESET + " - Reports the number of leads per SalesRep", 10);
+        setMenuLines(HIGHLIGHT_COLOR + "report opportunity by <PROPERTY>" + ANSI_RESET + " - Reports the number of opportunities per <SalesRep>, <Product>, <Country>, <City> or <Industry>", 11);
+        setMenuLines(HIGHLIGHT_COLOR + "report closed-won by <PROPERTY>" + ANSI_RESET + " - Reports the number of closed-won opportunities per <SalesRep>, <Product>, <Country>, <City> or <Industry>", 12);
+        setMenuLines(HIGHLIGHT_COLOR + "report closed-lost by <PROPERTY>" + ANSI_RESET + " - Reports the number of closed-lost opportunities per <SalesRep>, <Product>, <Country>, <City> or <Industry>", 13);
+        setMenuLines(HIGHLIGHT_COLOR + "report open by <PROPERTY>" + ANSI_RESET + " - Reports the number of open opportunities per <SalesRep>, <Product>, <Country>, <City> or <Industry>", 14);
 
-        setMenuLines(HIGHLIGHT_COLOR + "Mean <PROPERTY>" + ANSI_RESET + " - Reports the mean value of <EmployeeCount>, <Quantity> or <Opps per Account>", 15);
-        setMenuLines(HIGHLIGHT_COLOR + "Median <PROPERTY>" + ANSI_RESET + " - Reports the median value of <EmployeeCount>, <Quantity> or <Opps per Account>", 16);
-        setMenuLines(HIGHLIGHT_COLOR + "Max <PROPERTY>" + ANSI_RESET + " - Reports the maximum value of <EmployeeCount>, <Quantity> or <Opps per Account>", 17);
-        setMenuLines(HIGHLIGHT_COLOR + "Min <PROPERTY>" + ANSI_RESET + " - RReports the minimum value of <EmployeeCount>, <Quantity> or <Opps per Account>", 18);
+        setMenuLines(HIGHLIGHT_COLOR + "mean <PROPERTY>" + ANSI_RESET + " - Reports the mean value of <EmployeeCount>, <Quantity> or <Opps per Account>", 15);
+        setMenuLines(HIGHLIGHT_COLOR + "median <PROPERTY>" + ANSI_RESET + " - Reports the median value of <EmployeeCount>, <Quantity> or <Opps per Account>", 16);
+        setMenuLines(HIGHLIGHT_COLOR + "max <PROPERTY>" + ANSI_RESET + " - Reports the maximum value of <EmployeeCount>, <Quantity> or <Opps per Account>", 17);
+        setMenuLines(HIGHLIGHT_COLOR + "min <PROPERTY>" + ANSI_RESET + " - RReports the minimum value of <EmployeeCount>, <Quantity> or <Opps per Account>", 18);
 
         setMenuLines(HIGHLIGHT_COLOR + "help (-a)" + ANSI_RESET + " - Lists essential/all help commands", 20);
         setMenuLines(HIGHLIGHT_COLOR + "exit" + ANSI_RESET + " - Exits the program", 21);
@@ -508,9 +508,9 @@ public class PrinterMenu extends Printer {
     public static void showSalesRep(ArrayList<SalesRep> salesReps, boolean firstPage, boolean lastPage) {
         clearAll();
         if (salesReps.size() == 0) {
-            setMenuLines(HIGHLIGHT_COLOR + "There are no SalesRep" + HIGHLIGHT_COLOR, 4);
+            setMenuLines(HIGHLIGHT_COLOR + "There are no SalesReps" + HIGHLIGHT_COLOR, 4);
         } else {
-            setMenuLines(HIGHLIGHT_COLOR + "Available SalesRep" + HIGHLIGHT_COLOR, 4);
+            setMenuLines(HIGHLIGHT_COLOR + "Available SalesReps" + HIGHLIGHT_COLOR, 4);
         }
         // String is built with the current page of SalesRep and then the corresponding menu String lines are set
         int initialLine = 6;

@@ -2,7 +2,7 @@ package com.ironhack.homework3.repository;
 
 import com.ironhack.homework3.dao.classes.Lead;
 import com.ironhack.homework3.dao.classes.SalesRep;
-import com.ironhack.homework3.dao.main.MainMenuAutowired;
+import com.ironhack.homework3.dao.main.Menu;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.TestInstantiationException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,9 +26,8 @@ import static org.junit.jupiter.api.Assertions.*;
         "spring.datasource.initialization-mode=never"
 })
 class LeadRepositoryTest {
-
     @MockBean
-    private MainMenuAutowired mainMenuAutowired;
+    private Menu menu;
 
     @Autowired
     private LeadRepository leadRepository;
@@ -40,7 +39,7 @@ class LeadRepositoryTest {
 
     @BeforeEach
     void setUp() {
-        var sr = new SalesRep("Sales Guy");
+        sr = new SalesRep("Sales Guy");
         salesRepRepository.save(sr);
         var l1 = new Lead("Joe", "999999999", "joe@mail.com", "New Company", sr);
         leadRepository.save(l1);

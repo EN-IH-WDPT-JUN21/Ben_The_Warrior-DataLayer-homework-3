@@ -2,7 +2,7 @@ package com.ironhack.homework3.repository;
 
 import com.ironhack.homework3.dao.classes.*;
 import com.ironhack.homework3.dao.classes.Contact;
-import com.ironhack.homework3.dao.main.MainMenuAutowired;
+import com.ironhack.homework3.dao.main.Menu;
 import com.ironhack.homework3.enums.Industry;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.TestInstantiationException;
@@ -29,9 +29,8 @@ import static org.junit.jupiter.api.Assertions.*;
         "spring.datasource.initialization-mode=never"
 })
 class ContactRepositoryTest {
-
     @MockBean
-    private MainMenuAutowired mainMenuAutowired;
+    private Menu menu;
 
     @Autowired
     private ContactRepository contactRepository;

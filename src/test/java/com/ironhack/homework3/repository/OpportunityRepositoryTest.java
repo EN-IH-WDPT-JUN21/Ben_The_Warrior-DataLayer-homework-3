@@ -4,9 +4,7 @@ import com.ironhack.homework3.dao.classes.Account;
 import com.ironhack.homework3.dao.classes.Contact;
 import com.ironhack.homework3.dao.classes.Opportunity;
 import com.ironhack.homework3.dao.classes.SalesRep;
-import com.ironhack.homework3.dao.main.MainMenuAutowired;
-import com.ironhack.homework3.dao.queryInterfaces.IOpportunityCountryOrCityCount;
-import com.ironhack.homework3.dao.queryInterfaces.IOpportunityIndustryCount;
+import com.ironhack.homework3.dao.main.Menu;
 import com.ironhack.homework3.dao.queryInterfaces.IOpportunityProduct;
 import com.ironhack.homework3.enums.Industry;
 import com.ironhack.homework3.enums.Product;
@@ -36,9 +34,8 @@ import static org.junit.jupiter.api.Assertions.*;
         "spring.datasource.initialization-mode=never"
 })
 class OpportunityRepositoryTest {
-
     @MockBean
-    private MainMenuAutowired mainMenuAutowired;
+    private Menu menu;
 
     @Autowired
     private OpportunityRepository opportunityRepository;

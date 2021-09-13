@@ -1,7 +1,8 @@
 package com.ironhack.homework3;
 
-import com.ironhack.homework3.dao.main.MainMenuAutowired;
+import com.ironhack.homework3.dao.main.Menu;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -9,7 +10,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class Homework3Application implements CommandLineRunner {
     @Autowired
-    MainMenuAutowired mainMenuAutowired;
+	Menu menu;
+
+    @Value("#{new Boolean('${application.test}')}")
+    private Boolean applicationTest;
 
     public static void main(String[] args) {
         SpringApplication.run(Homework3Application.class, args);
@@ -17,6 +21,8 @@ public class Homework3Application implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        mainMenuAutowired.printMenu();
+		if (!applicationTest){
+            menu.mainMenu();
+        }
     }
 }

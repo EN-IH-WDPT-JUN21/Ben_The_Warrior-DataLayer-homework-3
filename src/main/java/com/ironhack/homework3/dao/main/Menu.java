@@ -13,7 +13,6 @@ import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.io.InputStream;
 import java.util.*;
 
 import static com.ironhack.homework3.utils.Utils.*;
@@ -24,11 +23,10 @@ import static com.ironhack.homework3.utils.Utils.validLocation;
 @Setter
 public class Menu {
 
-    private final Scanner scanner;
+    private Scanner scanner;
 
     @Autowired
     private DatabaseUtility db;
-    //private final JsonDatabaseUtility db; TODO remove if not necessary
 
     // Variable to check if the user asked for the available commands
     private boolean showHelp;
@@ -52,14 +50,6 @@ public class Menu {
         var allLeads = leadRepository.findAll();
         for (var c : allLeads) System.out.println("Our menu includes: " + c.getName());
     }*/
-
-    public Menu(InputStream inputStream) {
-        scanner = new Scanner(inputStream);
-        db = new DatabaseUtility();
-        setShowHelp(false);
-        setShowAllHelp(false);
-    }
-
 
     // Core method of the application. This method is running while the app is running and only returns when closing the app
     public void mainMenu() {
@@ -189,8 +179,7 @@ public class Menu {
                 try {
                     // If there is no opportunity an error is thrown
                     // Otherwise the command can be correctly computed and the warning messages can be cleared
-                    Opportunity opportunity = db.lookupOpportunityId(Integer.parseInt(inputArray[1]));
-                    opportunity.setStatus(Status.CLOSED_WON);
+                    db.setOpportunityStatus(Integer.parseInt(inputArray[1]), Status.CLOSED_WON);
                 } catch (IllegalArgumentException e) {
                     PrinterMenu.setWarning(e.getMessage());
                 }
@@ -199,8 +188,7 @@ public class Menu {
                 try {
                     // If there is no opportunity an error is thrown
                     // Otherwise the command can be correctly computed and the warning messages can be cleared
-                    Opportunity opportunity = db.lookupOpportunityId(Integer.parseInt(inputArray[1]));
-                    opportunity.setStatus(Status.CLOSED_LOST);
+                    db.setOpportunityStatus(Integer.parseInt(inputArray[1]), Status.CLOSED_LOST);
                 } catch (IllegalArgumentException e) {
                     PrinterMenu.setWarning(e.getMessage());
                 }
@@ -215,95 +203,74 @@ public class Menu {
                     // BY SALESREP
                     case "report lead by salesrep":
                         showFromInterface("Count of Leads by SalesRep", db.getLeadsCountBySalesRep());
-                        promptDecision("enter");
                         break;
                     case "report opportunity by salesrep":
                         showFromInterface("Count of Opportunities by SalesRep", db.getOpportunitiesCountBySalesRep());
-                        promptDecision("enter");
                         break;
                     case "report closed-won by salesrep":
-                        showFromInterface("Count of CLOSED-WON Opportunities by SalesRep", db.getOpportunitiesCountBySalesRep_With_ClosedWonStatus());
-                        promptDecision("enter");
+                        showFromInterface("Count of CLOSED_WON Opportunities by SalesRep", db.getOpportunitiesCountBySalesRep_With_ClosedWonStatus());
                         break;
                     case "report closed-lost by salesrep":
-                        showFromInterface("Count of CLOSED-LOST Opportunities by SalesRep", db.getOpportunitiesCountBySalesRep_With_ClosedLostStatus());
-                        promptDecision("enter");
+                        showFromInterface("Count of CLOSED_LOST Opportunities by SalesRep", db.getOpportunitiesCountBySalesRep_With_ClosedLostStatus());
                         break;
                     case "report open by salesrep":
                         showFromInterface("Count of OPEN Opportunities by SalesRep", db.getOpportunitiesCountBySalesRep_With_OpenStatus());
-                        promptDecision("enter");
                         break;
 
                     // BY PRODUCT
                     case "report opportunity by product":
                         showFromInterface("Count of Opportunities by Product", db.getCountByProduct());
-                        promptDecision("enter");
                         break;
                     case "report closed-won by product":
-                        showFromInterface("Count of CLOSED-WON Opportunities by Product", db.getCountByProduct_With_ClosedWonStatus());
-                        promptDecision("enter");
+                        showFromInterface("Count of CLOSED_WON Opportunities by Product", db.getCountByProduct_With_ClosedWonStatus());
                         break;
                     case "report closed-lost by product":
-                        showFromInterface("Count of CLOSED-LOST Opportunities by Product", db.getCountByProduct_With_ClosedLostStatus());
-                        promptDecision("enter");
+                        showFromInterface("Count of CLOSED_LOST Opportunities by Product", db.getCountByProduct_With_ClosedLostStatus());
                         break;
                     case "report open by product":
                         showFromInterface("Count of OPEN Opportunities by Product", db.getCountByProduct_With_OpenStatus());
-                        promptDecision("enter");
                         break;
 
                     // BY COUNTRY
                     case "report opportunity by country":
                         showFromInterface("Count of Opportunities by Country", db.getCountByCountry());
-                        promptDecision("enter");
                         break;
                     case "report closed-won by country":
                         showFromInterface("Count of CLOSED_WON Opportunities by Country", db.getCountClosedWonByCountry());
-                        promptDecision("enter");
                         break;
                     case "report closed-lost by country":
                         showFromInterface("Count of CLOSED_LOST Opportunities by Country", db.getCountClosedLostByCountry());
-                        promptDecision("enter");
                         break;
                     case "report open by country":
                         showFromInterface("Count of OPEN Opportunities by Country", db.getCountOpenByCountry());
-                        promptDecision("enter");
                         break;
 
                     // BY CITY
                     case "report opportunity by city":
                         showFromInterface("Count of Opportunities by City", db.getCountByCity());
-                        promptDecision("enter");
                         break;
                     case "report closed-won by city":
                         showFromInterface("Count of CLOSED_WON Opportunities by City", db.getCountClosedWonByCity());
-                        promptDecision("enter");
                         break;
                     case "report closed-lost by city":
                         showFromInterface("Count of CLOSED_LOST Opportunities by City", db.getCountClosedLostByCity());
-                        promptDecision("enter");
                         break;
                     case "report open by city":
                         showFromInterface("Count of OPEN Opportunities by City", db.getCountOpenByCity());
-                        promptDecision("enter");
                         break;
 
                     // BY INDUSTRY
                     case "report opportunity by industry":
                         showFromInterface("Count of Opportunities by Industry", db.getCountByIndustry());
-                        promptDecision("enter");
                         break;
                     case "report closed-won by industry":
                         showFromInterface("Count of CLOSED_WON Opportunities by Industry", db.getCountClosedWonByIndustry());
-                        promptDecision("enter");
                         break;
                     case "report closed-lost by industry":
                         showFromInterface("Count of CLOSED_LOST Opportunities by Industry", db.getCountClosedLostByIndustry());
-                        promptDecision("enter");
                         break;
                     case "report open by industry":
                         showFromInterface("Count of OPEN Opportunities by Industry", db.getCountOpenByIndustry());
-                        promptDecision("enter");
                         break;
 
                     // EMPLOYEECOUNT STATES
@@ -348,22 +315,22 @@ public class Menu {
                     // OPPORTUNITY STATES
                     case "mean opps per account":
                         System.out.println(db.getMeanOppsPerAccount());
-                        PrinterMenu.printQueryStat("Mean Opps per Account", db.getMeanOppsPerAccount());
+                        PrinterMenu.printQueryStat("Mean Opportunities per Account", db.getMeanOppsPerAccount());
                         promptDecision("enter");
                         break;
                     case "median opps per account":
                         System.out.println(db.getMedianOppsPerAccount());
-                        PrinterMenu.printQueryStat("Median Opps per Account", db.getMedianOppsPerAccount());
+                        PrinterMenu.printQueryStat("Median Opportunities per Account", db.getMedianOppsPerAccount());
                         promptDecision("enter");
                         break;
                     case "max opps per account":
                         System.out.println(db.getMaxOppsPerAccount());
-                        PrinterMenu.printQueryStat("Max Opps per Account", db.getMaxOppsPerAccount());
+                        PrinterMenu.printQueryStat("Max Opportunities per Account", db.getMaxOppsPerAccount());
                         promptDecision("enter");
                         break;
                     case "min opps per account":
                         System.out.println(db.getMinOppsPerAccount());
-                        PrinterMenu.printQueryStat("Min Opps per Account", db.getMinOppsPerAccount());
+                        PrinterMenu.printQueryStat("Min Opportunities per Account", db.getMinOppsPerAccount());
                         promptDecision("enter");
 
                         break;
@@ -687,7 +654,7 @@ public class Menu {
                         }
                     }
                 } catch (ClassCastException e) {
-                    PrinterMenu.setWarning("Could not cast Object as IOpportunityCountryOrCityCount");
+                    PrinterMenu.setWarning("Could not cast Object as IOpportunityIndustryCount");
                 }
                 // Allow user to change between the pages
                 numPages = listListString.size();
@@ -698,56 +665,26 @@ public class Menu {
                         return;
                     }
                 }
-            } else if(query.toLowerCase().contains("lead")){
+            } else if(query.toLowerCase().contains("salesrep")){
                 List<ArrayList<String>> listListString = new ArrayList<>();
                 List<ArrayList<Long>> listListCount = new ArrayList<>();
                 listListString.add(new ArrayList<>());
                 listListCount.add(new ArrayList<>());
                 try {
                     for (Object object : objectList) {
-                        ILeadsCountBySalesRep leadsCount = (ILeadsCountBySalesRep) object;
+                        ICountBySalesRep leadsCount = (ICountBySalesRep) object;
                         if (currentIndex++ < maxElements) {
                             listListString.get(currentPage).add(leadsCount.getSalesRepName());
-                            listListCount.get(currentPage).add(leadsCount.getLeadsCount());
+                            listListCount.get(currentPage).add(leadsCount.getCount());
                         } else {
                             listListString.add(new ArrayList<>());
                             listListCount.add(new ArrayList<>());
                             listListString.get(++currentPage).add(leadsCount.getSalesRepName());
-                            listListCount.get(++currentPage).add(leadsCount.getLeadsCount());
+                            listListCount.get(++currentPage).add(leadsCount.getCount());
                         }
                     }
                 } catch (ClassCastException e) {
-                    PrinterMenu.setWarning("Could not cast Object as ILeadsCountBySalesRep");
-                }
-                // Allow user to change between the pages
-                numPages = listListString.size();
-                while (true) {
-                    PrinterMenu.printQueryCount(query, listListString.get(currentPage), listListCount.get(currentPage), currentPage == 0, currentPage + 1 == numPages);
-                    currentPage = pageHandler(currentPage, numPages);
-                    if (currentPage == -1) {
-                        return;
-                    }
-                }
-            } else if(query.toLowerCase().contains("opportunities by salesrep")){
-                List<ArrayList<String>> listListString = new ArrayList<>();
-                List<ArrayList<Long>> listListCount = new ArrayList<>();
-                listListString.add(new ArrayList<>());
-                listListCount.add(new ArrayList<>());
-                try {
-                    for (Object object : objectList) {
-                        IOpportunityCountBySalesRep opportunityCountBySalesRep = (IOpportunityCountBySalesRep) object;
-                        if (currentIndex++ < maxElements) {
-                            listListString.get(currentPage).add(opportunityCountBySalesRep.getSalesRepName());
-                            listListCount.get(currentPage).add(opportunityCountBySalesRep.getOpportunitiesCount());
-                        } else {
-                            listListString.add(new ArrayList<>());
-                            listListCount.add(new ArrayList<>());
-                            listListString.get(++currentPage).add(opportunityCountBySalesRep.getSalesRepName());
-                            listListCount.get(++currentPage).add(opportunityCountBySalesRep.getOpportunitiesCount());
-                        }
-                    }
-                } catch (ClassCastException e) {
-                    PrinterMenu.setWarning("Could not cast Object as IOpportunityCountBySalesRep");
+                    PrinterMenu.setWarning("Could not cast Object as ICountBySalesRep");
                 }
                 // Allow user to change between the pages
                 numPages = listListString.size();
@@ -1116,7 +1053,7 @@ public class Menu {
     }
 
     //prompt id
-    private Integer promptId(String condition) {
+    public Integer promptId(String condition) {
         int id;
         switch (condition) {
             case "account":
