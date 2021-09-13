@@ -490,7 +490,7 @@ class NewMenuTest {
         menu.mainMenu();
 
         String output = outputStream.toString();
-        assertTrue(output.contains("Count of CLOSED_LOST Opportunities by SalesRep"));
+        assertTrue(output.contains("Count of CLOSED_LOST Opportunities by Product"));
         assertTrue(output.contains("BOX: 0"));
         System.setOut(sysOutBackup);
     }
